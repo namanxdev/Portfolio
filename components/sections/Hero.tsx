@@ -3,6 +3,9 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Terminal, TypingAnimation } from "@/components/magicui/terminal";
+import { AnimatedGradientText } from "@/components/magicui/animated-gradient-text";
+import { ShimmerButton } from "@/components/magicui/shimmer-button";
+import { NumberTicker } from "@/components/magicui/number-ticker";
 
 const terminalLines = [
   { text: "$ reasonflow --classify --draft --send", className: "text-zinc-500" },
@@ -16,9 +19,9 @@ const terminalLines = [
 ];
 
 const stats = [
-  { value: "500+", label: "daily queries automated" },
-  { value: "95%+", label: "RAG precision" },
-  { value: "~60%", label: "less manual review" },
+  { value: 500, suffix: "+", label: "daily queries automated" },
+  { value: 95, suffix: "%+", label: "RAG precision" },
+  { value: 60, prefix: "~", suffix: "%", label: "less manual review" },
 ];
 
 const fadeUp = (i: number) => ({
@@ -33,25 +36,26 @@ const fadeUp = (i: number) => ({
 export function Hero() {
   return (
     <section className="relative min-h-[100dvh] flex flex-col justify-center overflow-hidden">
-      {/* #1 — Gradient orbs */}
+      {/* #1 — Gradient orbs (Subtle) */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute top-20 -left-20 h-72 w-72 rounded-full bg-[#3b82f6] opacity-[0.08] blur-[120px]" />
-        <div className="absolute top-40 right-0 h-96 w-96 rounded-full bg-[#8b5cf6] opacity-[0.06] blur-[120px]" />
+        <div className="absolute top-20 -left-20 h-72 w-72 rounded-full bg-[#3b82f6] opacity-[0.05] blur-[120px]" />
+        <div className="absolute top-40 right-0 h-96 w-96 rounded-full bg-[#8b5cf6] opacity-[0.04] blur-[120px]" />
       </div>
 
       <div className="relative mx-auto w-full max-w-5xl px-6 py-20">
         {/* #1 — Pill badge */}
         <motion.div variants={fadeUp(0)} initial="hidden" animate="visible">
-          <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5">
-            <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-sm text-zinc-400">Building at Infradock.ai</span>
+          <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.02] px-4 py-1.5 backdrop-blur-md transition-colors hover:bg-white/[0.04]">
+            <span className="text-sm font-medium">
+              <AnimatedGradientText>Building at Infradock.ai</AnimatedGradientText>
+            </span>
           </div>
         </motion.div>
 
-        {/* #1 — Headline: full gradient */}
+        {/* #1 — Headline: High contrast white */}
         <motion.div variants={fadeUp(1)} initial="hidden" animate="visible">
-          <h1 className="max-w-4xl text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter bg-gradient-to-r from-[#3b82f6] to-[#8b5cf6] bg-clip-text text-transparent">
-            I build AI that actually ships.
+          <h1 className="max-w-4xl text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-white">
+            I build AI systems that <span className="text-zinc-400">work in production.</span>
           </h1>
         </motion.div>
 
@@ -62,12 +66,11 @@ export function Hero() {
           animate="visible"
           className="mt-6 max-w-lg text-lg leading-relaxed text-zinc-400"
         >
-          Multi-agent workflows and RAG pipelines at{" "}
-          <span className="text-white">Infradock.ai</span>.
-          Real-time recommendation systems at{" "}
-          <span className="text-white">Oldowan</span>.
-          Healthcare microservices at{" "}
-          <span className="text-white">Yantram Medtech</span>.
+          Currently shipping RAG pipelines and multi-agent workflows at{" "}
+          <span className="text-zinc-200 font-medium">Infradock.ai</span>.
+          Previously built real-time systems at{" "}
+          <span className="text-zinc-200 font-medium">Oldowan Innovations</span> and healthcare
+          APIs at <span className="text-zinc-200 font-medium">Yantram Medtech</span>.
         </motion.p>
 
         {/* CTAs */}
@@ -77,22 +80,20 @@ export function Hero() {
           animate="visible"
           className="mt-10 flex flex-wrap items-center gap-4"
         >
-          <a
-            href="#projects"
-            className="group inline-flex items-center gap-2 rounded-lg bg-white px-5 py-2.5 text-sm font-medium text-black transition-all hover:bg-zinc-200"
-          >
-            View Projects
-            <svg className="h-4 w-4 transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-            </svg>
+          <a href="#projects">
+            <ShimmerButton className="shadow-2xl">
+              <span className="whitespace-pre-wrap text-center text-sm font-medium leading-none tracking-tight text-white dark:from-white dark:to-slate-900/10 lg:text-base">
+                View Projects
+              </span>
+            </ShimmerButton>
           </a>
           <Link
             href="/blog"
-            className="inline-flex items-center rounded-lg border border-white/10 px-5 py-2.5 text-sm font-medium text-zinc-400 transition-all hover:border-white/20 hover:text-white"
+            className="inline-flex items-center rounded-full border border-white/10 bg-transparent px-6 py-3 text-sm font-medium text-zinc-300 transition-all hover:bg-white/5 hover:text-white"
           >
             Read Blog
           </Link>
-          <div className="flex items-center gap-3 pl-1">
+          <div className="flex items-center gap-4 pl-2">
             <a href="https://github.com/namanxdev" target="_blank" rel="noopener noreferrer" className="text-zinc-500 transition-colors hover:text-white" aria-label="GitHub">
               <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
             </a>
@@ -110,11 +111,15 @@ export function Hero() {
           variants={fadeUp(4)}
           initial="hidden"
           animate="visible"
-          className="mt-12 flex flex-wrap gap-10 border-t border-white/5 pt-8"
+          className="mt-16 flex flex-wrap gap-12 border-t border-white/5 pt-8"
         >
           {stats.map((stat) => (
             <div key={stat.label}>
-              <p className="text-3xl font-bold tabular-nums text-white">{stat.value}</p>
+              <p className="text-3xl font-bold tabular-nums text-white">
+                {stat.prefix}
+                <NumberTicker value={stat.value} />
+                {stat.suffix}
+              </p>
               <p className="mt-1 text-sm text-zinc-500">{stat.label}</p>
             </div>
           ))}
@@ -125,11 +130,11 @@ export function Hero() {
           variants={fadeUp(5)}
           initial="hidden"
           animate="visible"
-          className="mt-16"
+          className="mt-20"
         >
-          <div className="relative mx-auto max-w-2xl">
+          <div className="relative mx-auto max-w-3xl">
             <div className="absolute -inset-4 rounded-2xl bg-gradient-to-b from-blue-500/5 to-transparent blur-xl" />
-            <Terminal title="reasonflow" className="relative">
+            <Terminal title="reasonflow" className="relative border-white/10 bg-black/40 backdrop-blur-xl">
               <TypingAnimation lines={terminalLines} typingSpeed={18} lineDelay={250} />
             </Terminal>
           </div>

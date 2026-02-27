@@ -12,7 +12,7 @@ export function BlogCard({ title, date, excerpt, slug, readingTime }: BlogCardPr
   return (
     <Link
       href={`/blog/${slug}`}
-      className="group block rounded-xl border border-white/5 bg-zinc-900/50 p-5 transition-all duration-300 hover:border-blue-500/20 hover:bg-zinc-900/80 hover:shadow-[0_0_40px_rgba(59,130,246,0.06)]"
+      className="group block rounded-xl border border-white/10 bg-zinc-950/50 p-5 transition-all duration-500 hover:border-white/20 hover:bg-zinc-900/50"
     >
       <div className="mb-3 flex items-center gap-2 text-xs text-zinc-500">
         <span>{date}</span>

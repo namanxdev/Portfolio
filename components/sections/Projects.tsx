@@ -5,23 +5,6 @@ import { ProjectCard } from "@/components/ProjectCard";
 
 const projects = [
   {
-    title: "ReasonFlow",
-    description:
-      "Autonomous inbox AI agent — classifies emails, retrieves context, and drafts responses with human-in-the-loop fallback.",
-    tech: ["LangGraph", "Gemini 1.5 Pro", "FastAPI", "pgvector", "Next.js"],
-    metric: "Sub-second retrieval · 94% draft confidence",
-    href: "https://github.com/namanxdev",
-    featured: true,
-  },
-  {
-    title: "CampusMitra",
-    description:
-      "Domain-specific RAG assistant with custom retrieval pipelines and fine-tuned embeddings. Handles 1,000+ concurrent queries.",
-    tech: ["FastAPI", "LangChain", "ChromaDB", "Hugging Face"],
-    metric: "40% improvement in MRR and top-k accuracy",
-    href: "https://github.com/namanxdev",
-  },
-  {
     title: "MCPHub",
     description:
       "Postman for MCP Servers — test, debug, and discover MCP servers in your browser.",
@@ -29,6 +12,24 @@ const projects = [
     metric: "15+ pre-configured servers",
     href: "https://github.com/namanxdev",
     status: "In Development",
+    featured: true,
+  },
+  {
+    title: "ReasonFlow",
+    description:
+      "Autonomous inbox AI agent — classifies emails, retrieves context, and drafts responses with human-in-the-loop fallback.",
+    tech: ["LangGraph", "Gemini 1.5 Pro", "FastAPI", "pgvector", "Next.js"],
+    metric: "Sub-second retrieval · 94% draft confidence",
+    href: "https://github.com/namanxdev",
+  },
+  {
+    title: "AgentMesh",
+    description:
+      "MCP-native multi-agent orchestrator with real-time Mission Control dashboard.",
+    tech: ["LangGraph", "FastAPI", "WebSocket", "React"],
+    metric: "3 agent templates, real-time visualization",
+    href: "https://github.com/namanxdev",
+    status: "Coming Soon",
   },
 ];
 

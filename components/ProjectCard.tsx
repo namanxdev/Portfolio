@@ -21,13 +21,13 @@ export function ProjectCard({ title, description, tech, metric, href, status, fe
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className={`group relative flex h-full flex-col overflow-hidden rounded-xl border border-white/5 bg-zinc-900/50 p-6 transition-all duration-300 hover:border-blue-500/20 hover:bg-zinc-900/80 hover:shadow-[0_0_40px_rgba(59,130,246,0.06)] ${
+      className={`group relative flex h-full flex-col overflow-hidden rounded-xl border border-white/10 bg-zinc-950/50 p-6 transition-all duration-500 hover:border-white/20 hover:bg-zinc-900/50 ${
         featured ? "sm:flex-row sm:items-start sm:gap-6 sm:p-8" : ""
       }`}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {hovered && <BorderBeam size={featured ? 200 : 120} duration={6} colorFrom="#3b82f6" colorTo="#8b5cf6" />}
+      {featured && <BorderBeam size={200} duration={12} colorFrom="#3b82f6" colorTo="#8b5cf6" />}
 
       <div className="relative flex flex-1 flex-col">
         <div className="mb-3 flex items-center gap-2.5">
@@ -47,7 +47,7 @@ export function ProjectCard({ title, description, tech, metric, href, status, fe
           {tech.map((t) => (
             <span
               key={t}
-              className="rounded-md border border-white/5 bg-white/5 px-2 py-0.5 text-xs text-zinc-400"
+              className="rounded-md border border-white/10 bg-white/5 px-2 py-0.5 text-xs text-zinc-300"
             >
               {t}
             </span>

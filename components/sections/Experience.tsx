@@ -50,7 +50,7 @@ export function Experience() {
           {experiences.map((exp) => (
             <div
               key={exp.company}
-              className="rounded-xl border border-white/5 bg-zinc-900/50 p-6 transition-all duration-300 hover:border-blue-500/20 hover:bg-zinc-900/80 hover:shadow-[0_0_40px_rgba(59,130,246,0.06)]"
+              className="rounded-xl border border-white/10 bg-zinc-950/50 p-6 transition-all duration-500 hover:border-white/20 hover:bg-zinc-900/50"
             >
               <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
                 <div className="flex items-center gap-2.5">
@@ -63,7 +63,7 @@ export function Experience() {
                 </div>
                 <span className="text-xs text-zinc-500">{exp.period}</span>
               </div>
-              <p className="mt-1 text-sm text-zinc-500">{exp.role}</p>
+              <p className="mt-1 text-sm text-zinc-400">{exp.role}</p>
               <p className="mt-3 text-sm leading-relaxed text-zinc-400">{exp.description}</p>
             </div>
           ))}
