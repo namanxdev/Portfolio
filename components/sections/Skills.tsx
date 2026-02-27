@@ -5,7 +5,16 @@ import { motion } from "framer-motion";
 const skillGroups = [
   {
     title: "AI/ML & Agents",
-    skills: ["LangChain", "LangGraph", "Gemini API", "Hugging Face", "RAG", "Agentic Workflows", "MCP"],
+    skills: [
+      "LangChain",
+      "LangGraph",
+      "Gemini API",
+      "Hugging Face",
+      "RAG",
+      "Agentic Workflows",
+      "MCP",
+    ],
+    highlight: true,
   },
   {
     title: "Languages",
@@ -13,11 +22,26 @@ const skillGroups = [
   },
   {
     title: "Data & Vector DBs",
-    skills: ["PostgreSQL", "pgvector", "ChromaDB", "Qdrant", "MongoDB", "Redis"],
+    skills: [
+      "PostgreSQL",
+      "pgvector",
+      "ChromaDB",
+      "Qdrant",
+      "MongoDB",
+      "Redis",
+    ],
   },
   {
     title: "Backend & Cloud",
-    skills: ["Django", "FastAPI", "Node.js", "Docker", "AWS (S3)", "Celery", "Cloudflare R2", "GitHub Actions", "CI/CD"],
+    skills: [
+      "Django",
+      "FastAPI",
+      "Node.js",
+      "Docker",
+      "AWS",
+      "Celery",
+      "GitHub Actions",
+    ],
   },
   {
     title: "Frontend",
@@ -25,36 +49,39 @@ const skillGroups = [
   },
 ];
 
-const sectionFade = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-};
-
 export function Skills() {
   return (
     <motion.section
       id="skills"
-      className="py-20 md:py-28"
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true }}
-      variants={sectionFade}
+      className="relative z-10 py-24 md:py-32"
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
     >
       <div className="mx-auto max-w-5xl px-6">
-        <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">Technical Skills</h2>
-        <p className="text-lg text-zinc-400 mb-12">Technologies and tools I work with daily.</p>
+        <div className="mb-16">
+          <p className="mb-3 font-mono text-sm text-blue-400">// skills</p>
+          <h2 className="text-3xl font-bold text-white md:text-4xl">
+            Technical toolkit
+          </h2>
+        </div>
 
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {skillGroups.map((group) => (
             <div key={group.title}>
-              <h3 className="text-sm font-medium text-zinc-400 uppercase tracking-wider mb-3">
+              <h3
+                className={`mb-4 text-xs font-medium uppercase tracking-widest ${
+                  group.highlight ? "text-blue-400" : "text-zinc-500"
+                }`}
+              >
                 {group.title}
               </h3>
               <div className="flex flex-wrap gap-2">
                 {group.skills.map((skill) => (
                   <span
                     key={skill}
-                    className="rounded-md border border-white/[0.08] bg-white/[0.03] px-2.5 py-1 text-xs text-zinc-300 transition-colors hover:bg-white/[0.08] hover:text-zinc-50"
+                    className="rounded-lg border border-white/[0.05] bg-white/[0.04] px-2.5 py-1 text-[12px] text-zinc-400 transition-all duration-200 hover:border-white/[0.1] hover:text-zinc-300"
                   >
                     {skill}
                   </span>

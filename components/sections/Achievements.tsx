@@ -3,39 +3,64 @@
 import { motion } from "framer-motion";
 
 const achievements = [
-  { title: "NASA Space Apps Challenge 2025", result: "Winner · Top 1% Global" },
-  { title: "CodeSlayer 2025 · NIT Delhi", result: "Finalist · Top 1% of 10K+" },
-  { title: "MumbaiHacks 2025 · FinTech", result: "Finalist · Top ~5%" },
-  { title: "Smart India Hackathon 2024", result: "Finalist · Top 5% nationwide" },
+  {
+    event: "NASA Space Apps 2025",
+    result: "Winner",
+    detail: "Top 1% Global",
+    color: "text-amber-400",
+  },
+  {
+    event: "CodeSlayer · NIT Delhi",
+    result: "Finalist",
+    detail: "Top 1% of 10K+",
+    color: "text-blue-400",
+  },
+  {
+    event: "MumbaiHacks · FinTech",
+    result: "Finalist",
+    detail: "Finance Track",
+    color: "text-emerald-400",
+  },
+  {
+    event: "Smart India Hackathon",
+    result: "Finalist",
+    detail: "Top 5% nationwide",
+    color: "text-purple-400",
+  },
 ];
-
-const sectionFade = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-};
 
 export function Achievements() {
   return (
     <motion.section
-      id="achievements"
-      className="py-20 md:py-28"
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true }}
-      variants={sectionFade}
+      className="relative z-10 py-24 md:py-32"
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
     >
       <div className="mx-auto max-w-5xl px-6">
-        <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">Achievements</h2>
-        <p className="text-lg text-zinc-400 mb-12">Competitions and hackathons.</p>
+        <div className="mb-16">
+          <p className="mb-3 font-mono text-sm text-blue-400">
+            // achievements
+          </p>
+          <h2 className="text-3xl font-bold text-white md:text-4xl">
+            Competitions
+          </h2>
+        </div>
 
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {achievements.map((item) => (
             <div
-              key={item.title}
-              className="rounded-lg border border-white/[0.08] bg-zinc-900/10 p-4 transition-all duration-500 hover:border-white/[0.15] hover:bg-zinc-900/30"
+              key={item.event}
+              className="rounded-xl border border-white/[0.06] bg-zinc-900/30 p-5 transition-all duration-300 hover:border-white/[0.1]"
             >
-              <p className="text-sm font-medium text-white">{item.title}</p>
-              <p className="mt-1 text-xs text-blue-400">{item.result}</p>
+              <div
+                className={`mb-3 text-xs font-semibold uppercase tracking-wider ${item.color}`}
+              >
+                {item.result}
+              </div>
+              <div className="text-sm font-medium text-white">{item.event}</div>
+              <div className="mt-1 text-xs text-zinc-500">{item.detail}</div>
             </div>
           ))}
         </div>
