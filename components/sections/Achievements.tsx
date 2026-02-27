@@ -1,70 +1,97 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { InfiniteMovingCards } from "@/components/aceternity/infinite-moving-cards";
+import { BlurFade } from "@/components/ui/blur-fade";
+import { Trophy } from "lucide-react";
 
 const achievements = [
   {
-    event: "NASA Space Apps 2025",
-    result: "Winner",
-    detail: "Top 1% Global",
-    color: "text-amber-400",
+    quote: "Winner (Top 1% Global)",
+    name: "NASA Space Apps Challenge 2025",
+    title: "",
   },
   {
-    event: "CodeSlayer · NIT Delhi",
-    result: "Finalist",
-    detail: "Top 1% of 10K+",
-    color: "text-blue-400",
+    quote: "Finalist, Top 1% of 10,000+",
+    name: "CodeSlayer 2025 (NIT Delhi)",
+    title: "",
   },
   {
-    event: "MumbaiHacks · FinTech",
-    result: "Finalist",
-    detail: "Finance Track",
-    color: "text-emerald-400",
+    quote: "Finalist, Finance Tech Track",
+    name: "MumbaiHacks 2025",
+    title: "",
   },
   {
-    event: "Smart India Hackathon",
-    result: "Finalist",
-    detail: "Top 5% nationwide",
-    color: "text-purple-400",
+    quote: "Finalist, Top 5% nationwide",
+    name: "Smart India Hackathon 2024",
+    title: "",
   },
 ];
 
-export function Achievements() {
+export default function Achievements() {
   return (
-    <motion.section
-      className="relative z-10 py-24 md:py-32"
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
+    <section
+      id="achievements"
+      className="relative w-full py-24 px-6 md:px-8 bg-[#0a0a0a] overflow-hidden"
     >
-      <div className="mx-auto max-w-5xl px-6">
-        <div className="mb-16">
-          <p className="mb-3 font-mono text-sm text-blue-400">
-            // achievements
-          </p>
-          <h2 className="text-3xl font-bold text-white md:text-4xl">
-            Competitions
-          </h2>
-        </div>
+      <div className="max-w-6xl mx-auto">
+        {/* Section Header */}
+        <BlurFade inView direction="up" offset={20}>
+          <div className="mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#ededed] tracking-tight mb-3">
+              Achievements
+            </h2>
+            <p className="text-[#888888] text-base max-w-lg">
+              Recognition from hackathons and competitions
+            </p>
+          </div>
+        </BlurFade>
 
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {achievements.map((item) => (
-            <div
-              key={item.event}
-              className="rounded-xl border border-white/[0.06] bg-zinc-900/30 p-5 transition-all duration-300 hover:border-white/[0.1]"
-            >
-              <div
-                className={`mb-3 text-xs font-semibold uppercase tracking-wider ${item.color}`}
-              >
-                {item.result}
-              </div>
-              <div className="text-sm font-medium text-white">{item.event}</div>
-              <div className="mt-1 text-xs text-zinc-500">{item.detail}</div>
-            </div>
-          ))}
-        </div>
+        {/* Infinite Moving Cards */}
+        <BlurFade inView direction="up" offset={20} delay={0.1}>
+          <div className="relative">
+            <InfiniteMovingCards
+              items={achievements}
+              direction="left"
+              speed="fast"
+              pauseOnHover={true}
+              className="py-2"
+            />
+          </div>
+        </BlurFade>
       </div>
-    </motion.section>
+
+      {/* Custom styling override for dark theme cards */}
+      <style jsx global>{`
+        .scroller li {
+          background: linear-gradient(180deg, #111111, #0a0a0a) !important;
+          border: 1px solid #1e1e1e !important;
+          transition: all 0.3s ease;
+        }
+        
+        .scroller li:hover {
+          border-color: rgba(59, 130, 246, 0.3) !important;
+          box-shadow: 0 0 30px rgba(59, 130, 246, 0.08);
+        }
+
+        .scroller li span.text-gray-100 {
+          color: #ededed !important;
+          font-weight: 500;
+        }
+
+        .scroller li span.text-gray-400 {
+          color: #888888 !important;
+        }
+
+        @keyframes scroll {
+          to {
+            transform: translateX(-50%);
+          }
+        }
+
+        .animate-scroll {
+          animation: scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite;
+        }
+      `}</style>
+    </section>
   );
 }

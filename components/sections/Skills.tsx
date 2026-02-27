@@ -1,6 +1,9 @@
-"use client";
+"use client"
 
-import { motion } from "framer-motion";
+import { BlurFade } from "@/components/ui/blur-fade"
+import { IconCloud } from "@/components/ui/icon-cloud"
+import { Marquee } from "@/components/ui/marquee"
+import { Badge } from "@/components/ui/badge"
 
 const skillGroups = [
   {
@@ -8,6 +11,8 @@ const skillGroups = [
     skills: [
       "LangChain",
       "LangGraph",
+      "LlamaIndex",
+      "OpenAI API",
       "Gemini API",
       "Hugging Face",
       "RAG",
@@ -19,17 +24,12 @@ const skillGroups = [
   {
     title: "Languages",
     skills: ["Python", "C++", "TypeScript", "JavaScript", "SQL"],
+    highlight: false,
   },
   {
     title: "Data & Vector DBs",
-    skills: [
-      "PostgreSQL",
-      "pgvector",
-      "ChromaDB",
-      "Qdrant",
-      "MongoDB",
-      "Redis",
-    ],
+    skills: ["PostgreSQL", "pgvector", "ChromaDB", "Qdrant", "MongoDB", "Redis"],
+    highlight: false,
   },
   {
     title: "Backend & Cloud",
@@ -41,56 +41,125 @@ const skillGroups = [
       "AWS",
       "Celery",
       "GitHub Actions",
+      "CI/CD",
     ],
+    highlight: false,
   },
   {
     title: "Frontend",
     skills: ["React", "Next.js", "Tailwind CSS", "Zustand"],
+    highlight: false,
   },
-];
+]
 
-export function Skills() {
+const iconSlugs = [
+  "python",
+  "typescript",
+  "react",
+  "nextdotjs",
+  "tailwindcss",
+  "postgresql",
+  "docker",
+  "git",
+  "github",
+  "fastapi",
+  "mongodb",
+  "redis",
+  "nodedotjs",
+  "amazonaws",
+  "django",
+]
+
+const iconUrls = iconSlugs.map(
+  (slug) => `https://cdn.simpleicons.org/${slug}/888888`
+)
+
+const allSkills = skillGroups.flatMap((group) => group.skills)
+
+export default function Skills() {
   return (
-    <motion.section
+    <section
       id="skills"
-      className="relative z-10 py-24 md:py-32"
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
+      className="relative py-24 px-6 md:px-8 border-b border-white/5"
     >
-      <div className="mx-auto max-w-5xl px-6">
-        <div className="mb-16">
-          <p className="mb-3 font-mono text-sm text-blue-400">// skills</p>
-          <h2 className="text-3xl font-bold text-white md:text-4xl">
-            Technical toolkit
+      <div className="max-w-6xl mx-auto">
+        <BlurFade>
+          <h2 className="text-3xl md:text-4xl font-semibold tracking-tight mb-16">
+            Technical Skills
           </h2>
+        </BlurFade>
+
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16">
+          <div className="lg:col-span-2 space-y-8">
+            {skillGroups.map((group, groupIndex) => (
+              <BlurFade key={group.title} delay={0.1 + groupIndex * 0.05}>
+                <div
+                  className={`p-5 rounded-xl border ${
+                    group.highlight
+                      ? "border-[#3b82f6]/30 bg-[#3b82f6]/5"
+                      : "border-white/5 bg-white/[0.02]"
+                  }`}
+                >
+                  <h3
+                    className={`text-sm font-medium mb-4 ${
+                      group.highlight
+                        ? "text-[#3b82f6]"
+                        : "text-[#888888]"
+                    }`}
+                  >
+                    {group.title}
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    {group.skills.map((skill) => (
+                      <Badge
+                        key={skill}
+                        variant="outline"
+                        className={`text-xs font-normal ${
+                          group.highlight
+                            ? "border-[#3b82f6]/30 text-[#ededed] hover:bg-[#3b82f6]/10"
+                            : "border-white/10 text-[#888888] hover:bg-white/5"
+                        }`}
+                      >
+                        {skill}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+              </BlurFade>
+            ))}
+          </div>
+
+          <div className="lg:col-span-3 flex items-center justify-center">
+            <BlurFade delay={0.2} className="w-full max-w-[500px]">
+              <div className="relative flex items-center justify-center">
+                <div className="absolute inset-0 bg-gradient-to-br from-[#3b82f6]/10 to-[#8b5cf6]/10 rounded-full blur-3xl" />
+                <IconCloud images={iconUrls} />
+              </div>
+            </BlurFade>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {skillGroups.map((group) => (
-            <div key={group.title}>
-              <h3
-                className={`mb-4 text-xs font-medium uppercase tracking-widest ${
-                  group.highlight ? "text-blue-400" : "text-zinc-500"
-                }`}
+        <div className="mt-20">
+          <BlurFade delay={0.3}>
+            <div className="border-y border-white/5 py-6 -mx-6 md:-mx-8 overflow-hidden">
+              <Marquee
+                pauseOnHover
+                className="[--duration:60s] [--gap:1.5rem]"
               >
-                {group.title}
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {group.skills.map((skill) => (
-                  <span
+                {allSkills.map((skill) => (
+                  <Badge
                     key={skill}
-                    className="rounded-lg border border-white/[0.05] bg-white/[0.04] px-2.5 py-1 text-[12px] text-zinc-400 transition-all duration-200 hover:border-white/[0.1] hover:text-zinc-300"
+                    variant="outline"
+                    className="text-sm font-normal px-4 py-1.5 border-white/10 text-[#888888] hover:bg-white/5 hover:text-[#ededed] transition-colors cursor-default"
                   >
                     {skill}
-                  </span>
+                  </Badge>
                 ))}
-              </div>
+              </Marquee>
             </div>
-          ))}
+          </BlurFade>
         </div>
       </div>
-    </motion.section>
-  );
+    </section>
+  )
 }

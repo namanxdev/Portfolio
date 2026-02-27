@@ -1,174 +1,200 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { BentoGrid, BentoGridItem } from "@/components/aceternity/bento-grid";
+import { CardSpotlight } from "@/components/aceternity/card-spotlight";
+import { BorderBeam } from "@/components/ui/border-beam";
+import { Safari } from "@/components/ui/safari";
+import { BlurFade } from "@/components/ui/blur-fade";
+import { Badge } from "@/components/ui/badge";
+import { ArrowUpRight, Github, ExternalLink } from "lucide-react";
 
 const projects = [
   {
+    id: "reasonflow",
     title: "ReasonFlow",
     description:
-      "Autonomous inbox AI — classifies emails, retrieves context via RAG, drafts responses with human-in-the-loop.",
-    tech: ["LangGraph", "Gemini", "FastAPI", "pgvector"],
-    metric: "Sub-second retrieval · 94% confidence",
-    href: "https://github.com/namanxdev/ReasonFlow",
-    gradient: "from-blue-950/40 to-indigo-950/30",
-    accentColor: "blue",
-    icon: (
-      <svg className="w-7 h-7 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
-      </svg>
-    ),
-    iconBg: "bg-blue-500/10 border-blue-500/20",
-    hoverBorder: "hover:border-blue-500/20",
-    metricColor: "text-blue-400/80",
-    titleHover: "group-hover:text-blue-300",
-    lineColor: "via-blue-500/30",
+      "Autonomous inbox AI agent that classifies emails, retrieves context, and drafts responses with human-in-the-loop fallback.",
+    tags: ["LangGraph", "Gemini", "FastAPI", "pgvector"],
+    metric: "Sub-second retrieval, 94% confidence",
+    featured: true,
+    links: {
+      github: "#",
+      demo: "#",
+    },
   },
   {
+    id: "campusmitra",
     title: "CampusMitra",
     description:
-      "Domain-specific RAG assistant with custom retrieval pipelines and fine-tuned embeddings. 1,000+ concurrent queries.",
-    tech: ["FastAPI", "LangChain", "ChromaDB", "HuggingFace"],
-    metric: "40% MRR improvement · top-k accuracy boost",
-    href: "https://github.com/namanxdev/CampusMitra",
-    gradient: "from-emerald-950/40 to-teal-950/30",
-    accentColor: "emerald",
-    icon: (
-      <svg className="w-7 h-7 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342" />
-      </svg>
-    ),
-    iconBg: "bg-emerald-500/10 border-emerald-500/20",
-    hoverBorder: "hover:border-emerald-500/20",
-    metricColor: "text-emerald-400/80",
-    titleHover: "group-hover:text-emerald-300",
-    lineColor: "via-emerald-500/30",
+      "AI-powered campus assistance platform with RAG-based document Q&A and event management.",
+    tags: ["FastAPI", "LangChain", "ChromaDB", "React"],
+    metric: "500+ student queries automated",
+    featured: false,
+    links: {
+      github: "#",
+      demo: "#",
+    },
   },
   {
+    id: "mcphub",
     title: "MCPHub",
     description:
       "Postman for MCP Servers — test, debug, and discover MCP servers in your browser.",
-    tech: ["Next.js", "Supabase", "MCP SDK", "Tailwind"],
+    tags: ["Next.js", "Supabase", "MCP SDK", "Tailwind"],
     metric: "15+ pre-configured servers",
-    href: "https://github.com/namanxdev/MCPHub",
-    gradient: "from-purple-950/40 to-violet-950/30",
-    accentColor: "purple",
-    status: "In Development",
-    icon: (
-      <svg className="w-7 h-7 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
-      </svg>
-    ),
-    iconBg: "bg-purple-500/10 border-purple-500/20",
-    hoverBorder: "hover:border-purple-500/20",
-    metricColor: "text-purple-400/80",
-    titleHover: "group-hover:text-purple-300",
-    lineColor: "via-purple-500/30",
+    featured: false,
+    links: {
+      github: "#",
+      demo: "#",
+    },
+  },
+  {
+    id: "agentmesh",
+    title: "AgentMesh",
+    description:
+      "MCP-native multi-agent orchestrator with real-time Mission Control dashboard.",
+    tags: ["LangGraph", "FastAPI", "WebSocket", "React"],
+    metric: "3 agent templates, real-time viz",
+    featured: false,
+    links: {
+      github: "#",
+      demo: "#",
+    },
   },
 ];
 
-const gridPattern = {
-  backgroundImage: `linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)`,
-  backgroundSize: "24px 24px",
-};
-
-export function Projects() {
+function ProjectCard({
+  project,
+  className,
+}: {
+  project: (typeof projects)[0];
+  className?: string;
+}) {
   return (
-    <motion.section
-      id="projects"
-      className="relative z-10 py-24 md:py-32"
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-    >
-      <div className="mx-auto max-w-5xl px-6">
-        <div className="mb-16">
-          <p className="mb-3 font-mono text-sm text-blue-400">// projects</p>
-          <h2 className="text-3xl font-bold text-white md:text-4xl">
-            Things I&apos;ve built
-          </h2>
-          <p className="mt-3 text-zinc-500">
-            Agent systems, RAG pipelines, and developer tools.
+    <BentoGridItem
+      className={className}
+      title={
+        <div className="flex items-center justify-between">
+          <span className="text-lg font-semibold text-neutral-100">
+            {project.title}
+          </span>
+          <div className="flex items-center gap-2">
+            <a
+              href={project.links.github}
+              className="text-neutral-500 hover:text-neutral-300 transition-colors"
+              aria-label={`${project.title} GitHub`}
+            >
+              <Github className="h-4 w-4" />
+            </a>
+            <a
+              href={project.links.demo}
+              className="text-neutral-500 hover:text-neutral-300 transition-colors"
+              aria-label={`${project.title} Demo`}
+            >
+              <ExternalLink className="h-4 w-4" />
+            </a>
+          </div>
+        </div>
+      }
+      description={
+        <div className="flex flex-col gap-3">
+          <p className="text-sm text-neutral-400 leading-relaxed">
+            {project.description}
+          </p>
+          <div className="flex flex-wrap gap-1.5">
+            {project.tags.map((tag) => (
+              <Badge
+                key={tag}
+                variant="outline"
+                className="text-[10px] border-white/10 text-neutral-400 bg-transparent hover:bg-white/5"
+              >
+                {tag}
+              </Badge>
+            ))}
+          </div>
+          <p className="text-xs font-medium text-blue-400 mt-1">
+            {project.metric}
           </p>
         </div>
+      }
+      header={
+        project.featured ? (
+          <div className="relative w-full mb-4">
+            <Safari
+              url="reasonflow.dev"
+              className="w-full"
+              mode="simple"
+            />
+            <BorderBeam
+              size={60}
+              duration={6}
+              colorFrom="#3b82f6"
+              colorTo="#8b5cf6"
+              borderWidth={1}
+              className="opacity-60"
+            />
+          </div>
+        ) : null
+      }
+    />
+  );
+}
 
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {projects.map((project) => (
-            <a
-              key={project.title}
-              href={project.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`group relative overflow-hidden rounded-2xl border border-white/[0.06] bg-zinc-900/40 transition-all duration-500 ${project.hoverBorder} hover:bg-zinc-900/70`}
-            >
-              {/* Visual header */}
+export default function Projects() {
+  return (
+    <section id="projects" className="py-24 px-6 md:px-8">
+      <div className="max-w-6xl mx-auto">
+        <BlurFade delay={0.1} inView>
+          <div className="mb-12">
+            <h2 className="text-3xl font-bold text-neutral-100 tracking-tight mb-2">
+              Projects
+            </h2>
+            <p className="text-neutral-500">Things I&apos;ve built and shipped</p>
+          </div>
+        </BlurFade>
+
+        <BlurFade delay={0.2} inView>
+          <BentoGrid className="md:auto-rows-auto">
+            {projects.map((project, index) => (
               <div
-                className={`relative h-44 overflow-hidden border-b border-white/[0.04] bg-gradient-to-br ${project.gradient}`}
+                key={project.id}
+                className={`
+                  group relative overflow-hidden rounded-xl
+                  ${project.featured ? "md:col-span-2" : "md:col-span-1"}
+                `}
               >
-                <div
-                  className="absolute inset-0 opacity-[0.15]"
-                  style={gridPattern}
-                />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div
-                    className={`flex h-14 w-14 items-center justify-center rounded-xl border ${project.iconBg} transition-transform duration-500 group-hover:scale-110`}
-                  >
-                    {project.icon}
+                <CardSpotlight
+                  className="h-full bg-[#111111] border border-white/[0.05] rounded-xl p-0"
+                  color="rgba(59, 130, 246, 0.08)"
+                  radius={300}
+                >
+                  <div className="p-6 h-full flex flex-col">
+                    <ProjectCard
+                      project={project}
+                      className={`
+                        bg-transparent border-0 shadow-none p-0
+                        ${project.featured ? "md:col-span-2" : ""}
+                      `}
+                    />
                   </div>
-                </div>
-                <div
-                  className={`absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent ${project.lineColor} to-transparent`}
-                />
+                </CardSpotlight>
               </div>
+            ))}
+          </BentoGrid>
+        </BlurFade>
 
-              {/* Content */}
-              <div className="p-5">
-                <div className="mb-2 flex items-center gap-2">
-                  <h3
-                    className={`text-base font-semibold text-white transition-colors ${project.titleHover}`}
-                  >
-                    {project.title}
-                  </h3>
-                  {project.status && (
-                    <span className="rounded-full border border-amber-500/20 bg-amber-500/10 px-2 py-0.5 text-[10px] text-amber-400">
-                      {project.status}
-                    </span>
-                  )}
-                </div>
-                <p className="text-sm leading-relaxed text-zinc-500">
-                  {project.description}
-                </p>
-                <div className="mt-4 flex flex-wrap gap-1.5">
-                  {project.tech.map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-md border border-white/[0.04] bg-white/[0.04] px-2 py-0.5 text-[11px] text-zinc-500"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                <div className="mt-4 border-t border-white/[0.04] pt-3">
-                  <span className={`text-[12px] font-medium ${project.metricColor}`}>
-                    {project.metric}
-                  </span>
-                </div>
-              </div>
+        <BlurFade delay={0.3} inView>
+          <div className="mt-8 text-center">
+            <a
+              href="#"
+              className="inline-flex items-center gap-1.5 text-sm text-neutral-500 hover:text-neutral-300 transition-colors group"
+            >
+              View all projects
+              <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </a>
-          ))}
-        </div>
-
-        <div className="mt-10 text-center">
-          <a
-            href="https://github.com/namanxdev"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm text-zinc-500 transition-colors hover:text-zinc-300"
-          >
-            View all projects on GitHub &rarr;
-          </a>
-        </div>
+          </div>
+        </BlurFade>
       </div>
-    </motion.section>
+    </section>
   );
 }

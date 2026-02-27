@@ -1,83 +1,92 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { TracingBeam } from "@/components/aceternity/tracing-beam";
+import { BlurFade } from "@/components/ui/blur-fade";
 
-const experiences = [
+interface ExperienceEntry {
+  company: string;
+  role: string;
+  date: string;
+  description: string;
+  metric: string;
+}
+
+const experiences: ExperienceEntry[] = [
   {
     company: "Infradock.ai",
     role: "AI Engineer Intern",
-    period: "Jan 2026 — Present",
+    date: "Jan 2026 – Present",
     description:
-      "Building multi-agent workflows with LangGraph and LangChain, automating 500+ daily queries with ~60% reduction in manual review. Improved RAG pipeline precision to 95%+ through semantic chunking, clause-level boundaries, and cross-encoder reranking on Qdrant.",
-    active: true,
+      "Building multi-agent workflows and RAG pipelines for enterprise clients. Architected semantic chunking strategies and cross-encoder reranking systems that achieved 95%+ retrieval precision on technical documentation. Implementing evaluation frameworks for continuous improvement of agent performance.",
+    metric: "95%+ retrieval precision",
   },
   {
     company: "Oldowan Innovations",
     role: "Software Developer Intern",
-    period: "Oct 2025 — Feb 2026",
+    date: "Oct 2025 – Feb 2026",
     description:
-      "Engineered a bidirectional recommendation engine with 15+ weighted compatibility factors, achieving ~35% relevancy uplift. Built real-time notification microservice processing 10K+ daily events at sub-50ms latency using Celery, Redis, and Stream Chat webhooks.",
+      "Engineered recommendation engine and real-time notification system processing 10,000+ daily events with sub-50ms latency. Built scalable microservices architecture using FastAPI and PostgreSQL, reducing infrastructure costs by 30% through query optimization and caching strategies.",
+    metric: "10,000+ daily events • sub-50ms latency",
   },
   {
     company: "Yantram Medtech",
     role: "Software Engineer Intern",
-    period: "Jul — Oct 2025",
+    date: "Jul – Oct 2025",
     description:
-      "Built Node.js microservices with JWT-based RBAC for healthcare compliance. Optimized PostgreSQL and MongoDB queries, reducing database latency by 25%. Architected React + TypeScript frontend enabling 35% faster cross-team development.",
+      "Built healthcare microservices with JWT-based RBAC for HIPAA compliance. Reduced database latency by 25% via targeted indexing and query restructuring. Implemented automated testing pipelines achieving 90%+ code coverage across critical patient data modules.",
+    metric: "25% database latency reduction",
   },
 ];
 
-export function Experience() {
+export default function Experience() {
   return (
-    <motion.section
-      id="experience"
-      className="relative z-10 py-24 md:py-32"
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-    >
-      <div className="mx-auto max-w-5xl px-6">
-        <div className="mb-16">
-          <p className="mb-3 font-mono text-sm text-blue-400">
-            // experience
-          </p>
-          <h2 className="text-3xl font-bold text-white md:text-4xl">
-            Where I&apos;ve built
+    <section id="experience" className="bg-[#050505] py-24 px-6 md:px-8">
+      <div className="max-w-5xl mx-auto">
+        <BlurFade delay={0} inView>
+          <h2 className="text-3xl md:text-4xl font-semibold text-[#ededed] mb-12 tracking-tight">
+            Experience
           </h2>
-        </div>
+        </BlurFade>
 
-        <div className="space-y-4">
-          {experiences.map((exp) => (
-            <div
-              key={exp.company}
-              className="group rounded-2xl border border-white/[0.06] bg-zinc-900/30 p-6 transition-all duration-300 hover:border-white/[0.1] hover:bg-zinc-900/50"
-            >
-              <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                <div>
-                  <div className="flex items-center gap-2.5">
-                    <h3 className="text-lg font-semibold text-white">
-                      {exp.company}
-                    </h3>
-                    {exp.active && (
-                      <span className="rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-medium text-emerald-400">
-                        Current
+        <TracingBeam>
+          <div className="space-y-12">
+            {experiences.map((exp, index) => (
+              <BlurFade key={exp.company} delay={0.1 + index * 0.1} inView>
+                <div className="relative pl-8 md:pl-12">
+                  {/* Timeline dot */}
+                  <div className="absolute left-0 top-1.5 w-3 h-3 rounded-full bg-[#1e1e1e] border border-[#3b82f6]/30" />
+
+                  {/* Card */}
+                  <div className="p-6 rounded-xl border border-[#1e1e1e] bg-[#0a0a0a]/50 hover:border-[#3b82f6]/20 transition-colors duration-300">
+                    {/* Header */}
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
+                      <div>
+                        <h3 className="text-lg font-semibold text-[#ededed]">
+                          {exp.company}
+                        </h3>
+                        <p className="text-[#888888] text-sm">{exp.role}</p>
+                      </div>
+                      <span className="text-[#555555] text-sm whitespace-nowrap">
+                        {exp.date}
                       </span>
-                    )}
+                    </div>
+
+                    {/* Description */}
+                    <p className="text-[#888888] leading-relaxed mb-4">
+                      {exp.description}
+                    </p>
+
+                    {/* Metric */}
+                    <p className="text-blue-500 text-sm font-medium">
+                      {exp.metric}
+                    </p>
                   </div>
-                  <p className="mt-1 text-sm text-zinc-500">{exp.role}</p>
                 </div>
-                <span className="shrink-0 font-mono text-sm text-zinc-600">
-                  {exp.period}
-                </span>
-              </div>
-              <p className="text-sm leading-relaxed text-zinc-400">
-                {exp.description}
-              </p>
-            </div>
-          ))}
-        </div>
+              </BlurFade>
+            ))}
+          </div>
+        </TracingBeam>
       </div>
-    </motion.section>
+    </section>
   );
 }
