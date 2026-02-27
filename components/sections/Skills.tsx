@@ -1,6 +1,6 @@
 "use client";
 
-import { BlurFade } from "@/components/magicui/blur-fade";
+import { motion } from "framer-motion";
 
 const skillGroups = [
   {
@@ -13,7 +13,7 @@ const skillGroups = [
   },
   {
     title: "Data & Vector DBs",
-    skills: ["PostgreSQL", "pgvector", "ChromaDB", "Qdrant", "MongoDB", "MySQL", "Redis", "Pandas"],
+    skills: ["PostgreSQL", "pgvector", "ChromaDB", "Qdrant", "MongoDB", "Redis"],
   },
   {
     title: "Backend & Cloud",
@@ -21,45 +21,49 @@ const skillGroups = [
   },
   {
     title: "Frontend",
-    skills: ["React", "Next.js", "Tailwind CSS", "Zustand", "Redux"],
+    skills: ["React", "Next.js", "Tailwind CSS", "Zustand"],
   },
 ];
 
+const sectionFade = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+};
+
 export function Skills() {
   return (
-    <section id="skills" className="relative py-28">
+    <motion.section
+      id="skills"
+      className="py-20 md:py-28"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true }}
+      variants={sectionFade}
+    >
       <div className="mx-auto max-w-5xl px-6">
-        <BlurFade delay={0.1} inView>
-          <p className="mb-3 text-[13px] font-medium uppercase tracking-[0.2em] text-[#3b82f6]">
-            Skills
-          </p>
-          <h2 className="mb-14 text-[28px] font-bold tracking-tight text-white sm:text-[32px]">
-            Technical toolkit
-          </h2>
-        </BlurFade>
+        <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">Technical Skills</h2>
+        <p className="text-lg text-zinc-400 mb-12">Technologies and tools I work with daily.</p>
 
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
-          {skillGroups.map((group, i) => (
-            <BlurFade key={group.title} delay={0.12 + i * 0.06} inView>
-              <div>
-                <h3 className="mb-4 text-[12px] font-semibold uppercase tracking-[0.15em] text-[#52525b]">
-                  {group.title}
-                </h3>
-                <div className="flex flex-wrap gap-1.5">
-                  {group.skills.map((skill) => (
-                    <span
-                      key={skill}
-                      className="rounded-md border border-white/[0.06] bg-white/[0.02] px-2.5 py-1 text-[12px] text-[#a1a1aa] transition-colors hover:border-white/[0.12] hover:text-white"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {skillGroups.map((group) => (
+            <div key={group.title}>
+              <h3 className="text-sm font-medium text-zinc-400 uppercase tracking-wider mb-3">
+                {group.title}
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {group.skills.map((skill) => (
+                  <span
+                    key={skill}
+                    className="rounded-md border border-white/5 bg-white/5 px-2.5 py-1 text-xs text-zinc-400 transition-colors hover:border-white/10 hover:text-white"
+                  >
+                    {skill}
+                  </span>
+                ))}
               </div>
-            </BlurFade>
+            </div>
           ))}
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }

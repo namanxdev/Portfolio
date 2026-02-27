@@ -1,49 +1,45 @@
 "use client";
 
-import { BlurFade } from "@/components/magicui/blur-fade";
+import { motion } from "framer-motion";
 
 const achievements = [
-  { title: "NASA Space Apps 2025", result: "Winner", accent: true },
-  { title: "CodeSlayer · NIT Delhi", result: "Top 1% of 10K+" },
-  { title: "MumbaiHacks · FinTech", result: "Finalist" },
-  { title: "Smart India Hackathon", result: "Top 5% nationwide" },
+  { title: "NASA Space Apps Challenge 2025", result: "Winner · Top 1% Global" },
+  { title: "CodeSlayer 2025 · NIT Delhi", result: "Finalist · Top 1% of 10K+" },
+  { title: "MumbaiHacks 2025 · FinTech", result: "Finalist · Top ~5%" },
+  { title: "Smart India Hackathon 2024", result: "Finalist · Top 5% nationwide" },
 ];
+
+const sectionFade = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+};
 
 export function Achievements() {
   return (
-    <section id="achievements" className="relative py-28">
+    <motion.section
+      id="achievements"
+      className="py-20 md:py-28"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true }}
+      variants={sectionFade}
+    >
       <div className="mx-auto max-w-5xl px-6">
-        <BlurFade delay={0.1} inView>
-          <p className="mb-3 text-[13px] font-medium uppercase tracking-[0.2em] text-[#3b82f6]">
-            Achievements
-          </p>
-          <h2 className="mb-12 text-[28px] font-bold tracking-tight text-white sm:text-[32px]">
-            Competitions
-          </h2>
-        </BlurFade>
+        <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">Achievements</h2>
+        <p className="text-lg text-zinc-400 mb-12">Competitions and hackathons.</p>
 
-        <BlurFade delay={0.15} inView>
-          <div className="flex flex-wrap gap-3">
-            {achievements.map((item) => (
-              <div
-                key={item.title}
-                className={`inline-flex items-center gap-3 rounded-full border px-4 py-2 transition-colors ${
-                  item.accent
-                    ? "border-emerald-500/20 bg-emerald-500/[0.05]"
-                    : "border-white/[0.06] bg-white/[0.02]"
-                } hover:border-white/[0.12]`}
-              >
-                <span className="text-[13px] text-white/70">{item.title}</span>
-                <span className={`text-[12px] font-medium ${
-                  item.accent ? "text-emerald-400" : "text-[#3b82f6]/70"
-                }`}>
-                  {item.result}
-                </span>
-              </div>
-            ))}
-          </div>
-        </BlurFade>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          {achievements.map((item) => (
+            <div
+              key={item.title}
+              className="rounded-lg border border-white/5 bg-zinc-900/50 p-4 transition-all duration-300 hover:border-blue-500/20 hover:bg-zinc-900/80"
+            >
+              <p className="text-sm font-medium text-white">{item.title}</p>
+              <p className="mt-1 text-xs text-blue-400">{item.result}</p>
+            </div>
+          ))}
+        </div>
       </div>
-    </section>
+    </motion.section>
   );
 }
