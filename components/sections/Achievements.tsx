@@ -32,7 +32,7 @@ export function Achievements() {
           {achievements.map((item) => (
             <div
               key={item.title}
-              className="rounded-lg border border-white/10 bg-zinc-950/50 p-4 transition-all duration-500 hover:border-white/20 hover:bg-zinc-900/50"
+              className="rounded-lg border border-white/[0.08] bg-zinc-900/10 p-4 transition-all duration-500 hover:border-white/[0.15] hover:bg-zinc-900/30"
             >
               <p className="text-sm font-medium text-white">{item.title}</p>
               <p className="mt-1 text-xs text-blue-400">{item.result}</p>

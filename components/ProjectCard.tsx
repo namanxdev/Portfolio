@@ -21,7 +21,7 @@ export function ProjectCard({ title, description, tech, metric, href, status, fe
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className={`group relative flex h-full flex-col overflow-hidden rounded-xl border border-white/10 bg-zinc-950/50 p-6 transition-all duration-500 hover:border-white/20 hover:bg-zinc-900/50 ${
+      className={`group relative flex h-full flex-col overflow-hidden rounded-xl border border-white/[0.08] bg-zinc-900/10 p-6 transition-all duration-500 hover:border-white/[0.15] hover:bg-zinc-900/30 ${
         featured ? "sm:flex-row sm:items-start sm:gap-6 sm:p-8" : ""
       }`}
       onMouseEnter={() => setHovered(true)}
@@ -47,7 +47,7 @@ export function ProjectCard({ title, description, tech, metric, href, status, fe
           {tech.map((t) => (
             <span
               key={t}
-              className="rounded-md border border-white/10 bg-white/5 px-2 py-0.5 text-xs text-zinc-300"
+              className="rounded-md border border-white/[0.08] bg-white/[0.03] px-2 py-0.5 text-xs text-zinc-400"
             >
               {t}
             </span>

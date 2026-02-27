@@ -36,16 +36,15 @@ const fadeUp = (i: number) => ({
 export function Hero() {
   return (
     <section className="relative min-h-[100dvh] flex flex-col justify-center overflow-hidden">
-      {/* #1 — Gradient orbs (Subtle) */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute top-20 -left-20 h-72 w-72 rounded-full bg-[#3b82f6] opacity-[0.05] blur-[120px]" />
-        <div className="absolute top-40 right-0 h-96 w-96 rounded-full bg-[#8b5cf6] opacity-[0.04] blur-[120px]" />
+      {/* #1 — Subtle top glow */}
+      <div className="pointer-events-none absolute inset-0 flex justify-center">
+        <div className="absolute -top-[20%] h-[500px] w-[1000px] rounded-full bg-white/[0.03] blur-[120px]" />
       </div>
 
       <div className="relative mx-auto w-full max-w-5xl px-6 py-20">
         {/* #1 — Pill badge */}
         <motion.div variants={fadeUp(0)} initial="hidden" animate="visible">
-          <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.02] px-4 py-1.5 backdrop-blur-md transition-colors hover:bg-white/[0.04]">
+          <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.02] px-4 py-1.5 backdrop-blur-md transition-colors hover:bg-white/[0.04]">
             <span className="text-sm font-medium">
               <AnimatedGradientText>Building at Infradock.ai</AnimatedGradientText>
             </span>
@@ -54,7 +53,7 @@ export function Hero() {
 
         {/* #1 — Headline: High contrast white */}
         <motion.div variants={fadeUp(1)} initial="hidden" animate="visible">
-          <h1 className="max-w-4xl text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-white">
+          <h1 className="max-w-4xl text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-zinc-50">
             I build AI systems that <span className="text-zinc-400">work in production.</span>
           </h1>
         </motion.div>
@@ -81,15 +80,15 @@ export function Hero() {
           className="mt-10 flex flex-wrap items-center gap-4"
         >
           <a href="#projects">
-            <ShimmerButton className="shadow-2xl">
-              <span className="whitespace-pre-wrap text-center text-sm font-medium leading-none tracking-tight text-white dark:from-white dark:to-slate-900/10 lg:text-base">
+            <ShimmerButton className="bg-white/5">
+              <span className="whitespace-pre-wrap text-center text-sm font-medium leading-none tracking-tight text-white lg:text-base">
                 View Projects
               </span>
             </ShimmerButton>
           </a>
           <Link
             href="/blog"
-            className="inline-flex items-center rounded-full border border-white/10 bg-transparent px-6 py-3 text-sm font-medium text-zinc-300 transition-all hover:bg-white/5 hover:text-white"
+            className="inline-flex items-center rounded-full border border-white/[0.08] bg-white/[0.03] px-6 py-3 text-sm font-medium text-zinc-300 transition-all hover:bg-white/[0.08] hover:text-zinc-50"
           >
             Read Blog
           </Link>

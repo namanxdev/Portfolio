@@ -20,7 +20,7 @@ const projects = [
       "Autonomous inbox AI agent — classifies emails, retrieves context, and drafts responses with human-in-the-loop fallback.",
     tech: ["LangGraph", "Gemini 1.5 Pro", "FastAPI", "pgvector", "Next.js"],
     metric: "Sub-second retrieval · 94% draft confidence",
-    href: "https://github.com/namanxdev",
+    href: "https://github.com/namanxdev/ReasonFlow",
   },
   {
     title: "AgentMesh",

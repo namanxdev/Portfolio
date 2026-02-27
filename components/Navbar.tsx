@@ -16,9 +16,9 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-white/5 bg-black/60 backdrop-blur-xl">
+    <nav className="sticky top-0 z-50 w-full border-b border-white/[0.08] bg-black/80 backdrop-blur-xl">
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-6">
-        <Link href="/" className="text-sm font-semibold tracking-tight text-white transition-colors hover:text-white/80">
+        <Link href="/" className="text-sm font-semibold tracking-tight text-zinc-50 transition-colors hover:text-zinc-300">
           Naman Gupta
         </Link>
 
@@ -29,7 +29,7 @@ export function Navbar() {
               <Component
                 key={link.label}
                 href={link.href}
-                className="rounded-md px-3 py-1.5 text-sm text-zinc-400 transition-colors hover:text-white"
+                className="rounded-md px-3 py-1.5 text-sm text-zinc-400 transition-colors hover:text-zinc-50"
               >
                 {link.label}
               </Component>

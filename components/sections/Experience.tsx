@@ -50,7 +50,7 @@ export function Experience() {
           {experiences.map((exp) => (
             <div
               key={exp.company}
-              className="rounded-xl border border-white/10 bg-zinc-950/50 p-6 transition-all duration-500 hover:border-white/20 hover:bg-zinc-900/50"
+              className="rounded-xl border border-white/[0.08] bg-zinc-900/10 p-6 transition-all duration-500 hover:border-white/[0.15] hover:bg-zinc-900/30"
             >
               <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
                 <div className="flex items-center gap-2.5">
