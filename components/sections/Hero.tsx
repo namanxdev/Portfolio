@@ -1,121 +1,187 @@
 "use client";
 
-import React, { forwardRef, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Spotlight } from "@/components/aceternity/spotlight";
 import { NumberTicker } from "@/components/ui/number-ticker";
-import { AnimatedBeam } from "@/components/ui/animated-beam";
 import { BlurFade } from "@/components/ui/blur-fade";
-import { cn } from "@/lib/utils";
-import {
-  ArrowRight,
-  Mail,
-  FileText,
-  Database,
-  Code2,
-  BrainCircuit,
-  Workflow,
-  Send,
-} from "lucide-react";
+import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from "framer-motion";
+import { ArrowRight, Workflow, Database, Terminal, Cpu, CheckCircle2 } from "lucide-react";
 
-// ── Reusable node circle ──────────────────────────────────────────────
-const Node = forwardRef<
-  HTMLDivElement,
-  { className?: string; children?: React.ReactNode; label?: string }
->(({ className, children, label }, ref) => (
-  <div className="flex flex-col items-center gap-2">
-    <div
-      ref={ref}
-      className={cn(
-        "z-10 flex size-11 items-center justify-center rounded-full border border-white/[0.08] bg-[#111] p-2.5 shadow-[0_0_24px_rgba(59,130,246,0.06)]",
-        className
-      )}
-    >
-      {children}
-    </div>
-    {label && (
-      <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-600 select-none">
-        {label}
-      </span>
-    )}
-  </div>
-));
-Node.displayName = "Node";
-
-// ── Pipeline Beam Graphic ─────────────────────────────────────────────
-function AgentPipelineBeam({ className }: { className?: string }) {
+// ── High-End Agent Visualizer ──────────────────────────────────────────────
+const AgentVisualizer = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const emailRef = useRef<HTMLDivElement>(null);
-  const docsRef = useRef<HTMLDivElement>(null);
-  const dbRef = useRef<HTMLDivElement>(null);
-  const codeRef = useRef<HTMLDivElement>(null);
-  const brainRef = useRef<HTMLDivElement>(null);
-  const agentRef = useRef<HTMLDivElement>(null);
-  const outputRef = useRef<HTMLDivElement>(null);
+  
+  // 3D Tilt Effect
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const springConfig = { damping: 20, stiffness: 300, mass: 0.5 };
+  const springX = useSpring(mouseX, springConfig);
+  const springY = useSpring(mouseY, springConfig);
+
+  const rotateX = useTransform(springY, [-0.5, 0.5], ["7deg", "-7deg"]);
+  const rotateY = useTransform(springX, [-0.5, 0.5], ["-7deg", "7deg"]);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    mouseX.set(x / width - 0.5);
+    mouseY.set(y / height - 0.5);
+  };
+
+  const handleMouseLeave = () => {
+    mouseX.set(0);
+    mouseY.set(0);
+  };
+
+  // Cycling Logic States
+  const [activeStep, setActiveStep] = useState(0);
+
+  const STEPS = [
+    { id: 0, title: "Query Routing", icon: <Workflow className="w-3 h-3" />, status: "Analyzing intent..." },
+    { id: 1, title: "Vector Search", icon: <Database className="w-3 h-3" />, status: "Querying pgvector..." },
+    { id: 2, title: "Agent Execution", icon: <Cpu className="w-3 h-3" />, status: "Thinking & drafting..." },
+    { id: 3, title: "Response", icon: <CheckCircle2 className="w-3 h-3 text-emerald-400" />, status: "Task completed." },
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveStep((prev) => (prev + 1) % STEPS.length);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, [STEPS.length]);
 
   return (
-    <div
+    <motion.div
       ref={containerRef}
-      className={cn(
-        "relative flex h-[420px] w-full items-center justify-center overflow-hidden rounded-xl border border-white/[0.06] bg-[#0A0A0A] p-8",
-        className
-      )}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+      className="relative w-full max-w-[480px] aspect-[4/3] rounded-[24px] border border-white/[0.08] bg-[#050505]/80 backdrop-blur-2xl p-6 shadow-2xl flex flex-col justify-between overflow-hidden group"
     >
-      <div className="flex size-full max-w-md flex-row items-stretch justify-between gap-8">
-        {/* Left column — Input Sources */}
-        <div className="flex flex-col justify-center gap-5">
-          <Node ref={emailRef} label="Email">
-            <Mail className="size-4 text-zinc-400" />
-          </Node>
-          <Node ref={docsRef} label="Docs">
-            <FileText className="size-4 text-zinc-400" />
-          </Node>
-          <Node ref={dbRef} label="Vector DB">
-            <Database className="size-4 text-zinc-400" />
-          </Node>
-          <Node ref={codeRef} label="API">
-            <Code2 className="size-4 text-zinc-400" />
-          </Node>
-        </div>
+      {/* Subtle animated background glow behind UI */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden rounded-[24px]">
+        <motion.div 
+          animate={{ 
+            opacity: [0.3, 0.5, 0.3],
+            scale: [1, 1.2, 1],
+          }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -top-32 -right-32 w-64 h-64 bg-blue-500/20 blur-[80px] rounded-full"
+        />
+        <motion.div 
+          animate={{ 
+            opacity: [0.2, 0.4, 0.2],
+            scale: [1, 1.5, 1],
+          }}
+          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          className="absolute -bottom-32 -left-32 w-64 h-64 bg-purple-500/20 blur-[80px] rounded-full"
+        />
+      </div>
 
-        {/* Center — AI Brain */}
-        <div className="flex flex-col justify-center">
-          <Node
-            ref={brainRef}
-            className="size-14 border-blue-500/20 bg-[#0f1729] shadow-[0_0_40px_rgba(59,130,246,0.12)]"
-            label="LLM"
-          >
-            <BrainCircuit className="size-6 text-blue-400" />
-          </Node>
+      {/* Header */}
+      <div className="relative z-10 flex justify-between items-start" style={{ transform: "translateZ(20px)" }}>
+        <div className="flex flex-col gap-1">
+          <h3 className="text-white/80 font-medium text-sm flex items-center gap-2">
+            <Terminal className="w-4 h-4 text-blue-400" />
+            Agentic Core
+          </h3>
+          <p className="text-white/40 font-mono text-[10px] uppercase tracking-wider">Mission Control // Live</p>
         </div>
-
-        {/* Right column — Agent + Output */}
-        <div className="flex flex-col justify-center gap-5">
-          <Node ref={agentRef} label="Agent">
-            <Workflow className="size-4 text-zinc-400" />
-          </Node>
-          <Node ref={outputRef} label="Response">
-            <Send className="size-4 text-zinc-400" />
-          </Node>
+        <div className="flex items-center gap-2 border border-white/10 bg-white/5 rounded-full px-2.5 py-1 backdrop-blur-sm">
+          <div className="relative flex h-1.5 w-1.5">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+          </div>
+          <span className="text-[9px] font-mono uppercase text-emerald-400/80">99.9% Uptime</span>
         </div>
       </div>
 
-      {/* Beams: Inputs → Brain */}
-      <AnimatedBeam containerRef={containerRef} fromRef={emailRef} toRef={brainRef} curvature={-40} pathColor="#1e293b" pathOpacity={0.3} gradientStartColor="#3b82f6" gradientStopColor="#8b5cf6" />
-      <AnimatedBeam containerRef={containerRef} fromRef={docsRef} toRef={brainRef} curvature={-15} pathColor="#1e293b" pathOpacity={0.3} gradientStartColor="#3b82f6" gradientStopColor="#8b5cf6" />
-      <AnimatedBeam containerRef={containerRef} fromRef={dbRef} toRef={brainRef} curvature={15} pathColor="#1e293b" pathOpacity={0.3} gradientStartColor="#3b82f6" gradientStopColor="#8b5cf6" />
-      <AnimatedBeam containerRef={containerRef} fromRef={codeRef} toRef={brainRef} curvature={40} pathColor="#1e293b" pathOpacity={0.3} gradientStartColor="#3b82f6" gradientStopColor="#8b5cf6" />
+      {/* Main Flow Representation */}
+      <div className="relative z-10 flex flex-col gap-3 mt-4" style={{ transform: "translateZ(30px)" }}>
+        {STEPS.map((step, index) => {
+          const isActive = index === activeStep;
+          const isPast = index < activeStep;
+          
+          return (
+            <div 
+              key={step.id} 
+              className={`relative flex items-center gap-4 p-3 rounded-xl border transition-all duration-500 ${
+                isActive 
+                  ? "border-blue-500/30 bg-blue-500/10 shadow-[0_0_20px_rgba(59,130,246,0.1)]" 
+                  : isPast 
+                    ? "border-white/5 bg-white/5 opacity-50" 
+                    : "border-white/5 bg-transparent opacity-30"
+              }`}
+            >
+              {/* Connecting Line */}
+              {index !== STEPS.length - 1 && (
+                <div className={`absolute left-[21px] top-[34px] w-[1px] h-4 ${isPast ? 'bg-blue-500/50' : 'bg-white/10'} transition-colors duration-500`} />
+              )}
+              
+              <div className={`w-5 h-5 rounded-full flex items-center justify-center transition-colors duration-500 ${
+                isActive ? "bg-blue-500 text-white" : isPast ? "bg-blue-500/20 text-blue-400" : "bg-white/10 text-white/50"
+              }`}>
+                {step.icon}
+              </div>
+              
+              <div className="flex flex-col">
+                <span className={`text-xs font-semibold ${isActive ? "text-white" : "text-white/60"}`}>
+                  {step.title}
+                </span>
+                <AnimatePresence mode="wait">
+                  {isActive ? (
+                    <motion.span 
+                      key="active"
+                      initial={{ opacity: 0, y: 5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -5 }}
+                      className="text-[10px] font-mono text-blue-300"
+                    >
+                      {step.status}
+                    </motion.span>
+                  ) : (
+                    <motion.span 
+                      key="inactive"
+                      className="text-[10px] font-mono text-transparent select-none"
+                    >
+                      Waiting...
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+              </div>
+              
+              {isActive && (
+                <motion.div 
+                  layoutId="pulse"
+                  className="ml-auto w-1 h-1 bg-blue-400 rounded-full animate-ping"
+                />
+              )}
+            </div>
+          );
+        })}
+      </div>
 
-      {/* Beams: Brain → Outputs */}
-      <AnimatedBeam containerRef={containerRef} fromRef={brainRef} toRef={agentRef} curvature={-20} pathColor="#1e293b" pathOpacity={0.3} gradientStartColor="#8b5cf6" gradientStopColor="#3b82f6" />
-      <AnimatedBeam containerRef={containerRef} fromRef={brainRef} toRef={outputRef} curvature={20} pathColor="#1e293b" pathOpacity={0.3} gradientStartColor="#8b5cf6" gradientStopColor="#3b82f6" />
-
-      {/* Ultra-subtle backglow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-[300px] rounded-full bg-blue-500/[0.04] blur-[80px] pointer-events-none" />
-    </div>
+      {/* Bottom Data Bar */}
+      <div className="relative z-10 flex items-center justify-between border-t border-white/10 pt-4 mt-4" style={{ transform: "translateZ(10px)" }}>
+        <div className="flex flex-col">
+          <span className="text-[9px] font-mono text-white/30 uppercase">Avg Latency</span>
+          <span className="text-xs font-medium text-white/80">112ms</span>
+        </div>
+        <div className="flex flex-col text-right">
+          <span className="text-[9px] font-mono text-white/30 uppercase">Precision</span>
+          <span className="text-xs font-medium text-emerald-400">95.4%</span>
+        </div>
+      </div>
+    </motion.div>
   );
-}
+};
 
-// ── Hero Section ──────────────────────────────────────────────────────
+// ── Hero Section ──────────────────────────────────────────────────────────────
 export default function Hero() {
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center bg-transparent overflow-hidden pt-20 pb-16">
@@ -126,6 +192,7 @@ export default function Hero() {
 
       <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 sm:px-12 lg:px-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-12 items-center">
+          
           {/* Left column — Typography */}
           <div className="lg:col-span-7 flex flex-col items-start relative z-20">
             <BlurFade delay={0.1} offset={10}>
@@ -164,9 +231,10 @@ export default function Hero() {
                 </a>
                 <a
                   href="#contact"
-                  className="px-6 py-3 text-sm font-medium text-zinc-400 hover:text-[#FAFAFA] transition-colors"
+                  className="px-6 py-3 text-sm font-medium text-zinc-400 hover:text-[#FAFAFA] transition-colors relative group"
                 >
                   Contact Me
+                  <span className="absolute bottom-2 left-6 w-0 h-[1px] bg-white/50 transition-all duration-300 group-hover:w-[calc(100%-3rem)]" />
                 </a>
               </div>
             </BlurFade>
@@ -195,16 +263,17 @@ export default function Hero() {
             </BlurFade>
           </div>
 
-          {/* Right column — Agent Pipeline Visualization */}
-          <div className="lg:col-span-5 relative mt-12 lg:mt-0 flex justify-end items-center h-full w-full z-30">
+          {/* Right column — High-End Agent Visualizer */}
+          <div className="lg:col-span-5 relative mt-12 lg:mt-0 flex justify-end items-center h-full w-full z-30 perspective-1000">
             <BlurFade
               delay={0.6}
               offset={15}
               className="w-full relative max-w-[500px]"
             >
-              <AgentPipelineBeam />
+              <AgentVisualizer />
             </BlurFade>
           </div>
+
         </div>
       </div>
     </section>
