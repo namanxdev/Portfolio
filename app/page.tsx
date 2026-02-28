@@ -17,9 +17,7 @@ export default function Home() {
         </section>
         
         {/* Projects Section */}
-        <SectionWrapper id="projects">
-          <Projects />
-        </SectionWrapper>
+        <Projects />
         
         {/* Experience Section */}
         <SectionWrapper id="experience">
