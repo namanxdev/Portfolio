@@ -186,6 +186,7 @@ interface TerminalProps {
   className?: string
   sequence?: boolean
   startOnView?: boolean
+  title?: string
 }
 
 export const Terminal = ({
@@ -193,6 +194,7 @@ export const Terminal = ({
   className,
   sequence = true,
   startOnView = true,
+  title,
 }: TerminalProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null)
   const isInView = useInView(containerRef as React.RefObject<Element>, {
@@ -232,12 +234,17 @@ export const Terminal = ({
         className
       )}
     >
-      <div className="border-border flex flex-col gap-y-2 border-b p-4">
+      <div className="border-border grid grid-cols-[1fr_auto_1fr] items-center border-b p-4 relative">
         <div className="flex flex-row gap-x-2">
           <div className="h-2 w-2 rounded-full bg-red-500"></div>
           <div className="h-2 w-2 rounded-full bg-yellow-500"></div>
           <div className="h-2 w-2 rounded-full bg-green-500"></div>
         </div>
+        {title && (
+          <div className="text-xs font-medium text-zinc-500 justify-self-center px-4">
+            {title}
+          </div>
+        )}
       </div>
       <pre className="p-4">
         <code className="grid gap-y-1 overflow-auto">{wrappedChildren}</code>

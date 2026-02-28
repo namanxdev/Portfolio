@@ -26,11 +26,6 @@ const navItems = [
     icon: <Code2 className="h-4 w-4" />,
   },
   {
-    name: "Achievements",
-    link: "#achievements",
-    icon: <Trophy className="h-4 w-4" />,
-  },
-  {
     name: "Contact",
     link: "#contact",
     icon: <Mail className="h-4 w-4" />,

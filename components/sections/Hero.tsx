@@ -1,171 +1,138 @@
 "use client";
 
 import { Spotlight } from "@/components/aceternity/spotlight";
-import { TextGenerateEffect } from "@/components/aceternity/text-generate-effect";
 import { NumberTicker } from "@/components/ui/number-ticker";
-import { ShimmerButton } from "@/components/ui/shimmer-button";
 import { Terminal, TypingAnimation, AnimatedSpan } from "@/components/ui/terminal";
 import { BlurFade } from "@/components/ui/blur-fade";
-import { Github, Linkedin } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen bg-[#050505] overflow-hidden">
-      {/* Spotlight background effect */}
+    <section className="relative min-h-screen flex items-center justify-center bg-transparent overflow-hidden pt-20 pb-16">
+      {/* Muted background spotlight - elegant, no laser beams */}
       <Spotlight
-        className="-top-40 left-0 md:-top-20 md:left-60"
-        fill="#3b82f6"
+        className="-top-40 left-0 md:left-60 md:-top-20 z-0"
+        fill="#ffffff"
       />
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6 py-24 md:py-32">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-          {/* Left column - Text content (60% on desktop) */}
-          <div className="lg:col-span-7">
-            <BlurFade delay={0.1}>
-              {/* Status pill badge */}
-              <div className="inline-flex items-center gap-2.5 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2 mb-8">
-                <span className="relative flex h-2.5 w-2.5">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-                </span>
-                <span className="text-[13px] text-zinc-300">
-                  Building at Infradock.ai
-                </span>
-                <span className="text-zinc-600">|</span>
-                <span className="text-[13px] text-emerald-400">Available for work</span>
+      <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 sm:px-12 lg:px-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-12 items-center">
+          
+          {/* Left column - Strict Top-Left aligned typography */}
+          <div className="lg:col-span-7 flex flex-col items-start relative z-20">
+            
+            {/* Minimal Subhead/Eyebrow */}
+            <BlurFade delay={0.1} offset={10}>
+              <div className="flex items-center gap-3 mb-8">
+               <div className="h-[1px] w-8 bg-zinc-600"></div>
+                <p className="font-mono text-[11px] tracking-[0.2em] text-zinc-400 uppercase">
+                  AI Engineer • Agent Builder
+                </p>
               </div>
             </BlurFade>
 
-            {/* Headline with TextGenerateEffect */}
-            <BlurFade delay={0.2}>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1] mb-6">
-                <TextGenerateEffect
-                  words="I build AI that actually ships."
-                  className="text-white"
-                  duration={0.8}
-                />
+            {/* Massive Heading - Clean, no text generators, just cinematic fade */}
+            <BlurFade delay={0.2} offset={15}>
+              <h1 className="text-[clamp(3.5rem,7vw,6.5rem)] font-semibold tracking-[-0.03em] leading-[0.95] text-[#FAFAFA] mb-8">
+                I build AI systems<br />
+                <span className="text-zinc-600">that work in production.</span>
               </h1>
             </BlurFade>
 
-            {/* Subheadline */}
-            <BlurFade delay={0.4}>
-              <p className="text-lg text-zinc-400 max-w-xl leading-relaxed mb-8">
-                AI Engineer specializing in agent infrastructure, RAG pipelines, 
-                and multi-agent workflows.
+            {/* Minimalist Subtext */}
+            <BlurFade delay={0.3} offset={15}>
+              <p className="text-lg md:text-xl text-zinc-400 max-w-lg leading-relaxed font-light mb-12">
+                Currently building multi-agent workflows and RAG pipelines at Infradock.ai. Shipping infrastructure that handles thousands of daily queries.
               </p>
             </BlurFade>
 
-            {/* CTAs */}
-            <BlurFade delay={0.5}>
-              <div className="flex flex-wrap items-center gap-4 mb-12">
-                <a href="#projects">
-                  <ShimmerButton
-                    className="px-6 py-3 text-sm font-medium"
-                    background="linear-gradient(135deg, #3b82f6, #8b5cf6)"
-                    shimmerColor="#ffffff"
-                  >
-                    View Projects
-                  </ShimmerButton>
+            {/* Premium minimal buttons */}
+            <BlurFade delay={0.4} offset={15}>
+              <div className="flex flex-wrap items-center gap-6">
+                <a 
+                  href="#projects" 
+                  className="group flex items-center gap-3 px-6 py-3 bg-[#FAFAFA] text-[#050505] rounded-full text-sm font-medium hover:bg-white transition-colors"
+                >
+                  Explore Work
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </a>
                 
                 <a
-                  href="https://github.com/namanxdev"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-zinc-500 hover:text-white transition-colors"
+                  href="#contact"
+                  className="px-6 py-3 text-sm font-medium text-zinc-400 hover:text-[#FAFAFA] transition-colors"
                 >
-                  <Github className="h-5 w-5" />
-                  <span className="text-sm">GitHub</span>
-                </a>
-                
-                <a
-                  href="https://linkedin.com/in/naman411"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-zinc-500 hover:text-white transition-colors"
-                >
-                  <Linkedin className="h-5 w-5" />
-                  <span className="text-sm">LinkedIn</span>
+                  Contact Me
                 </a>
               </div>
             </BlurFade>
-
-            {/* Stats row with NumberTicker */}
-            <BlurFade delay={0.6}>
-              <div className="flex flex-wrap gap-8 md:gap-12">
-                <div>
-                  <div className="text-3xl md:text-4xl font-bold text-white">
-                    <NumberTicker 
-                      value={500} 
-                      suffix="+" 
-                      className="text-white"
-                    />
+            
+            {/* Clean numeric stats */}
+            <BlurFade delay={0.5} offset={15}>
+              <div className="flex gap-12 mt-16 pt-8 border-t border-white/[0.05]">
+                <div className="flex flex-col gap-1">
+                  <div className="text-3xl font-semibold text-[#FAFAFA] flex items-center tracking-tight">
+                    <NumberTicker value={500} className="text-[#FAFAFA]" />
+                    <span className="ml-1 text-zinc-500">+</span>
                   </div>
-                  <div className="text-sm text-zinc-500 mt-1">queries automated</div>
+                  <div className="font-mono text-[10px] uppercase tracking-widest text-zinc-500 text-left">Daily Queries</div>
                 </div>
                 
-                <div>
-                  <div className="text-3xl md:text-4xl font-bold text-white">
-                    <NumberTicker 
-                      value={95} 
-                      suffix="%" 
-                      className="text-white"
-                    />
-                    <span className="text-white">+</span>
+                <div className="flex flex-col gap-1">
+                  <div className="text-3xl font-semibold text-[#FAFAFA] flex items-center tracking-tight">
+                    <NumberTicker value={95} className="text-[#FAFAFA]" />
+                    <span className="ml-1 text-zinc-500">%</span>
                   </div>
-                  <div className="text-sm text-zinc-500 mt-1">RAG precision</div>
-                </div>
-                
-                <div>
-                  <div className="text-3xl md:text-4xl font-bold text-white">
-                    <span className="text-zinc-500">~</span>
-                    <NumberTicker 
-                      value={60} 
-                      suffix="%" 
-                      className="text-white"
-                    />
-                  </div>
-                  <div className="text-sm text-zinc-500 mt-1">automation rate</div>
+                  <div className="font-mono text-[10px] uppercase tracking-widest text-zinc-500 text-left">RAG Precision</div>
                 </div>
               </div>
             </BlurFade>
           </div>
 
-          {/* Right column - Terminal (40% on desktop) */}
-          <div className="lg:col-span-5">
-            <BlurFade delay={0.7} direction="left">
-              <Terminal className="border-zinc-800/50 bg-zinc-950/80 shadow-2xl shadow-blue-500/[0.05]">
-                <TypingAnimation
-                  duration={40}
-                  className="text-zinc-400"
-                >
-                  $ npx reasonflow --classify --draft --send
-                </TypingAnimation>
+          {/* Right column - Terminal (Zero 3D skew, purely flat, minimal) */}
+          <div className="lg:col-span-5 relative mt-12 lg:mt-0 flex justify-end items-center h-full w-full z-30">
+            <BlurFade delay={0.6} offset={15} className="w-full relative max-w-[500px]">
                 
-                <AnimatedSpan delay={800} className="text-emerald-400">
-                  <span className="text-emerald-500">✓</span> Email classified: partnership inquiry
-                </AnimatedSpan>
+              {/* Premium completely flat UI terminal */}
+              <div className="relative rounded-xl overflow-hidden border border-white/[0.08] bg-[#0A0A0A] shadow-2xl">
+                {/* Thin minimal header */}
+                <div className="flex items-center px-4 py-3 border-b border-white/[0.05] bg-[#111111]">
+                   <div className="flex gap-1.5">
+                     <div className="w-2.5 h-2.5 rounded-full bg-zinc-700"></div>
+                     <div className="w-2.5 h-2.5 rounded-full bg-zinc-700"></div>
+                     <div className="w-2.5 h-2.5 rounded-full bg-zinc-700"></div>
+                   </div>
+                   <p className="font-mono text-[10px] text-zinc-500 mx-auto tracking-widest uppercase">reasonflow.js</p>
+                </div>
                 
-                <AnimatedSpan delay={400} className="text-emerald-400">
-                  <span className="text-emerald-500">✓</span> Context retrieved: 3 relevant threads (0.8s)
-                </AnimatedSpan>
-                
-                <AnimatedSpan delay={400} className="text-emerald-400">
-                  <span className="text-emerald-500">✓</span> Draft generated with 94% confidence
-                </AnimatedSpan>
-                
-                <AnimatedSpan delay={400} className="text-emerald-400">
-                  <span className="text-emerald-500">✓</span> Routed to outbox
-                </AnimatedSpan>
-              </Terminal>
+                <Terminal sequence={true} className="rounded-none border-none bg-transparent min-h-[320px] p-6 text-[13px] font-mono shadow-none h-full">
+                  <TypingAnimation delay={800} className="text-zinc-400">
+                    $ init_pipeline --model=reasonflow
+                  </TypingAnimation>
+                  
+                  <AnimatedSpan delay={1400} className="text-zinc-500 mt-2 block">
+                    [0.08s] Retrieving vector embeddings...
+                  </AnimatedSpan>
+                  
+                  <AnimatedSpan delay={2000} className="text-zinc-300 mt-2 block">
+                    &gt; 3,402 contexts matched against query
+                  </AnimatedSpan>
+                  
+                  <AnimatedSpan delay={2800} className="text-zinc-500 mt-2 block">
+                    [0.45s] Applying cross-encoder reranking
+                  </AnimatedSpan>
+                  
+                  <AnimatedSpan delay={3600} className="text-white mt-4 block leading-relaxed">
+                    Response generated with <span className="underline decoration-zinc-700 underline-offset-4">98.4%</span> confidence threshold.
+                  </AnimatedSpan>
+                </Terminal>
+              </div>
             </BlurFade>
+            
+            {/* The single, ultra-subtle, minimal backlight */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-white/[0.02] blur-[100px] pointer-events-none mix-blend-screen"></div>
           </div>
         </div>
       </div>
-
-      {/* Subtle gradient orbs for depth */}
-      <div className="pointer-events-none absolute top-1/2 left-0 h-[500px] w-[500px] rounded-full bg-blue-500/[0.03] blur-[150px]" />
-      <div className="pointer-events-none absolute bottom-0 right-0 h-[400px] w-[400px] rounded-full bg-purple-500/[0.03] blur-[150px]" />
     </section>
   );
 }

@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import Navbar from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { BackgroundPattern } from "@/components/BackgroundPattern";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -43,9 +44,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased text-[#ededed] selection:bg-blue-500/30`}>
+        <div className="fixed inset-0 z-[-1] bg-[#050505]" />
+        <BackgroundPattern />
         <Navbar />
-        <main className="relative">{children}</main>
+        <main className="relative z-10">{children}</main>
         <Footer />
         <Analytics />
       </body>

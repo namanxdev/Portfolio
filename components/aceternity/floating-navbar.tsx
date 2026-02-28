@@ -58,9 +58,19 @@ export const FloatingNav = ({
           className
         )}
       >
-        <div className="flex items-center justify-center gap-1 rounded-full border border-white/10 bg-black/50 px-2 py-1.5 shadow-lg shadow-black/10 backdrop-blur-xl">
+        <div className="flex items-center justify-center gap-1 sm:gap-2 rounded-full border border-white/10 bg-black/50 px-2 sm:px-4 py-1.5 sm:py-2 shadow-lg shadow-black/10 backdrop-blur-xl">
+          {/* Logo element mapping to #hero */}
+          <a
+            href="#hero"
+            className="flex items-center justify-center h-8 w-8 sm:h-9 sm:w-9 rounded-full bg-white/5 text-sm sm:text-base font-bold text-white hover:bg-white/10 transition-colors"
+          >
+            NG
+          </a>
+          
+          <div className="h-4 w-px bg-white/10 mx-1 sm:mx-2 hidden sm:block"></div>
+
           {/* Nav items container */}
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1 sm:gap-2">
             {navItems.map((navItem, idx: number) => (
               <a
                 key={`link-${idx}`}
