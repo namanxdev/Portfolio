@@ -118,7 +118,7 @@ function AgentPipelineBeam({ className }: { className?: string }) {
 // ── Hero Section ──────────────────────────────────────────────────────
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center bg-transparent overflow-hidden pt-20 pb-16">
+    <section id="hero" className="relative min-h-screen flex items-center justify-center bg-transparent overflow-hidden pt-20 pb-16">
       <Spotlight
         className="-top-40 left-0 md:left-60 md:-top-20 z-0"
         fill="#ffffff"

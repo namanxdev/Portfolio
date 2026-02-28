@@ -9,33 +9,24 @@ import { SectionWrapper } from "@/components/SectionWrapper";
 export default function Home() {
   return (
     <>
-      {/* Main Content - Navbar is in layout.tsx */}
       <main className="relative z-10 w-full overflow-hidden">
         {/* Hero Section */}
-        <section id="hero" className="relative w-full">
-          <Hero />
-        </section>
-        
+        <Hero />
+
         {/* Projects Section */}
         <Projects />
-        
+
         {/* Experience Section */}
-        <SectionWrapper id="experience">
-          <Experience />
-        </SectionWrapper>
-        
+        <Experience />
+
         {/* Skills Section */}
         <Skills />
-        
+
         {/* Achievements Section */}
-        <SectionWrapper id="achievements">
-          <Achievements />
-        </SectionWrapper>
-        
+        <Achievements />
+
         {/* Contact Section */}
-        <SectionWrapper id="contact">
-          <Contact />
-        </SectionWrapper>
+        <Contact />
       </main>
     </>
   );
