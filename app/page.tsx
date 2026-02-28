@@ -25,9 +25,7 @@ export default function Home() {
         </SectionWrapper>
         
         {/* Skills Section */}
-        <SectionWrapper id="skills">
-          <Skills />
-        </SectionWrapper>
+        <Skills />
         
         {/* Achievements Section */}
         <SectionWrapper id="achievements">

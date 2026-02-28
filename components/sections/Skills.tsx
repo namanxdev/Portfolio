@@ -1,165 +1,101 @@
-"use client"
+"use client";
 
-import { BlurFade } from "@/components/ui/blur-fade"
-import { IconCloud } from "@/components/ui/icon-cloud"
-import { Marquee } from "@/components/ui/marquee"
-import { Badge } from "@/components/ui/badge"
+import { BlurFade } from "@/components/ui/blur-fade";
+import { Marquee } from "@/components/ui/marquee";
 
-const skillGroups = [
-  {
-    title: "AI/ML & Agents",
-    skills: [
-      "LangChain",
-      "LangGraph",
-      "LlamaIndex",
-      "OpenAI API",
-      "Gemini API",
-      "Hugging Face",
-      "RAG",
-      "Agentic Workflows",
-      "MCP",
-    ],
-    highlight: true,
-  },
-  {
-    title: "Languages",
-    skills: ["Python", "C++", "TypeScript", "JavaScript", "SQL"],
-    highlight: false,
-  },
-  {
-    title: "Data & Vector DBs",
-    skills: ["PostgreSQL", "pgvector", "ChromaDB", "Qdrant", "MongoDB", "Redis"],
-    highlight: false,
-  },
-  {
-    title: "Backend & Cloud",
-    skills: [
-      "Django",
-      "FastAPI",
-      "Node.js",
-      "Docker",
-      "AWS",
-      "Celery",
-      "GitHub Actions",
-      "CI/CD",
-    ],
-    highlight: false,
-  },
-  {
-    title: "Frontend",
-    skills: ["React", "Next.js", "Tailwind CSS", "Zustand"],
-    highlight: false,
-  },
-]
+const col1 = [
+  "LangChain", "TypeScript", "FastAPI", "Docker", "React", "LlamaIndex", "Redis", "Next.js", "SQL", "pgvector"
+];
+const col2 = [
+  "Python", "AWS", "LangGraph", "Node.js", "C++", "Tailwind", "PostgreSQL", "OpenAI", "Framer", "Gemini"
+];
 
-const iconSlugs = [
-  "python",
-  "typescript",
-  "react",
-  "nextdotjs",
-  "tailwindcss",
-  "postgresql",
-  "docker",
-  "git",
-  "github",
-  "fastapi",
-  "mongodb",
-  "redis",
-  "nodedotjs",
-  "amazonaws",
-  "django",
-]
-
-const iconUrls = iconSlugs.map(
-  (slug) => `https://cdn.simpleicons.org/${slug}/888888`
-)
-
-const allSkills = skillGroups.flatMap((group) => group.skills)
+const capabilities = [
+  { label: "AI & Agents", value: "LangChain, LangGraph, LlamaIndex, OpenAI, Gemini, Hugging Face, MCP, RAG" },
+  { label: "Languages", value: "Python, C++, TypeScript, JavaScript, SQL" },
+  { label: "Backend & Cloud", value: "FastAPI, Node.js, PostgreSQL, pgvector, Redis, Docker, AWS" },
+  { label: "Frontend", value: "React, Next.js, Tailwind CSS, Framer Motion" }
+];
 
 export default function Skills() {
   return (
-    <section
-      id="skills"
-      className="relative py-24 px-6 md:px-8 border-b border-white/5"
-    >
-      <div className="max-w-6xl mx-auto">
-        <BlurFade>
-          <h2 className="text-3xl md:text-4xl font-semibold tracking-tight mb-16">
-            Technical Skills
-          </h2>
-        </BlurFade>
+    <section id="skills" className="relative bg-[#0A0A0A] py-24 md:py-32 z-20 overflow-hidden">
+      
+      <div className="w-full max-w-[1400px] mx-auto px-6 sm:px-12 lg:px-16 relative z-10">
+        
+        {/* Strict 2-Column Grid Layout to prevent any text displacement */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-8 items-center h-full min-h-[60vh]">
+          
+          {/* LEFT COLUMN: Clean Structural Information */}
+          <div className="lg:col-span-5 flex flex-col justify-center">
+            <BlurFade delay={0.1} offset={20}>
+              <div className="flex items-center gap-3 mb-8">
+                <div className="h-[1px] w-8 bg-zinc-700" />
+                <span className="font-mono text-[10px] tracking-[0.2em] text-zinc-500 uppercase">
+                  Capabilities & Stack
+                </span>
+              </div>
+              
+              <h2 className="text-[clamp(3rem,6vw,5.5rem)] font-semibold tracking-[-0.03em] leading-[0.9] text-[#FAFAFA] mb-8">
+                Built for <br />
+                <span className="text-zinc-600">performance.</span>
+              </h2>
 
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16">
-          <div className="lg:col-span-2 space-y-8">
-            {skillGroups.map((group, groupIndex) => (
-              <BlurFade key={group.title} delay={0.1 + groupIndex * 0.05}>
-                <div
-                  className={`p-5 rounded-xl border ${
-                    group.highlight
-                      ? "border-[#3b82f6]/30 bg-[#3b82f6]/5"
-                      : "border-white/5 bg-white/[0.02]"
-                  }`}
-                >
-                  <h3
-                    className={`text-sm font-medium mb-4 ${
-                      group.highlight
-                        ? "text-[#3b82f6]"
-                        : "text-[#888888]"
-                    }`}
-                  >
-                    {group.title}
-                  </h3>
-                  <div className="flex flex-wrap gap-2">
-                    {group.skills.map((skill) => (
-                      <Badge
-                        key={skill}
-                        variant="outline"
-                        className={`text-xs font-normal ${
-                          group.highlight
-                            ? "border-[#3b82f6]/30 text-[#ededed] hover:bg-[#3b82f6]/10"
-                            : "border-white/10 text-[#888888] hover:bg-white/5"
-                        }`}
-                      >
-                        {skill}
-                      </Badge>
-                    ))}
+              <p className="text-lg text-zinc-400 font-light leading-relaxed mb-12 max-w-md">
+                I engineer autonomous agents and scalable web infrastructure using modern frameworks and precise data pipelines.
+              </p>
+
+              {/* Data Table */}
+              <div className="flex flex-col w-full border-t border-white/[0.05]">
+                {capabilities.map((cap, i) => (
+                  <div key={cap.label} className="group border-b border-white/[0.05] flex flex-col sm:flex-row gap-2 sm:gap-6 py-4 transition-colors hover:bg-white/[0.01]">
+                    <span className="w-[140px] shrink-0 font-mono text-[10px] uppercase text-zinc-500 tracking-widest pt-1">
+                      [0{i + 1}] {cap.label}
+                    </span>
+                    <span className="block flex-1 text-sm md:text-base text-zinc-300 font-light leading-snug group-hover:text-white transition-colors duration-300">
+                      {cap.value}
+                    </span>
                   </div>
-                </div>
-              </BlurFade>
-            ))}
-          </div>
-
-          <div className="lg:col-span-3 flex items-center justify-center">
-            <BlurFade delay={0.2} className="w-full max-w-[500px]">
-              <div className="relative flex items-center justify-center">
-                <div className="absolute inset-0 bg-gradient-to-br from-[#3b82f6]/10 to-[#8b5cf6]/10 rounded-full blur-3xl" />
-                <IconCloud images={iconUrls} />
+                ))}
               </div>
             </BlurFade>
           </div>
-        </div>
 
-        <div className="mt-20">
-          <BlurFade delay={0.3}>
-            <div className="border-y border-white/5 py-6 -mx-6 md:-mx-8 overflow-hidden">
-              <Marquee
-                pauseOnHover
-                className="[--duration:60s] [--gap:1.5rem]"
-              >
-                {allSkills.map((skill) => (
-                  <Badge
-                    key={skill}
-                    variant="outline"
-                    className="text-sm font-normal px-4 py-1.5 border-white/10 text-[#888888] hover:bg-white/5 hover:text-[#ededed] transition-colors cursor-default"
+          {/* RIGHT COLUMN: Avant-Garde Text Marquee (Str8fire/Base Create style) */}
+          <div className="lg:col-span-7 h-[500px] md:h-[700px] relative flex justify-center overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,black_10%,black_90%,transparent)]">
+            
+            <BlurFade delay={0.3} offset={20} className="w-full h-full flex justify-center gap-4 md:gap-8">
+              
+              {/* Marquee Vertical Left */}
+              <Marquee vertical pauseOnHover className="[--duration:40s] [--gap:2rem] overflow-visible w-1/2 items-end pr-4">
+                {col1.map((name) => (
+                  <div 
+                    key={`left-${name}`} 
+                    className="text-5xl sm:text-6xl md:text-7xl xl:text-8xl font-black uppercase tracking-[-0.04em] text-[#141414] hover:text-blue-500 transition-colors duration-500 text-right cursor-crosshair select-none"
                   >
-                    {skill}
-                  </Badge>
+                    {name}
+                  </div>
                 ))}
               </Marquee>
-            </div>
-          </BlurFade>
+
+              {/* Marquee Vertical Right (Reverse) */}
+              <Marquee vertical pauseOnHover reverse className="[--duration:35s] [--gap:2rem] overflow-visible w-1/2 items-start pt-32 pl-4">
+                {col2.map((name) => (
+                  <div 
+                    key={`right-${name}`} 
+                    className="text-5xl sm:text-6xl md:text-7xl xl:text-8xl font-black uppercase tracking-[-0.04em] text-[#141414] hover:text-emerald-500 transition-colors duration-500 text-left cursor-crosshair select-none"
+                  >
+                    {name}
+                  </div>
+                ))}
+              </Marquee>
+
+            </BlurFade>
+
+          </div>
+
         </div>
       </div>
     </section>
-  )
+  );
 }
