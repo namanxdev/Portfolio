@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import { Preloader } from "@/components/Preloader";
 import Navbar from "@/components/Navbar";
 import { BackgroundPattern } from "@/components/BackgroundPattern";
 import "./globals.css";
@@ -44,6 +45,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased text-[#ededed] selection:bg-blue-500/30`}>
+        <Preloader />
         <div className="fixed inset-0 z-[-1] bg-[#050505]" />
         <BackgroundPattern />
         <Navbar />
