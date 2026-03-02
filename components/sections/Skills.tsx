@@ -232,7 +232,7 @@ export default function Skills() {
             <div className="flex flex-col gap-6">
               <div className="flex items-center gap-4">
                 <span className="flex items-center justify-center w-8 h-8 rounded-full border border-white/10 bg-white/5">
-                  <Sparkles className="w-4 h-4 text-white/50" />
+                  
                 </span>
                 <span className="font-mono text-xs tracking-[0.2em] text-white/40 uppercase">
                   Technical Arsenal
