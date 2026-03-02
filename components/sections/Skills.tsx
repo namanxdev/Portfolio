@@ -1,194 +1,356 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence, useSpring, useMotionValue, useTransform } from "framer-motion";
 import { BlurFade } from "@/components/ui/blur-fade";
-import { ArrowRight } from "lucide-react";
+import { Sparkles, Cpu, Code, Globe, Layers } from "lucide-react";
 
 const skillsData = [
   {
     id: "01",
     category: "AI & Agents",
-    textColor: "text-blue-500",
-    glowColor: "bg-blue-500",
-    items: ["LangChain", "LangGraph", "LlamaIndex", "OpenAI", "Gemini", "Hugging Face", "MCP", "RAG"]
+    textColor: "text-blue-400",
+    glowColor: "rgba(96, 165, 250, 0.15)",
+    accentColor: "#60a5fa",
+    items: [
+      { name: "LangChain", angle: 15, radius: 140, depth: 20 },
+      { name: "LangGraph", angle: 60, radius: 210, depth: 35 },
+      { name: "LlamaIndex", angle: 110, radius: 150, depth: 15 },
+      { name: "OpenAI API", angle: 155, radius: 200, depth: 40 },
+      { name: "Gemini", angle: 205, radius: 140, depth: 25 },
+      { name: "Hugging Face", angle: 250, radius: 230, depth: 45 },
+      { name: "MCP", angle: 295, radius: 160, depth: 20 },
+      { name: "RAG Systems", angle: 340, radius: 210, depth: 30 }
+    ]
   },
   {
     id: "02",
     category: "Languages",
-    textColor: "text-purple-500",
-    glowColor: "bg-purple-500",
-    items: ["Python", "C++", "TypeScript", "JavaScript", "SQL"]
+    textColor: "text-purple-400",
+    glowColor: "rgba(192, 132, 252, 0.15)",
+    accentColor: "#c084fc",
+    items: [
+      { name: "Python", angle: 35, radius: 150, depth: 20 },
+      { name: "C++", angle: 105, radius: 220, depth: 40 },
+      { name: "TypeScript", angle: 175, radius: 140, depth: 15 },
+      { name: "JavaScript", angle: 245, radius: 200, depth: 30 },
+      { name: "SQL", angle: 315, radius: 160, depth: 25 }
+    ]
   },
   {
     id: "03",
-    category: "Backend & DB",
-    textColor: "text-emerald-500",
-    glowColor: "bg-emerald-500",
-    items: ["FastAPI", "Node.js", "PostgreSQL", "pgvector", "Redis", "Docker", "AWS"]
+    category: "Backend Core",
+    textColor: "text-emerald-400",
+    glowColor: "rgba(52, 211, 153, 0.15)",
+    accentColor: "#34d399",
+    items: [
+      { name: "FastAPI", angle: 20, radius: 150, depth: 20 },
+      { name: "Node.js", angle: 75, radius: 210, depth: 35 },
+      { name: "PostgreSQL", angle: 130, radius: 160, depth: 25 },
+      { name: "pgvector", angle: 180, radius: 230, depth: 45 },
+      { name: "Redis", angle: 230, radius: 140, depth: 15 },
+      { name: "Docker", angle: 285, radius: 200, depth: 30 },
+      { name: "AWS", angle: 340, radius: 150, depth: 20 }
+    ]
   },
   {
     id: "04",
-    category: "Frontend",
-    textColor: "text-amber-500",
-    glowColor: "bg-amber-500",
-    items: ["React", "Next.js", "Tailwind CSS", "Framer Motion"]
+    category: "Frontend UI",
+    textColor: "text-amber-400",
+    glowColor: "rgba(251, 191, 36, 0.15)",
+    accentColor: "#fbbf24",
+    items: [
+      { name: "React", angle: 45, radius: 160, depth: 25 },
+      { name: "Next.js", angle: 115, radius: 220, depth: 40 },
+      { name: "Tailwind CSS", angle: 185, radius: 150, depth: 20 },
+      { name: "Framer Motion", angle: 255, radius: 210, depth: 35 },
+      { name: "Zustand", angle: 325, radius: 140, depth: 15 }
+    ]
   }
 ];
 
-export default function Skills() {
-  const [activeIndex, setActiveIndex] = useState(0);
+const getIcon = (id: string, colorClass: string) => {
+  switch (id) {
+    case '01': return <Cpu className={`w-8 h-8 md:w-10 md:h-10 ${colorClass}`} />;
+    case '02': return <Code className={`w-8 h-8 md:w-10 md:h-10 ${colorClass}`} />;
+    case '03': return <Globe className={`w-8 h-8 md:w-10 md:h-10 ${colorClass}`} />;
+    case '04': return <Layers className={`w-8 h-8 md:w-10 md:h-10 ${colorClass}`} />;
+    default: return <Sparkles className={`w-8 h-8 md:w-10 md:h-10 ${colorClass}`} />;
+  }
+};
+
+// ── Graph Connection Line ──
+function GraphLine({ item, i, mx, my, multiplier }: any) {
+  const angRad = (item.angle * Math.PI) / 180;
+  const baseX = Math.cos(angRad) * item.radius * multiplier;
+  const baseY = Math.sin(angRad) * item.radius * multiplier;
+
+  const cx = useTransform(mx, [-1, 1], [-15, 15]);
+  const cy = useTransform(my, [-1, 1], [-15, 15]);
+
+  const nx = useTransform(mx, (val: number) => baseX + (val * item.depth * multiplier));
+  const ny = useTransform(my, (val: number) => baseY + (val * item.depth * multiplier));
 
   return (
-    <section id="skills" className="relative bg-[#0A0A0A] py-24 md:py-32 z-20 overflow-hidden min-h-screen flex items-center">
-      <div className="w-full max-w-[1400px] mx-auto px-6 sm:px-12 lg:px-16 relative z-10">
+    <>
+      <motion.line x1={cx} y1={cy} x2={nx} y2={ny} stroke="currentColor" strokeWidth={1} className="opacity-20" />
+      <motion.line 
+         x1={cx} y1={cy} x2={nx} y2={ny} 
+         stroke="currentColor" 
+         strokeWidth={2} 
+         strokeDasharray="4 16" 
+         initial={{ strokeDashoffset: 0 }}
+         animate={{ strokeDashoffset: 20 }}
+         transition={{ repeat: Infinity, duration: 1 + (i % 3) * 0.2, ease: "linear" }}
+         className="opacity-40" 
+      />
+    </>
+  );
+}
+
+// ── Graph Satellite Node ──
+function GraphNode({ item, i, mx, my, glow, multiplier }: any) {
+  const angRad = (item.angle * Math.PI) / 180;
+  const baseX = Math.cos(angRad) * item.radius * multiplier;
+  const baseY = Math.sin(angRad) * item.radius * multiplier;
+
+  const nx = useTransform(mx, (val: number) => baseX + (val * item.depth * multiplier));
+  const ny = useTransform(my, (val: number) => baseY + (val * item.depth * multiplier));
+
+  return (
+    <motion.div style={{ x: nx, y: ny }} className="absolute flex items-center justify-center -translate-x-1/2 -translate-y-1/2 z-10">
+      <motion.div
+         initial={{ opacity: 0, scale: 0 }}
+         animate={{ opacity: 1, scale: 1 }}
+         exit={{ opacity: 0, scale: 0 }}
+         transition={{ delay: i * 0.05, type: "spring", bounce: 0.4, duration: 0.6 }}
+         className="relative group cursor-pointer"
+      >
+        <motion.div
+           animate={{ y: [-3, 3, -3] }}
+           transition={{ duration: 3 + (i % 3), repeat: Infinity, ease: "easeInOut" }}
+           className="relative"
+        >
+           <div className="absolute inset-0 rounded-full blur-md opacity-0 group-hover:opacity-40 transition-opacity duration-300" style={{ backgroundColor: glow }} />
+           
+           <div className="flex items-center gap-2 px-3 md:px-4 py-1.5 md:py-2 bg-[#050505]/90 border border-white/10 rounded-full backdrop-blur-xl group-hover:border-white/30 transition-colors shadow-2xl">
+             <span className="w-1.5 h-1.5 rounded-full animate-pulse shadow-[0_0_8px_currentColor]" style={{ backgroundColor: glow, color: glow }} />
+             <span className="font-mono text-[9px] md:text-[11px] text-white/70 group-hover:text-white tracking-wider uppercase whitespace-nowrap">
+                {item.name}
+             </span>
+           </div>
+        </motion.div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+// ── Graph Central Core ──
+function CoreNode({ mx, my, group }: any) {
+  const cx = useTransform(mx, [-1, 1], [-15, 15]);
+  const cy = useTransform(my, [-1, 1], [-15, 15]);
+
+  return (
+    <motion.div style={{ x: cx, y: cy }} className="absolute flex items-center justify-center -translate-x-1/2 -translate-y-1/2 z-20">
+      <motion.div animate={{ y: [-4, 4, -4] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }} className="relative">
+        <div className="absolute inset-0 rounded-full blur-3xl opacity-40" style={{ backgroundColor: group.accentColor }} />
         
-        {/* Section Header */}
-        <BlurFade delay={0.1} offset={20}>
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 md:mb-24">
-            <div>
-              <div className="flex items-center gap-3 mb-6">
-                <div className="h-[1px] w-8 bg-zinc-700" />
-                <span className="font-mono text-[10px] tracking-[0.2em] text-zinc-500 uppercase">
-                  Capabilities & Stack
+        <div className="flex flex-col items-center justify-center w-20 h-20 md:w-28 md:h-28 bg-[#0A0A0A]/90 border border-white/20 rounded-full backdrop-blur-2xl shadow-[0_0_40px_rgba(0,0,0,0.5)]">
+           <div className="mb-1">{getIcon(group.id, group.textColor)}</div>
+           <span className="font-mono text-[8px] md:text-[10px] text-white/40 tracking-widest uppercase">System Core</span>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+// ── Complete Unified Network Layer ──
+function NetworkGraph({ group, mx, my, multiplier }: any) {
+  return (
+    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+      <svg width="2000" height="2000" viewBox="0 0 2000 2000" className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 overflow-visible z-0">
+        <g transform="translate(1000, 1000)" className={group.textColor}>
+           {group.items.map((item: any, i: number) => (
+             <GraphLine key={`${group.id}-line-${i}`} item={item} i={i} mx={mx} my={my} multiplier={multiplier} />
+           ))}
+        </g>
+      </svg>
+      
+      <div className="absolute top-1/2 left-1/2 w-0 h-0 z-10 pointer-events-auto origin-center">
+        {group.items.map((item: any, i: number) => (
+           <GraphNode key={`${group.id}-node-${i}`} item={item} i={i} mx={mx} my={my} glow={group.accentColor} multiplier={multiplier} />
+        ))}
+        <CoreNode mx={mx} my={my} group={group} />
+      </div>
+    </div>
+  );
+}
+
+// ── Main Layout View ──
+export default function Skills() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [radiusMultiplier, setRadiusMultiplier] = useState(1);
+  
+  const mx = useMotionValue(0);
+  const my = useMotionValue(0);
+  const smoothMx = useSpring(mx, { stiffness: 40, damping: 15 });
+  const smoothMy = useSpring(my, { stiffness: 40, damping: 15 });
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) setRadiusMultiplier(0.45);
+      else if (window.innerWidth < 1024) setRadiusMultiplier(0.7);
+      else setRadiusMultiplier(1);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+    const y = ((e.clientY - rect.top) / rect.height) * 2 - 1;
+    mx.set(x);
+    my.set(y);
+  };
+
+  const handleMouseLeave = () => {
+    mx.set(0);
+    my.set(0);
+  };
+
+  return (
+    <section id="skills" className="relative bg-[#050505] py-24 md:py-40 z-20 overflow-hidden min-h-screen flex items-center">
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none" />
+
+      <div className="w-full max-w-[1600px] mx-auto px-6 sm:px-12 lg:px-16 relative z-10">
+        <BlurFade delay={0.1} offset={30}>
+          <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-8 mb-20 md:mb-32">
+            <div className="flex flex-col gap-6">
+              <div className="flex items-center gap-4">
+                <span className="flex items-center justify-center w-8 h-8 rounded-full border border-white/10 bg-white/5">
+                  <Sparkles className="w-4 h-4 text-white/50" />
+                </span>
+                <span className="font-mono text-xs tracking-[0.2em] text-white/40 uppercase">
+                  Technical Arsenal
                 </span>
               </div>
-              <h2 className="text-[clamp(3rem,6vw,5.5rem)] font-semibold tracking-[-0.03em] leading-[0.9] text-[#FAFAFA]">
-                Built for <br />
-                <span className="text-zinc-600">performance.</span>
+              <h2 className="text-[clamp(3.5rem,7vw,7rem)] font-bold tracking-tighter leading-[0.85] text-white uppercase">
+                Systems & <br />
+                <span className="text-white/20 italic">Execution.</span>
               </h2>
             </div>
-            <p className="max-w-sm text-zinc-400 font-light leading-relaxed mb-2 md:mb-0">
-              I engineer autonomous agents and scalable web infrastructure, shifting seamlessly from logic to visual execution.
+            
+            <p className="max-w-md text-white/40 text-lg md:text-xl font-light leading-relaxed pb-2">
+              Transforming complex technical requirements into physical logic. 
+              Interactive agent graph—hover to track node flow.
             </p>
           </div>
         </BlurFade>
 
-        {/* Agency Interactive Split-Showcase Layout */}
-        <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 relative w-full items-start">
+        <div className="flex flex-col lg:flex-row gap-0 lg:gap-12 relative w-full items-stretch min-h-[650px] border border-white/[0.05] bg-black/20 rounded-3xl overflow-hidden backdrop-blur-sm shadow-2xl">
           
-          {/* LEFT: Accordion/Menu Column */}
-          <div className="w-full lg:w-1/2 flex flex-col border-t border-white/[0.05]">
+          {/* LEFT: Nav Stack */}
+          <div className="w-full lg:w-[40%] flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-white/[0.05] p-6 md:p-12 relative z-20 bg-[#0A0A0A]/50 backdrop-blur-2xl">
             {skillsData.map((group, index) => {
               const isActive = activeIndex === index;
               return (
-                <div 
+                <div
                   key={group.id}
+                  onClick={() => setActiveIndex(index)}
                   onMouseEnter={() => setActiveIndex(index)}
-                  className="group relative flex flex-col py-8 lg:py-12 border-b border-white/[0.05] cursor-pointer"
+                  className="group relative flex items-center justify-between py-6 md:py-8 border-b border-white/[0.02] last:border-0 cursor-pointer"
                 >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-6 md:gap-10">
-                      <span className={`font-mono text-sm transition-colors duration-500 ${isActive ? group.textColor : 'text-zinc-600'}`}>
-                        [{group.id}]
-                      </span>
-                      <h3 className={`text-4xl md:text-5xl xl:text-6xl font-medium tracking-tight transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${isActive ? 'text-[#FAFAFA] translate-x-4 md:translate-x-8' : 'text-zinc-600'}`}>
-                        {group.category}
-                      </h3>
-                    </div>
-
-                    {/* Arrow Indicator visible on hover/active */}
-                    <div className="hidden lg:block overflow-hidden relative w-12 h-12">
-                      <motion.div
-                        initial={false}
-                        animate={{ x: isActive ? 0 : -50, opacity: isActive ? 1 : 0 }}
-                        transition={{ duration: 0.5, ease: [0.16,1,0.3,1] }}
-                        className="absolute inset-0 flex items-center justify-center"
-                      >
-                        <ArrowRight className={`size-8 ${group.textColor}`} />
-                      </motion.div>
-                    </div>
+                  <div className="flex items-center gap-6 md:gap-8 z-10 w-full">
+                    <span className={`font-mono text-xs md:text-sm transition-all duration-500 ease-out ${isActive ? group.textColor : 'text-white/20 group-hover:text-white/40'}`}>
+                      {group.id}
+                    </span>
+                    <h3 className={`text-3xl md:text-5xl lg:text-5xl font-black uppercase tracking-tighter transition-all duration-700 ease-[0.16,1,0.3,1] w-full ${isActive ? 'text-white translate-x-4 md:translate-x-6' : 'text-white/20 group-hover:text-white/40'}`}>
+                      {group.category}
+                    </h3>
                   </div>
 
-                  {/* Mobile expansion (Stacks show inside the row on smaller screens) */}
-                  <AnimatePresence>
-                    {isActive && (
-                      <motion.div 
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.4, ease: [0.16,1,0.3,1] }}
-                        className="lg:hidden overflow-hidden"
-                      >
-                        <div className="flex flex-wrap gap-3 pt-8 pb-2">
-                          {group.items.map(item => (
-                            <span key={`${group.id}-mob-${item}`} className="px-5 py-2.5 rounded-full border border-white/10 bg-white/5 text-sm font-light text-zinc-200">
-                              {item}
-                            </span>
-                          ))}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                  <motion.div
+                    animate={{ width: isActive ? 40 : 0, opacity: isActive ? 1 : 0 }}
+                    className={`h-[2px] ${group.textColor.replace('text-', 'bg-')}`}
+                  />
                 </div>
-              )
+              );
             })}
           </div>
 
-          {/* RIGHT: Massive Desktop Visualizer */}
-          <div className="hidden lg:flex flex-col w-full lg:w-1/2 relative min-h-[500px] xl:min-h-[600px] justify-center items-start pl-8 xl:pl-16">
-            
-            {/* Dynamic Abstract Glow tied to Active Category */}
-            <div className="absolute inset-0 z-0 flex items-center justify-center opacity-[0.15] pointer-events-none overflow-visible">
-              <AnimatePresence mode="popLayout">
-                <motion.div 
-                  key={`bg-${activeIndex}`}
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 1.5 }}
-                  transition={{ duration: 0.8, ease: "easeOut" }}
-                  className={`w-[400px] h-[400px] rounded-full blur-[100px] ${skillsData[activeIndex].glowColor}`}
-                />
-              </AnimatePresence>
+          {/* RIGHT: Physics Graph Workspace */}
+          <div 
+            ref={containerRef}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            className="w-full lg:w-[60%] relative flex-1 min-h-[550px] overflow-hidden rounded-r-3xl bg-[#050505]"
+          >
+            {/* Soft Interactive Spotlight */}
+            <motion.div
+              className="absolute top-1/2 left-1/2 w-[600px] h-[600px] rounded-full mix-blend-screen pointer-events-none z-0"
+              style={{
+                x: useTransform(smoothMx, (v) => v * 150),
+                y: useTransform(smoothMy, (v) => v * 150),
+                translateX: "-50%",
+                translateY: "-50%",
+                background: `radial-gradient(circle, ${skillsData[activeIndex].glowColor} 0%, transparent 60%)`,
+              }}
+            />
+
+            {/* Radar / Grid System */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
+              <div className="absolute w-[150px] md:w-[250px] h-[150px] md:h-[250px] rounded-full border border-white/[0.03]" />
+              <div className="absolute w-[300px] md:w-[450px] h-[300px] md:h-[450px] rounded-full border border-white/[0.05] border-dashed" />
+              <div className="absolute w-[450px] md:w-[650px] h-[450px] md:h-[650px] rounded-full border border-white/[0.03]" />
+              
+              <div className="absolute top-0 bottom-0 left-1/2 w-px bg-white/[0.03]" />
+              <div className="absolute left-0 right-0 top-1/2 h-px bg-white/[0.03]" />
             </div>
 
-            {/* Giant Background Number Marker */}
-            <div className="absolute top-1/2 -translate-y-1/2 right-0 z-0 select-none pointer-events-none">
+            {/* UI Tech Corners */}
+            <div className="absolute top-6 left-6 w-3 h-3 md:w-4 md:h-4 border-l border-t border-white/20" />
+            <div className="absolute top-6 right-6 w-3 h-3 md:w-4 md:h-4 border-r border-t border-white/20" />
+            <div className="absolute bottom-6 left-6 w-3 h-3 md:w-4 md:h-4 border-l border-b border-white/20" />
+            <div className="absolute bottom-6 right-6 w-3 h-3 md:w-4 md:h-4 border-r border-b border-white/20" />
+
+            {/* Giant Abstract Number */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 select-none pointer-events-none">
               <AnimatePresence mode="popLayout">
                 <motion.div
-                  key={`num-${activeIndex}`}
-                  initial={{ opacity: 0, y: 100 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -100 }}
-                  transition={{ duration: 0.6, ease: [0.16,1,0.3,1] }}
-                  className="text-[20rem] xl:text-[28rem] font-bold leading-none text-white/[0.02] tracking-tighter"
+                  key={`bg-num-${activeIndex}`}
+                  initial={{ opacity: 0, scale: 0.5, filter: "blur(20px)" }}
+                  animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+                  exit={{ opacity: 0, scale: 1.5, filter: "blur(20px)" }}
+                  transition={{ duration: 0.8, ease: [0.16,1,0.3,1] }}
+                  className="text-[12rem] md:text-[25rem] font-black text-white/[0.015] tracking-tighter"
                 >
                   {skillsData[activeIndex].id}
                 </motion.div>
               </AnimatePresence>
             </div>
 
-            {/* Staggered Entering Badges */}
-            <div className="relative z-10 w-full">
+            {/* Live Interactive Node Network */}
+            <div className="relative w-full h-full flex items-center justify-center p-8 z-10">
               <AnimatePresence mode="wait">
-                <motion.div 
-                  key={`container-${activeIndex}`} 
-                  className="flex flex-wrap gap-4 xl:gap-6 items-start justify-start"
+                <motion.div
+                  key={`network-${activeIndex}`}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 1.05, filter: "blur(10px)" }}
+                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                  className="absolute inset-0 w-full h-full"
                 >
-                  {skillsData[activeIndex].items.map((item, i) => (
-                    <motion.div
-                      key={`badge-${activeIndex}-${item}`}
-                      initial={{ opacity: 0, scale: 0.8, y: 40 }}
-                      animate={{ opacity: 1, scale: 1, y: 0 }}
-                      exit={{ opacity: 0, scale: 0.8, y: -20 }}
-                      transition={{ 
-                        delay: i * 0.04, 
-                        duration: 0.5, 
-                        ease: [0.16,1,0.3,1] 
-                      }}
-                      className="px-6 py-3 xl:px-8 xl:py-4 rounded-full border border-white/[0.08] bg-black/40 backdrop-blur-xl text-xl xl:text-3xl font-light text-[#FAFAFA] shadow-2xl"
-                    >
-                      {item}
-                    </motion.div>
-                  ))}
+                  <NetworkGraph group={skillsData[activeIndex]} mx={smoothMx} my={smoothMy} multiplier={radiusMultiplier} />
                 </motion.div>
               </AnimatePresence>
             </div>
 
           </div>
-
         </div>
-
       </div>
     </section>
   );
