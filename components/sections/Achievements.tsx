@@ -1,9 +1,22 @@
 "use client";
 
-import React, { useRef, useState } from "react";
-import { motion, useMotionTemplate, useMotionValue, useSpring } from "framer-motion";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Award, Trophy, Star, Shield, ArrowUpRight } from "lucide-react";
 
-const ACHIEVEMENTS = [
+// Types
+type Achievement = {
+  id: string;
+  year: string;
+  title: string;
+  subtitle: string;
+  role: string;
+  desc: string;
+  glowColor: string;
+  icon: React.ReactNode;
+};
+
+const ACHIEVEMENTS: Achievement[] = [
   {
     id: "01",
     year: "2025",
@@ -11,7 +24,8 @@ const ACHIEVEMENTS = [
     subtitle: "Challenge",
     role: "Global Winner",
     desc: "Top 1% Global. Built an AI-driven orbital mechanics predictor.",
-    glow: "rgba(59, 130, 246, 0.4)", // Blue
+    glowColor: "rgba(59, 130, 246, 0.4)", // Blue
+    icon: <Star className="w-5 h-5 md:w-6 md:h-6 text-white" strokeWidth={1.5} />,
   },
   {
     id: "02",
@@ -20,7 +34,8 @@ const ACHIEVEMENTS = [
     subtitle: "NIT Delhi",
     role: "Finalist",
     desc: "Top 1% of 10,000+ participants. Engineered a distributed system.",
-    glow: "rgba(16, 185, 129, 0.4)", // Emerald
+    glowColor: "rgba(16, 185, 129, 0.4)", // Emerald
+    icon: <Trophy className="w-5 h-5 md:w-6 md:h-6 text-white" strokeWidth={1.5} />,
   },
   {
     id: "03",
@@ -29,7 +44,8 @@ const ACHIEVEMENTS = [
     subtitle: "Finance Tech",
     role: "Finalist",
     desc: "Developed an autonomous trading agent protocol.",
-    glow: "rgba(249, 115, 22, 0.4)", // Orange
+    glowColor: "rgba(249, 115, 22, 0.4)", // Orange
+    icon: <Shield className="w-5 h-5 md:w-6 md:h-6 text-white" strokeWidth={1.5} />,
   },
   {
     id: "04",
@@ -38,155 +54,197 @@ const ACHIEVEMENTS = [
     subtitle: "Hackathon",
     role: "Finalist",
     desc: "Top 5% nationwide. Created predictive healthcare resource allocator.",
-    glow: "rgba(139, 92, 246, 0.4)", // Purple
+    glowColor: "rgba(168, 85, 247, 0.4)", // Purple
+    icon: <Award className="w-5 h-5 md:w-6 md:h-6 text-white" strokeWidth={1.5} />,
   },
 ];
 
-const springConfig = { damping: 20, stiffness: 100, mass: 0.5 };
-
-const AchievementRow = ({ achievement, isHovered, onHover, onLeave }: any) => {
-  const rowRef = useRef<HTMLDivElement>(null);
-  
-  // Mouse position for the radial gradient spotlight
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  // Smooth the mouse movement
-  const springX = useSpring(mouseX, springConfig);
-  const springY = useSpring(mouseY, springConfig);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!rowRef.current) return;
-    const rect = rowRef.current.getBoundingClientRect();
-    mouseX.set(e.clientX - rect.left);
-    mouseY.set(e.clientY - rect.top);
-  };
-
-  const background = useMotionTemplate`radial-gradient(circle 350px at ${springX}px ${springY}px, ${achievement.glow}, transparent 80%)`;
-
-  return (
-    <motion.div
-      ref={rowRef}
-      onMouseEnter={onHover}
-      onMouseLeave={onLeave}
-      onMouseMove={handleMouseMove}
-      className="relative flex flex-col md:flex-row items-start md:items-center justify-between py-10 md:py-16 px-6 md:px-12 border-b border-white/[0.05] group overflow-hidden cursor-crosshair"
-      initial={{ backgroundColor: "rgba(255, 255, 255, 0)" }}
-      whileHover={{ backgroundColor: "rgba(255, 255, 255, 0.02)" }}
-      transition={{ duration: 0.3 }}
-    >
-      {/* Animated Spotlight Background */}
-      <motion.div
-        className="pointer-events-none absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-        style={{ background }}
-      />
-      
-      {/* Dynamic scanline overlay when hovered */}
-      <div className="absolute inset-0 pointer-events-none mix-blend-overlay opacity-0 group-hover:opacity-30 transition-opacity duration-700 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] z-0"></div>
-
-      <div className="relative z-10 flex flex-col md:flex-row w-full items-start md:items-center justify-between gap-8 md:gap-0">
-        
-        {/* Left Col: ID & Year */}
-        <div className="flex flex-row md:flex-col items-baseline md:items-start gap-4 md:gap-1 text-white/40 font-mono text-sm md:text-base w-full md:w-[15%]">
-          <motion.span 
-            className="block"
-            animate={{ color: isHovered ? "rgba(255, 255, 255, 0.8)" : "rgba(255, 255, 255, 0.4)" }}
-          >
-            {achievement.id}
-          </motion.span>
-          <motion.span 
-            className="block"
-            animate={{ color: isHovered ? "rgba(255, 255, 255, 0.6)" : "rgba(255, 255, 255, 0.2)" }}
-          >
-            // {achievement.year}
-          </motion.span>
-        </div>
-
-        {/* Center Col: Massive Title */}
-        <div className="flex flex-col w-full md:w-[50%]">
-          <motion.h3 
-            className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter text-white/50 uppercase leading-[0.85]"
-            animate={{ 
-              x: isHovered ? 10 : 0, 
-              color: isHovered ? "rgba(255, 255, 255, 1)" : "rgba(255, 255, 255, 0.5)",
-              textShadow: isHovered ? `0 0 40px ${achievement.glow}` : "0 0 0px transparent"
-            }}
-            transition={{ type: "spring", stiffness: 100, damping: 20 }}
-          >
-            {achievement.title}
-          </motion.h3>
-          <motion.h3 
-            className="text-3xl md:text-5xl lg:text-5xl font-light tracking-tight text-white/30 uppercase mt-[-4px]"
-            animate={{ 
-              x: isHovered ? 15 : 0,
-              color: isHovered ? "rgba(255, 255, 255, 0.7)" : "rgba(255, 255, 255, 0.3)" 
-            }}
-            transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.05 }}
-          >
-            {achievement.subtitle}
-          </motion.h3>
-        </div>
-
-        {/* Right Col: Role & Desc */}
-        <div className="flex flex-col items-start md:items-end text-left md:text-right w-full md:w-[35%]">
-          <motion.p 
-            className="text-lg md:text-xl font-medium text-white/80 border border-white/10 px-4 py-1 rounded-full bg-white/5 backdrop-blur-sm"
-            animate={{ 
-              y: isHovered ? 0 : 5, 
-              opacity: isHovered ? 1 : 0.7,
-              borderColor: isHovered ? "rgba(255, 255, 255, 0.3)" : "rgba(255, 255, 255, 0.1)"
-            }}
-            transition={{ duration: 0.3 }}
-          >
-            {achievement.role}
-          </motion.p>
-          <motion.p 
-            className="mt-4 text-sm md:text-base text-white/40 max-w-[280px]"
-            animate={{ 
-              opacity: isHovered ? 1 : 0.4,
-              y: isHovered ? 0 : 5
-            }}
-            transition={{ duration: 0.3, delay: 0.1 }}
-          >
-            {achievement.desc}
-          </motion.p>
-        </div>
-
-      </div>
-    </motion.div>
-  );
-};
-
 export default function Achievements() {
-  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+  // First item open by default for immediate impact
+  const [activeIndex, setActiveIndex] = useState<number>(0);
 
   return (
-    <section id="achievements" className="relative w-full py-40 bg-[#0a0a0a] overflow-hidden">
-      {/* Abstract Background Elements */}
-      <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+    <section id="achievements" className="relative w-full bg-[#050505] py-24 md:py-40 overflow-hidden flex justify-center z-10 border-t border-white/[0.02]">
       
-      <div className="max-w-[1400px] mx-auto px-6 md:px-8 mb-20 flex flex-col md:flex-row items-end justify-between gap-6">
-        <div>
-          <h2 className="text-5xl md:text-8xl font-bold tracking-tighter text-white">
-            HONORS
-          </h2>
-          <p className="text-white/40 text-lg md:text-2xl mt-2 tracking-tight">
-            Recognition from global hackathons.
-          </p>
-        </div>
-        <div className="hidden md:block w-32 h-[1px] bg-white/20 mb-4" />
-      </div>
+      {/* Background Micro-Grid */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_60%,transparent_100%)] pointer-events-none" />
 
-      <div className="w-full border-t border-white/[0.05] flex flex-col">
-        {ACHIEVEMENTS.map((achievement, index) => (
-          <AchievementRow
-            key={achievement.id}
-            achievement={achievement}
-            isHovered={hoveredIdx === index}
-            onHover={() => setHoveredIdx(index)}
-            onLeave={() => setHoveredIdx(null)}
-          />
-        ))}
+      <div className="w-full max-w-[1400px] px-4 md:px-8 lg:px-12 relative z-10 flex flex-col">
+        
+        {/* Section Header */}
+        <div className="flex flex-col mb-16 md:mb-24">
+          <div className="flex items-center gap-4 mb-4 md:mb-6">
+            <div className="h-[1px] w-8 md:w-12 bg-blue-500/50" />
+            <p className="font-mono text-[10px] md:text-xs uppercase tracking-[0.3em] text-blue-400">
+              Verified Honors
+            </p>
+          </div>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 md:gap-0">
+             <h2 className="text-4xl md:text-7xl lg:text-[7rem] leading-[0.85] font-medium tracking-[-0.02em] text-[#FAFAFA] uppercase">
+                Global <br />
+                <span className="font-serif italic font-light lowercase text-white/50 tracking-normal">recognition.</span>
+             </h2>
+             <p className="text-white/40 text-sm md:text-base max-w-[280px] leading-relaxed font-light pb-2">
+                A selection of architectural deployments and hackathon outcomes pushed to the absolute limit.
+             </p>
+          </div>
+        </div>
+
+        {/* Dynamic Accordion List */}
+        <div className="flex flex-col w-full border-t border-white/10">
+          {ACHIEVEMENTS.map((item, i) => {
+            const isActive = activeIndex === i;
+
+            return (
+              <motion.div
+                key={item.id}
+                layout="position"
+                onClick={() => setActiveIndex(i)}
+                onMouseEnter={() => setActiveIndex(i)}
+                className={`group relative flex flex-col border-b border-white/10 cursor-pointer overflow-hidden transition-colors duration-700 ease-[0.16,1,0.3,1] ${
+                  isActive ? "bg-white/[0.03]" : "hover:bg-white/[0.01]"
+                }`}
+              >
+                
+                {/* ── ACCORDION HEADER (Always visible) ── */}
+                <motion.div layout="position" className="w-full flex items-center justify-between py-6 md:py-10 px-4 md:px-8">
+                  {/* Left: ID + Title */}
+                  <div className="flex items-center gap-6 md:gap-12 w-[70%]">
+                    <span className={`font-mono text-xs md:text-sm transition-colors duration-500 hidden sm:block ${isActive ? "text-blue-400" : "text-white/20"}`}>
+                      {item.id}
+                    </span>
+                    
+                    <motion.div layout="position" className="flex flex-col md:flex-row md:items-center gap-1 md:gap-4 truncate">
+                      <h3 className={`uppercase font-medium tracking-tight transition-all duration-700 ease-[0.16,1,0.3,1] ${
+                        isActive ? "text-2xl md:text-5xl lg:text-7xl text-[#FAFAFA]" : "text-xl md:text-3xl lg:text-5xl text-[#FAFAFA]/40 group-hover:text-[#FAFAFA]/60"
+                      }`}>
+                        {item.title}
+                      </h3>
+                      <span className={`font-serif italic lowercase tracking-wide transition-all duration-700 ease-[0.16,1,0.3,1] ${
+                        isActive ? "text-xl md:text-4xl lg:text-6xl text-blue-400/80" : "text-lg md:text-2xl lg:text-4xl text-[#FAFAFA]/20 group-hover:text-[#FAFAFA]/40"
+                      }`}>
+                        {item.subtitle}
+                      </span>
+                    </motion.div>
+                  </div>
+
+                  {/* Right: Year / Role Swapper */}
+                  <div className="w-[30%] flex justify-end items-center">
+                    <div className="relative h-6 md:h-8 w-full flex justify-end items-center overflow-hidden">
+                      <AnimatePresence mode="popLayout">
+                        {isActive ? (
+                          <motion.span
+                            key="role"
+                            initial={{ y: 20, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            exit={{ y: -20, opacity: 0 }}
+                            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                            className="font-mono text-xs md:text-sm uppercase tracking-widest text-[#FAFAFA]"
+                          >
+                            {item.role}
+                          </motion.span>
+                        ) : (
+                          <motion.span
+                            key="year"
+                            initial={{ y: 20, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            exit={{ y: -20, opacity: 0 }}
+                            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                            className="font-mono text-xs md:text-sm uppercase tracking-widest text-white/20 group-hover:text-white/40"
+                          >
+                            {item.year}
+                          </motion.span>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* ── ACCORDION BODY (Cinematic Plaque Reveal) ── */}
+                <AnimatePresence initial={false}>
+                  {isActive && (
+                    <motion.div
+                      key={`body-${item.id}`}
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                      className="origin-top"
+                    >
+                      <div className="px-4 md:px-8 pb-8 md:pb-12 pt-2 md:pt-4">
+                        
+                        {/* Cinematic Inner Card */}
+                        <div className="relative w-full h-[220px] md:h-[320px] rounded-xl overflow-hidden border border-white/10 bg-[#0A0A0A] shadow-[0_0_50px_rgba(0,0,0,0.5)]">
+                          
+                          {/* Animated Blur Background Layer */}
+                          <div className="absolute inset-0 z-0">
+                            <motion.div
+                              animate={{ 
+                                scale: [1, 1.2, 1], 
+                                rotate: [0, 45, 0],
+                                x: ["-10%", "10%", "-10%"],
+                                y: ["-10%", "10%", "-10%"] 
+                              }}
+                              transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+                              className="absolute top-[-50%] left-[-20%] w-[150%] h-[200%] mix-blend-screen blur-[100px]"
+                              style={{ 
+                                background: `radial-gradient(circle 300px at center, ${item.glowColor}, transparent 80%)`,
+                                opacity: 0.7 
+                              }}
+                            />
+                            {/* Overlay noise pattern */}
+                            <div className="absolute inset-0 mix-blend-overlay opacity-30 bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+                            {/* Scanning line */}
+                            <motion.div
+                              animate={{ top: ["-10%", "110%"] }}
+                              transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                              className="absolute left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent"
+                            />
+                          </div>
+
+                          {/* Data Overlay */}
+                          <div className="relative z-10 p-6 md:p-10 flex flex-col justify-between h-full">
+                            
+                            {/* Top row of internal card */}
+                            <div className="flex justify-between items-start">
+                              <div className="flex items-center gap-3 backdrop-blur-md bg-black/20 border border-white/10 px-4 py-2 rounded-full">
+                                <span className="flex h-2 w-2 rounded-full bg-emerald-400 shrink-0 shadow-[0_0_10px_rgba(16,185,129,0.8)]" />
+                                <span className="text-[10px] md:text-xs uppercase font-mono tracking-[0.2em] text-[#FAFAFA]/80">
+                                  {item.year} // Verified Selection
+                                </span>
+                              </div>
+                              <div className="w-10 h-10 md:w-14 md:h-14 rounded-full border border-white/20 flex items-center justify-center bg-black/40 backdrop-blur-xl">
+                                {item.icon}
+                              </div>
+                            </div>
+
+                            {/* Bottom row of internal card */}
+                            <div className="flex items-end justify-between gap-6">
+                              <p className="text-base md:text-2xl font-light text-[#FAFAFA] max-w-2xl leading-relaxed tracking-wide drop-shadow-md">
+                                {item.desc}
+                              </p>
+                              
+                              <motion.div 
+                                whileHover={{ scale: 1.1, rotate: 45 }}
+                                className="hidden md:flex shrink-0 w-12 h-12 rounded-full bg-white text-black items-center justify-center cursor-pointer transition-transform shadow-[0_0_30px_rgba(255,255,255,0.2)]"
+                              >
+                                <ArrowUpRight className="w-5 h-5" strokeWidth={2} />
+                              </motion.div>
+                            </div>
+                              
+                          </div>
+                        </div>
+
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+              </motion.div>
+            );
+          })}
+        </div>
+
       </div>
     </section>
   );
