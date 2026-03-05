@@ -10,7 +10,7 @@ const WORK_LIST = [
     role: "Fullstack",
     year: "2024",
     client: "Open Source",
-    link: "https://mcphub.com",
+    link: "https://github.com/namanxdev/mcphub",
     metric: "15+ PRE-CONFIGURED SERVERS"
   },
   {

@@ -43,7 +43,7 @@ export default function Contact() {
     { name: "GITHUB", href: "https://github.com", icon: Github },
     { name: "LINKEDIN", href: "https://linkedin.com", icon: Linkedin },
     { name: "X (TWITTER)", href: "https://twitter.com", icon: Twitter },
-    { name: "RESUME", href: "/resume.pdf", icon: FileText },
+    { name: "RESUME", href: "https://drive.google.com/file/d/1g7Yrref0xSS-6vMBJTff0Kx4mxP1o_jp/view?usp=sharing", icon: FileText },
   ];
 
   return (
