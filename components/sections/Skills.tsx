@@ -238,7 +238,7 @@ export default function Skills() {
                   Technical Arsenal
                 </span>
               </div>
-              <h2 className="text-[clamp(3.5rem,7vw,7rem)] font-bold tracking-tighter leading-[0.85] text-white uppercase">
+              <h2 className="text-[clamp(2.5rem,8vw,7rem)] font-bold tracking-tighter leading-[0.85] text-white uppercase">
                 Systems & <br />
                 <span className="text-white/20 italic">Execution.</span>
               </h2>
@@ -251,10 +251,10 @@ export default function Skills() {
           </div>
         </BlurFade>
 
-        <div className="flex flex-col lg:flex-row gap-0 lg:gap-12 relative w-full items-stretch min-h-[650px] border border-white/[0.05] bg-black/20 rounded-3xl overflow-hidden backdrop-blur-sm shadow-2xl">
+        <div className="flex flex-col-reverse lg:flex-row gap-0 lg:gap-12 relative w-full items-stretch lg:min-h-[650px] border border-white/[0.05] bg-black/20 rounded-3xl overflow-hidden backdrop-blur-sm shadow-2xl">
           
           {/* LEFT: Nav Stack */}
-          <div className="w-full lg:w-[40%] flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-white/[0.05] p-6 md:p-12 relative z-20 bg-[#0A0A0A]/50 backdrop-blur-2xl">
+          <div className="w-full lg:w-[40%] flex flex-row overflow-x-auto lg:overflow-x-visible lg:flex-col justify-start lg:justify-center border-t lg:border-t-0 lg:border-r border-white/[0.05] p-0 lg:p-12 relative z-20 bg-[#0A0A0A]/50 backdrop-blur-2xl no-scrollbar">
             {skillsData.map((group, index) => {
               const isActive = activeIndex === index;
               return (
@@ -262,20 +262,26 @@ export default function Skills() {
                   key={group.id}
                   onClick={() => setActiveIndex(index)}
                   onMouseEnter={() => setActiveIndex(index)}
-                  className="group relative flex items-center justify-between py-6 md:py-8 border-b border-white/[0.02] last:border-0 cursor-pointer"
+                  className="group relative flex items-center justify-center lg:justify-between py-4 px-6 lg:py-8 border-r lg:border-r-0 lg:border-b border-white/[0.02] last:border-0 cursor-pointer shrink-0"
                 >
-                  <div className="flex items-center gap-6 md:gap-8 z-10 w-full">
-                    <span className={`font-mono text-xs md:text-sm transition-all duration-500 ease-out ${isActive ? group.textColor : 'text-white/20 group-hover:text-white/40'}`}>
+                  <div className="flex flex-col lg:flex-row items-center lg:items-center gap-2 lg:gap-8 z-10 w-full text-center lg:text-left">
+                    <span className={`font-mono text-[10px] md:text-xs lg:text-sm transition-all duration-500 ease-out ${isActive ? group.textColor : 'text-white/20 group-hover:text-white/40'}`}>
                       {group.id}
                     </span>
-                    <h3 className={`text-3xl md:text-5xl lg:text-5xl font-black uppercase tracking-tighter transition-all duration-700 ease-[0.16,1,0.3,1] w-full ${isActive ? 'text-white translate-x-4 md:translate-x-6' : 'text-white/20 group-hover:text-white/40'}`}>
+                    <h3 className={`text-sm md:text-base lg:text-5xl font-black uppercase tracking-tighter transition-all duration-700 ease-[0.16,1,0.3,1] w-full ${isActive ? 'text-white lg:translate-x-6' : 'text-white/20 group-hover:text-white/40'}`}>
                       {group.category}
                     </h3>
                   </div>
 
                   <motion.div
+                    animate={{ width: isActive ? "100%" : 0, opacity: isActive ? 1 : 0 }}
+                    className={`absolute bottom-0 left-0 h-[2px] lg:relative lg:bottom-auto lg:left-auto lg:w-0 lg:h-[2px] ${group.textColor.replace('text-', 'bg-')}`}
+                  />
+                  
+                  {/* Desktop active indicator line */}
+                  <motion.div
                     animate={{ width: isActive ? 40 : 0, opacity: isActive ? 1 : 0 }}
-                    className={`h-[2px] ${group.textColor.replace('text-', 'bg-')}`}
+                    className={`hidden lg:block h-[2px] ${group.textColor.replace('text-', 'bg-')}`}
                   />
                 </div>
               );
@@ -287,7 +293,7 @@ export default function Skills() {
             ref={containerRef}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            className="w-full lg:w-[60%] relative flex-1 min-h-[550px] overflow-hidden rounded-r-3xl bg-[#050505]"
+            className="w-full lg:w-[60%] relative flex-1 min-h-[400px] sm:min-h-[550px] overflow-hidden lg:rounded-r-3xl bg-[#050505]"
           >
             {/* Soft Interactive Spotlight */}
             <motion.div
@@ -334,7 +340,7 @@ export default function Skills() {
             </div>
 
             {/* Live Interactive Node Network */}
-            <div className="relative w-full h-full flex items-center justify-center p-8 z-10">
+            <div className="absolute inset-0 z-10 pointer-events-none">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={`network-${activeIndex}`}

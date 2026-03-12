@@ -40,9 +40,9 @@ export default function Contact() {
   };
 
   const SOCIAL_LINKS = [
-    { name: "GITHUB", href: "https://github.com", icon: Github },
-    { name: "LINKEDIN", href: "https://linkedin.com", icon: Linkedin },
-    { name: "X (TWITTER)", href: "https://twitter.com", icon: Twitter },
+    { name: "GITHUB", href: "https://github.com/namanxdev", icon: Github },
+    { name: "LINKEDIN", href: "https://www.linkedin.com/in/naman411/", icon: Linkedin },
+    { name: "X (TWITTER)", href: "https://x.com/Naman_411", icon: Twitter },
     { name: "RESUME", href: "https://drive.google.com/file/d/1g7Yrref0xSS-6vMBJTff0Kx4mxP1o_jp/view?usp=sharing", icon: FileText },
   ];
 
@@ -65,7 +65,7 @@ export default function Contact() {
             <h2 className="text-white/50 text-xl md:text-2xl font-medium tracking-wide uppercase">
               // What&apos;s next?
             </h2>
-            <h1 className="text-5xl md:text-8xl font-bold tracking-tighter text-white leading-[0.9]">
+            <h1 className="text-[clamp(3rem,8vw,6rem)] font-bold tracking-tighter text-white leading-[0.9]">
               LET&apos;S BUILD <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-emerald-400">
                 THE FUTURE.

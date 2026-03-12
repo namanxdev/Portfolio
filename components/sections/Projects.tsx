@@ -79,7 +79,7 @@ export default function Projects() {
               </span>
             </div>
             
-            <h2 className="text-[clamp(3.5rem,8vw,8rem)] font-medium leading-[0.9] tracking-[-0.04em]">
+            <h2 className="text-[clamp(2.5rem,10vw,8rem)] font-medium leading-[0.9] tracking-[-0.04em]">
               Agent <br />
               <span className="text-[#FAFAFA]/30 italic">Infrastructure.</span>
             </h2>
@@ -102,7 +102,7 @@ export default function Projects() {
                 <span className="font-mono text-[10px] text-[#FAFAFA]/40 tracking-widest uppercase mb-2 block md:hidden">
                   {work.metric}
                 </span>
-                <span className="text-[clamp(2.5rem,6vw,6rem)] font-medium tracking-tight group-hover:translate-x-4 md:group-hover:translate-x-12 transition-transform duration-700 ease-[cubic-bezier(0.76,0,0.24,1)]">
+                <span className="text-[clamp(2rem,8vw,6rem)] font-medium tracking-tight group-hover:translate-x-4 md:group-hover:translate-x-12 transition-transform duration-700 ease-[cubic-bezier(0.76,0,0.24,1)]">
                   {work.title}
                 </span>
               </div>

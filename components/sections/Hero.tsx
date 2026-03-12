@@ -225,7 +225,7 @@ export default function Hero() {
           <div className="overflow-hidden pb-2 md:pb-4 w-full">
             <motion.h1 
               initial={{ y: "100%" }} animate={{ y: "0%" }} transition={{ duration: 1.2, ease: [0.76, 0, 0.24, 1], delay: INIT_DELAY + 0.1 }}
-              style={{ fontSize: "clamp(3.5rem, 11vw, 11rem)", lineHeight: 0.85 }}
+              style={{ fontSize: "clamp(2rem, 10vw, 11rem)", lineHeight: 0.85 }}
               className="font-medium tracking-[-0.04em] text-[#FAFAFA] uppercase"
             >
               ARCHITECTING
@@ -235,7 +235,7 @@ export default function Hero() {
           <div className="overflow-hidden pb-2 md:pb-6 w-full flex items-center justify-center gap-4 md:gap-8">
             <motion.h1 
               initial={{ y: "100%" }} animate={{ y: "0%" }} transition={{ duration: 1.2, ease: [0.76, 0, 0.24, 1], delay: INIT_DELAY + 0.2 }}
-              style={{ fontSize: "clamp(3.5rem, 11vw, 11rem)", lineHeight: 0.85 }}
+              style={{ fontSize: "clamp(2.5rem, 11vw, 11rem)", lineHeight: 0.85 }}
               className="font-serif italic font-light tracking-tight normal-case text-blue-400 drop-shadow-[0_0_40px_rgba(59,130,246,0.2)]"
             >
               intelligent
@@ -245,7 +245,7 @@ export default function Hero() {
           <div className="overflow-hidden pb-2 md:pb-4 w-full">
             <motion.h1 
               initial={{ y: "100%" }} animate={{ y: "0%" }} transition={{ duration: 1.2, ease: [0.76, 0, 0.24, 1], delay: INIT_DELAY + 0.3 }}
-              style={{ fontSize: "clamp(3.5rem, 11vw, 11rem)", lineHeight: 0.85 }}
+              style={{ fontSize: "clamp(2.5rem, 11vw, 11rem)", lineHeight: 0.85 }}
               className="font-medium tracking-[-0.04em] text-[#FAFAFA] uppercase"
             >
               SYSTEMS.

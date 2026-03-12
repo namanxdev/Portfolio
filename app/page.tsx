@@ -3,6 +3,7 @@ import Projects from "@/components/sections/Projects";
 import Experience from "@/components/sections/Experience";
 import Skills from "@/components/sections/Skills";
 import Achievements from "@/components/sections/Achievements";
+import { Blog } from "@/components/sections/Blog";
 import Contact from "@/components/sections/Contact";
 import { SectionWrapper } from "@/components/SectionWrapper";
 
@@ -24,6 +25,9 @@ export default function Home() {
 
         {/* Achievements Section */}
         <Achievements />
+
+        {/* Blog Section */}
+        <Blog />
 
         {/* Contact Section */}
         <Contact />

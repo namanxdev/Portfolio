@@ -52,7 +52,7 @@ export default function Experience() {
                   Career
                 </span>
               </div>
-              <h2 className="text-[clamp(3rem,6vw,5.5rem)] font-semibold tracking-[-0.03em] leading-[0.9] text-[#FAFAFA]">
+              <h2 className="text-[clamp(2.5rem,8vw,5.5rem)] font-semibold tracking-[-0.03em] leading-[0.9] text-[#FAFAFA]">
                 Places I've <br />
                 <span className="text-zinc-600">worked.</span>
               </h2>
