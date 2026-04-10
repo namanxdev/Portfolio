@@ -1,159 +1,240 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform, useSpring, useMotionValue } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import Image from "next/image";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { BlurFade } from "@/components/magicui/blur-fade";
+import { ContainerScroll } from "@/components/ui/container-scroll-animation";
+import { Badge } from "@/components/ui/badge";
 
-const WORK_LIST = [
+const FEATURED_PROJECT = {
+  title: "ReasonFlow",
+  description:
+    "Autonomous inbox AI agent that classifies emails, retrieves context, and drafts responses with human-in-the-loop fallback when confidence drops.",
+  metric: "94% confidence / sub-second retrieval",
+  image: "/images/ReasonFlow_LandingPage.png",
+  tags: ["LangGraph", "Gemini", "FastAPI", "pgvector"],
+  href: "https://github.com/namanxdev",
+};
+
+const PROJECTS = [
   {
     title: "MCPHub",
-    role: "Fullstack",
-    year: "2024",
-    client: "Open Source",
-    link: "https://github.com/namanxdev/mcphub",
-    metric: "15+ PRE-CONFIGURED SERVERS",
-    image: "/images/MCPHUB_landingPage.png"
-  },
-  {
-    title: "ReasonFlow",
-    role: "AI/Backend",
-    year: "2024",
-    client: "Personal",
-    link: "https://github.com/namanxdev",
-    metric: "800ms RETRIEVAL",
-    image: "/images/ReasonFlow_LandingPage.png"
+    category: "Developer Tooling",
+    description:
+      "Postman for MCP servers. Test, debug, and discover MCP servers in the browser without building custom local harnesses first.",
+    metric: "15+ pre-configured servers",
+    status: "In development",
+    image: "/images/MCPHUB_landingPage.png",
+    tags: ["Next.js", "Supabase", "MCP SDK", "Tailwind"],
+    href: "https://github.com/namanxdev/mcphub",
   },
   {
     title: "AgentMesh",
-    role: "Architecture",
-    year: "2024",
-    client: "In Development",
-    link: "https://github.com/namanxdev",
-    metric: "REAL-TIME WEBSOCKETS",
-    image: "/images/AgentMesh_landingPage.png"
+    category: "Mission Control",
+    description:
+      "MCP-native multi-agent orchestrator with a real-time dashboard for monitoring coordination, execution state, and agent communication.",
+    metric: "3 agent templates / live orchestration",
+    status: "Coming soon",
+    image: "/images/AgentMesh_landingPage.png",
+    tags: ["LangGraph", "FastAPI", "WebSocket", "React"],
+    href: "https://github.com/namanxdev",
   },
 ];
 
 export default function Projects() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
-
-  // Mouse coordinate tracking
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  // Spring configured for buttery smooth trailing
-  const springConfig = { damping: 25, stiffness: 120, mass: 0.5 };
-  const smoothX = useSpring(mouseX, springConfig);
-  const smoothY = useSpring(mouseY, springConfig);
-
-  useEffect(() => {
-    const handlePointerMove = (e: MouseEvent) => {
-      const { clientX, clientY } = e;
-      // Center the 400x300 floating image to the cursor
-      mouseX.set(clientX - 200);
-      mouseY.set(clientY - 150);
-    };
-    
-    window.addEventListener("mousemove", handlePointerMove);
-    return () => window.removeEventListener("mousemove", handlePointerMove);
-  }, [mouseX, mouseY]);
-
   return (
-    <section 
-      id="projects" 
-      ref={containerRef}
-      className="relative w-full overflow-hidden bg-[#050505] text-[#FAFAFA] py-32 sm:py-48"
+    <section
+      id="projects"
+      className="relative overflow-hidden bg-[#030303] px-6 py-24 lg:px-8"
     >
-      <div className="max-w-[1600px] w-full mx-auto px-6 sm:px-12 relative z-10">
-        
-        {/* Header */}
-        <div className="mb-20 sm:mb-32">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] as const }}
-            className="flex flex-col gap-6"
-          >
-            <div className="flex items-center gap-4">
-              <div className="h-[1px] w-12 bg-[#FAFAFA]/20" />
-              <span className="font-mono text-[10px] md:text-xs tracking-[0.3em] text-[#FAFAFA]/50 uppercase">
-                Selected Works
-              </span>
-            </div>
-            
-            <h2 className="text-[clamp(2.5rem,10vw,8rem)] font-medium leading-[0.9] tracking-[-0.04em]">
-              Agent <br />
-              <span className="text-[#FAFAFA]/30 italic">Infrastructure.</span>
-            </h2>
-          </motion.div>
-        </div>
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/12 to-transparent" />
 
-        {/* Project List */}
-        <div className="flex flex-col border-t border-[#FAFAFA]/10 relative z-20">
-          {WORK_LIST.map((work, idx) => (
-            <a
-              href={work.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              key={idx}
-              onMouseEnter={() => setHoveredIdx(idx)}
-              onMouseLeave={() => setHoveredIdx(null)}
-              className="group relative flex flex-col md:flex-row md:items-center justify-between py-10 md:py-16 border-b border-[#FAFAFA]/10 transition-colors duration-500 hover:bg-[#111111]/50 cursor-pointer overflow-hidden"
-            >
-              <div className="flex flex-col gap-2 relative z-10">
-                <span className="font-mono text-[10px] text-[#FAFAFA]/40 tracking-widest uppercase mb-2 block md:hidden">
-                  {work.metric}
-                </span>
-                <span className="text-[clamp(2rem,8vw,6rem)] font-medium tracking-tight group-hover:translate-x-4 md:group-hover:translate-x-12 transition-transform duration-700 ease-[cubic-bezier(0.76,0,0.24,1)]">
-                  {work.title}
-                </span>
-              </div>
-              
-              <div className="flex items-center gap-12 mt-6 md:mt-0 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 delay-100 relative z-10">
-                <div className="hidden lg:flex flex-col items-end text-right">
-                  <span className="font-mono text-sm text-[#FAFAFA]/80 uppercase tracking-widest leading-relaxed">
-                    {work.metric}
-                  </span>
-                  <span className="font-mono text-xs text-[#FAFAFA]/40 mt-1">
-                    {work.role} — {work.year}
-                  </span>
-                </div>
-                
-                <div className="size-12 md:size-16 rounded-full border border-[#FAFAFA]/20 flex items-center justify-center bg-[#FAFAFA] text-black md:bg-transparent md:text-[#FAFAFA] md:group-hover:bg-[#FAFAFA] md:group-hover:text-black transition-all duration-500 md:-rotate-45 md:group-hover:rotate-0">
-                  <ArrowUpRight className="size-5 md:size-6" />
-                </div>
-              </div>
-            </a>
-          ))}
-        </div>
+      <div className="relative mx-auto max-w-6xl">
+        <BlurFade>
+          <div className="max-w-2xl">
+            <p className="text-[11px] uppercase tracking-[0.24em] text-white/35">
+              Featured Projects
+            </p>
+            <h2 className="mt-4 text-4xl font-semibold tracking-[-0.05em] text-white sm:text-5xl">
+              Projects
+            </h2>
+            <p className="mt-4 text-base leading-8 text-white/58">
+              Direct product surfaces, agent infrastructure, and tooling built to
+              ship rather than just demo.
+            </p>
+          </div>
+        </BlurFade>
       </div>
 
-      <motion.div
-        className="fixed top-0 left-0 w-[400px] h-[300px] rounded-2xl overflow-hidden pointer-events-none z-[100] hidden lg:flex items-center justify-center bg-[#0a0a0a] shadow-2xl border border-white/10"
-        style={{
-          x: smoothX,
-          y: smoothY,
-          opacity: hoveredIdx !== null ? 1 : 0,
-          scale: hoveredIdx !== null ? 1 : 0.8,
-        }}
-        transition={{
-          opacity: { duration: 0.3 },
-          scale: { duration: 0.4, ease: [0.76, 0, 0.24, 1] as const }
-        }}
-      >
-        {hoveredIdx !== null && (
-          <img 
-            src={WORK_LIST[hoveredIdx].image} 
-            alt={`${WORK_LIST[hoveredIdx].title} screenshot`}
-            className="w-full h-full object-cover object-top transition-transform duration-700 hover:scale-105"
-          />
-        )}
-        
-        {/* Glow Effects */}
-        <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/10 via-transparent to-purple-500/10 opacity-30 pointer-events-none" />
-      </motion.div>
+      <div className="relative mx-auto mt-8 max-w-7xl">
+        <ContainerScroll
+          className="h-[48rem] md:h-[62rem]"
+          contentClassName="py-8 md:py-20"
+          cardClassName="border-[#3a3a3a] bg-[#171717]"
+          titleComponent={
+            <div className="mx-auto flex max-w-4xl flex-col items-start gap-5 px-4 text-left">
+              <Badge
+                variant="outline"
+                className="rounded-full border-white/12 bg-white/[0.04] px-4 py-2 text-[11px] uppercase tracking-[0.22em] text-white/72"
+              >
+                Featured build
+              </Badge>
+              <div>
+                <h3 className="text-4xl font-semibold tracking-[-0.06em] text-white md:text-6xl">
+                  {FEATURED_PROJECT.title}
+                </h3>
+                <p className="mt-4 max-w-2xl text-base leading-8 text-white/58">
+                  {FEATURED_PROJECT.description}
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {FEATURED_PROJECT.tags.map((tag) => (
+                  <Badge
+                    key={tag}
+                    variant="outline"
+                    className="rounded-full border-white/10 bg-white/[0.03] px-3 py-1 text-[11px] uppercase tracking-[0.18em] text-white/64"
+                  >
+                    {tag}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          }
+        >
+          <div className="relative h-full w-full overflow-hidden rounded-[22px] border border-white/8 bg-[#050507]">
+            <Image
+              src={FEATURED_PROJECT.image}
+              alt="ReasonFlow product preview"
+              fill
+              priority
+              sizes="(min-width: 1024px) 1200px, 100vw"
+              className="object-cover object-top"
+            />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,4,6,0.08),rgba(4,4,6,0.62))]" />
+            <div className="absolute left-4 top-4 flex flex-wrap gap-2 md:left-6 md:top-6">
+              <span className="rounded-full border border-white/12 bg-black/45 px-4 py-2 text-[11px] uppercase tracking-[0.22em] text-white/74 backdrop-blur-xl">
+                Inbox agent
+              </span>
+              <span className="rounded-full border border-blue-500/20 bg-blue-500/10 px-4 py-2 text-[11px] uppercase tracking-[0.22em] text-blue-200 backdrop-blur-xl">
+                {FEATURED_PROJECT.metric}
+              </span>
+            </div>
+            <div className="absolute inset-x-0 bottom-0 p-4 md:p-6">
+              <div className="flex flex-col gap-4 rounded-[22px] border border-white/8 bg-black/45 p-4 backdrop-blur-xl md:flex-row md:items-end md:justify-between">
+                <div>
+                  <p className="text-[11px] uppercase tracking-[0.22em] text-white/35">
+                    Why it matters
+                  </p>
+                  <p className="mt-2 max-w-2xl text-sm leading-7 text-white/62">
+                    This is the product-facing layer: triage, retrieval,
+                    confidence, and review in one operating surface instead of a
+                    backend-only workflow.
+                  </p>
+                </div>
+                <a
+                  href={FEATURED_PROJECT.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-sm font-medium text-white/75 transition-colors hover:text-white"
+                >
+                  View source
+                  <ArrowUpRight className="h-4 w-4" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </ContainerScroll>
+      </div>
+
+      <div className="relative mx-auto -mt-28 grid max-w-6xl gap-6 lg:grid-cols-2">
+        {PROJECTS.map((project, index) => (
+          <BlurFade key={project.title} delay={0.08 * (index + 1)}>
+            <article className="group overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.035] shadow-[0_24px_90px_rgba(0,0,0,0.22)] backdrop-blur-xl transition-colors duration-300 hover:border-white/16">
+              <div className="relative h-[320px] overflow-hidden border-b border-white/10 bg-[#08080a]">
+                <Image
+                  src={project.image}
+                  alt={`${project.title} preview`}
+                  fill
+                  sizes="(min-width: 1024px) 50vw, 100vw"
+                  className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
+                />
+                <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,4,6,0.08),rgba(4,4,6,0.72))]" />
+                <div className="absolute left-4 top-4 flex flex-wrap gap-2">
+                  <Badge
+                    variant="outline"
+                    className="rounded-full border-white/12 bg-black/45 px-3 py-1 text-[11px] uppercase tracking-[0.2em] text-white/72 backdrop-blur-xl"
+                  >
+                    {project.category}
+                  </Badge>
+                  <Badge
+                    variant="outline"
+                    className="rounded-full border-blue-500/20 bg-blue-500/10 px-3 py-1 text-[11px] uppercase tracking-[0.2em] text-blue-200 backdrop-blur-xl"
+                  >
+                    {project.status}
+                  </Badge>
+                </div>
+                <div className="absolute inset-x-0 bottom-0 p-4">
+                  <div className="rounded-[20px] border border-white/10 bg-black/45 p-4 backdrop-blur-xl">
+                    <p className="text-[11px] uppercase tracking-[0.2em] text-white/35">
+                      Impact
+                    </p>
+                    <p className="mt-2 text-2xl font-semibold tracking-[-0.04em] text-white">
+                      {project.metric}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-6">
+                <h3 className="text-2xl font-semibold tracking-[-0.04em] text-white">
+                  {project.title}
+                </h3>
+                <p className="mt-4 text-sm leading-7 text-white/58">
+                  {project.description}
+                </p>
+
+                <div className="mt-6 flex flex-wrap gap-2">
+                  {project.tags.map((tag) => (
+                    <Badge
+                      key={tag}
+                      variant="outline"
+                      className="rounded-full border-white/10 bg-white/[0.03] px-3 py-1 text-[11px] uppercase tracking-[0.18em] text-white/62"
+                    >
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
+
+                <div className="mt-6">
+                  <a
+                    href={project.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-sm font-medium text-white/72 transition-colors hover:text-white"
+                  >
+                    Open project
+                    <ArrowUpRight className="h-4 w-4" />
+                  </a>
+                </div>
+              </div>
+            </article>
+          </BlurFade>
+        ))}
+      </div>
+
+      <div className="relative mx-auto mt-8 max-w-6xl">
+        <BlurFade delay={0.24}>
+          <a
+            href="https://github.com/namanxdev?tab=repositories"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-sm font-medium text-white/55 transition-colors hover:text-white"
+          >
+            View more projects
+            <ArrowRight className="h-4 w-4" />
+          </a>
+        </BlurFade>
+      </div>
     </section>
   );
 }

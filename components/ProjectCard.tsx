@@ -1,123 +1,223 @@
-"use client";
-
-import { useState } from "react";
+import Image from "next/image";
+import { ArrowUpRight, CheckCircle2 } from "lucide-react";
 import { BorderBeam } from "@/components/magicui/border-beam";
-import { ArrowUpRight } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+
+export interface ProjectLink {
+  label: string;
+  href?: string;
+}
 
 interface ProjectCardProps {
   title: string;
+  category: string;
   description: string;
   tech: string[];
-  metric: string;
-  href?: string;
+  metricValue: string;
+  metricLabel: string;
   status?: string;
+  image: string;
+  alt: string;
+  highlights: string[];
+  previewTags: string[];
+  links: ProjectLink[];
   featured?: boolean;
-  image?: string;
-  gradientClass?: string;
-  icon?: string;
-  label?: string;
+  accentClass?: string;
 }
 
-export function ProjectCard({ title, description, tech, metric, href, status, featured, image, gradientClass = "from-zinc-900 to-zinc-800", icon = "🔗", label = "Project" }: ProjectCardProps) {
-  const [hovered, setHovered] = useState(false);
+function StatusBadge({ status }: { status: string }) {
+  const tone = status.toLowerCase();
 
-  const VisualArea = ({ className = "" }: { className?: string }) => (
-    <div className={`relative overflow-hidden bg-gradient-to-br ${gradientClass} ${className}`}>
-      {/* Subtle grid pattern */}
-      <div className="absolute inset-0 opacity-20"
-        style={{
-          backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px)',
-          backgroundSize: '16px 16px'
-        }}
-      />
-      {/* Project icon/label centered */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="text-center transition-transform duration-500 group-hover:scale-110">
-          <div className="text-4xl mb-2">{icon}</div>
-          <span className="text-xs text-zinc-400 font-mono uppercase tracking-widest">
-            {label}
-          </span>
-        </div>
-      </div>
-      {/* Gradient accent line at bottom/left depending on layout */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent sm:hidden" />
-    </div>
+  const classes = tone.includes("coming")
+    ? "border-amber-500/20 bg-amber-500/10 text-amber-200"
+    : tone.includes("development")
+      ? "border-blue-500/20 bg-blue-500/10 text-blue-200"
+      : "border-emerald-500/20 bg-emerald-500/10 text-emerald-200";
+
+  return (
+    <Badge
+      variant="outline"
+      className={cn(
+        "rounded-full px-3 py-1 text-[11px] uppercase tracking-[0.18em]",
+        classes,
+      )}
+    >
+      {status}
+    </Badge>
   );
+}
+
+function ProjectLinkChip({ label, href }: ProjectLink) {
+  if (!href) {
+    return (
+      <span className="inline-flex h-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.02] px-4 text-sm text-white/30">
+        {label}
+      </span>
+    );
+  }
 
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className={`group relative flex h-full flex-col overflow-hidden rounded-xl border border-white/[0.08] bg-zinc-950/50 transition-all duration-500 hover:border-white/[0.15] hover:bg-zinc-900/50 ${
-        featured ? "sm:flex-row sm:items-stretch" : ""
-      }`}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      className="inline-flex h-10 items-center justify-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 text-sm text-white/75 transition-all duration-300 hover:border-white/20 hover:bg-white/[0.06] hover:text-white"
     >
-      {featured && <BorderBeam size={200} duration={12} colorFrom="#3b82f6" colorTo="#8b5cf6" />}
+      {label}
+      <ArrowUpRight className="h-4 w-4" />
+    </a>
+  );
+}
 
-      {/* Non-featured visual area (Top) */}
-      {!featured && (
-        <VisualArea className="h-48 w-full border-b border-white/[0.08]" />
+export function ProjectCard({
+  title,
+  category,
+  description,
+  tech,
+  metricValue,
+  metricLabel,
+  status,
+  image,
+  alt,
+  highlights,
+  previewTags,
+  links,
+  featured = false,
+  accentClass = "from-blue-500/16 via-blue-500/8 to-transparent",
+}: ProjectCardProps) {
+  return (
+    <article
+      className={cn(
+        "group relative overflow-hidden rounded-[30px] border border-white/10 bg-white/[0.035] shadow-[0_24px_90px_rgba(0,0,0,0.25)] backdrop-blur-2xl transition-all duration-500 hover:border-white/18",
+        featured && "h-full",
       )}
+    >
+      <BorderBeam
+        size={featured ? 260 : 210}
+        duration={14}
+        colorFrom="#60a5fa"
+        colorTo="#93c5fd"
+      />
 
-      {/* Text Content */}
-      <div className={`relative flex flex-1 flex-col ${featured ? "p-8 sm:w-1/2" : "p-6"}`}>
-        <div className="mb-3 flex items-center gap-2.5">
-          <h3 className={`font-semibold text-white ${featured ? "text-lg" : "text-base"}`}>{title}</h3>
-          {status && (
-            <span className="rounded-full border border-blue-500/20 bg-blue-500/10 px-2 py-0.5 text-xs font-medium text-blue-400">
-              {status}
-            </span>
-          )}
-        </div>
+      <div
+        className={cn(
+          "pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100",
+          `bg-gradient-to-br ${accentClass}`,
+        )}
+      />
 
-        <p className={`mb-4 text-sm leading-relaxed text-zinc-400 ${featured ? "max-w-md" : ""}`}>
-          {description}
-        </p>
+      <div
+        className={cn(
+          "relative flex h-full flex-col",
+          featured && "lg:grid lg:grid-cols-[minmax(0,1fr)_290px]",
+        )}
+      >
+        <div className="p-6 sm:p-8">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <p className="text-[11px] uppercase tracking-[0.2em] text-white/35">
+                {category}
+              </p>
+              <h3 className="mt-3 text-2xl font-semibold tracking-[-0.04em] text-white sm:text-[2rem]">
+                {title}
+              </h3>
+            </div>
+            {status ? <StatusBadge status={status} /> : null}
+          </div>
 
-        <div className="mb-4 flex flex-wrap gap-2">
-          {tech.map((t) => (
-            <span
-              key={t}
-              className="rounded-md border border-white/[0.08] bg-white/[0.03] px-2 py-0.5 text-xs text-zinc-400"
-            >
-              {t}
-            </span>
-          ))}
-        </div>
+          <p className="mt-4 max-w-xl text-sm leading-7 text-white/58 sm:text-[15px]">
+            {description}
+          </p>
 
-        <div className="mt-auto pt-2">
-          <p className="text-sm font-medium text-blue-400/80">{metric}</p>
-        </div>
-      </div>
+          <div className="mt-6 grid gap-4 sm:grid-cols-[180px_minmax(0,1fr)]">
+            <div className="rounded-[24px] border border-white/8 bg-black/20 p-4">
+              <p className="text-[11px] uppercase tracking-[0.18em] text-white/35">
+                Impact
+              </p>
+              <div className="mt-3 text-3xl font-semibold tracking-[-0.05em] text-white">
+                {metricValue}
+              </div>
+              <p className="mt-2 text-sm leading-6 text-white/50">
+                {metricLabel}
+              </p>
+            </div>
 
-      {/* Featured visual area (Right side) */}
-      {featured && (
-        <div className="relative hidden sm:block sm:w-1/2 overflow-hidden border-l border-white/[0.08] bg-zinc-900/50">
-          <VisualArea className="h-full w-full" />
-          
-          {/* Arrow icon overlay for featured */}
-          <div className="absolute right-6 top-6 rounded-full border border-white/10 bg-black/50 p-2 text-zinc-500 backdrop-blur-md transition-all group-hover:border-white/20 group-hover:text-white">
-            <ArrowUpRight className="h-4 w-4" />
+            <div className="rounded-[24px] border border-white/8 bg-black/20 p-4">
+              <p className="text-[11px] uppercase tracking-[0.18em] text-white/35">
+                What shipped
+              </p>
+              <div className="mt-4 space-y-3">
+                {highlights.map((highlight) => (
+                  <div key={highlight} className="flex items-start gap-3">
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 text-blue-300" />
+                    <p className="text-sm leading-6 text-white/65">{highlight}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-6 flex flex-wrap gap-2">
+            {tech.map((item) => (
+              <Badge
+                key={item}
+                variant="outline"
+                className="rounded-full border-white/10 bg-white/[0.03] px-3 py-1 text-[11px] uppercase tracking-[0.15em] text-white/60"
+              >
+                {item}
+              </Badge>
+            ))}
+          </div>
+
+          <div className="mt-6 flex flex-wrap gap-3">
+            {links.map((link) => (
+              <ProjectLinkChip key={`${title}-${link.label}`} {...link} />
+            ))}
           </div>
         </div>
-      )}
-      
-      {/* Arrow icon for mobile featured */}
-      {featured && (
-        <div className="absolute right-6 top-6 sm:hidden rounded-full border border-white/10 bg-black/50 p-2 text-zinc-500 backdrop-blur-md transition-all group-hover:border-white/20 group-hover:text-white">
-          <ArrowUpRight className="h-4 w-4" />
+
+        <div
+          className={cn(
+            "relative border-t border-white/8 p-4 sm:p-5",
+            featured && "lg:border-l lg:border-t-0",
+          )}
+        >
+          <div className="relative h-full min-h-[260px] overflow-hidden rounded-[24px] border border-white/8 bg-[#09090b]">
+            <Image
+              src={image}
+              alt={alt}
+              fill
+              priority={featured}
+              sizes={featured ? "(min-width: 1024px) 320px, 100vw" : "(min-width: 1024px) 420px, 100vw"}
+              className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
+            />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,5,5,0.06),rgba(5,5,5,0.76))]" />
+
+            <div className="absolute left-4 top-4 flex max-w-[85%] flex-wrap gap-2">
+              {previewTags.map((tag) => (
+                <span
+                  key={tag}
+                  className="rounded-full border border-white/12 bg-black/40 px-3 py-1 text-[11px] uppercase tracking-[0.18em] text-white/70 backdrop-blur-xl"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+
+            <div className="absolute inset-x-0 bottom-0 p-4">
+              <div className="rounded-[20px] border border-white/8 bg-black/45 p-4 backdrop-blur-xl">
+                <p className="text-[11px] uppercase tracking-[0.18em] text-white/35">
+                  Preview
+                </p>
+                <p className="mt-2 text-sm leading-6 text-white/60">
+                  Shipping product surfaces instead of decorative mockups.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
-      )}
-      
-      {/* Mobile featured visual area (Top) */}
-      {featured && (
-        <div className="sm:hidden">
-          <VisualArea className="h-48 w-full border-t border-white/[0.08]" />
-        </div>
-      )}
-    </a>
+      </div>
+    </article>
   );
 }
