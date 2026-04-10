@@ -10,7 +10,7 @@ export function HoverBorderGradient({
   children,
   containerClassName,
   className,
-  as: Tag = "button",
+  as = "button",
   duration = 1,
   clockwise = true,
   ...props
@@ -23,6 +23,7 @@ export function HoverBorderGradient({
     clockwise?: boolean;
   } & React.HTMLAttributes<HTMLElement>
 >) {
+  const Tag = as as any;
   const [hovered, setHovered] = useState<boolean>(false);
   const [direction, setDirection] = useState<Direction>("TOP");
 
