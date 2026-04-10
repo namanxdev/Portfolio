@@ -108,7 +108,7 @@ export default function Experience() {
                         <span className="inline-block transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/link:translate-x-3 group-hover/link:text-transparent group-hover/link:bg-clip-text group-hover/link:bg-gradient-to-r group-hover/link:from-zinc-100 group-hover/link:to-blue-200">
                           {exp.role}
                         </span>
-                        <ArrowUpRight className="inline-block ml-4 size-6 md:size-8 lg:size-10 text-zinc-600 opacity-0 -translate-y-4 group-hover/link:opacity-100 group-hover/link:translate-y-0 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]" />
+                        <ArrowUpRight className="inline-block ml-4 size-6 md:size-8 lg:size-10 text-zinc-600 md:opacity-0 md:-translate-y-4 group-hover/link:opacity-100 group-hover/link:translate-y-0 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]" />
                       </h3>
 
                       <p className="text-base md:text-lg text-zinc-400 font-light leading-relaxed max-w-2xl group-hover/link:text-zinc-200 transition-colors duration-500">

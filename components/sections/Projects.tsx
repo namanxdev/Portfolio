@@ -11,7 +11,8 @@ const WORK_LIST = [
     year: "2024",
     client: "Open Source",
     link: "https://github.com/namanxdev/mcphub",
-    metric: "15+ PRE-CONFIGURED SERVERS"
+    metric: "15+ PRE-CONFIGURED SERVERS",
+    image: "/images/MCPHUB_landingPage.png"
   },
   {
     title: "ReasonFlow",
@@ -19,7 +20,8 @@ const WORK_LIST = [
     year: "2024",
     client: "Personal",
     link: "https://github.com/namanxdev",
-    metric: "800ms RETRIEVAL"
+    metric: "800ms RETRIEVAL",
+    image: "/images/ReasonFlow_LandingPage.png"
   },
   {
     title: "AgentMesh",
@@ -27,7 +29,8 @@ const WORK_LIST = [
     year: "2024",
     client: "In Development",
     link: "https://github.com/namanxdev",
-    metric: "REAL-TIME WEBSOCKETS"
+    metric: "REAL-TIME WEBSOCKETS",
+    image: "/images/AgentMesh_landingPage.png"
   },
 ];
 
@@ -47,8 +50,9 @@ export default function Projects() {
   useEffect(() => {
     const handlePointerMove = (e: MouseEvent) => {
       const { clientX, clientY } = e;
-      mouseX.set(clientX - 160);
-      mouseY.set(clientY - 160);
+      // Center the 400x300 floating image to the cursor
+      mouseX.set(clientX - 200);
+      mouseY.set(clientY - 150);
     };
     
     window.addEventListener("mousemove", handlePointerMove);
@@ -127,7 +131,7 @@ export default function Projects() {
       </div>
 
       <motion.div
-        className="fixed top-0 left-0 w-[320px] h-[320px] rounded-[32px] overflow-hidden pointer-events-none z-50 hidden lg:flex items-center justify-center p-8 bg-[#0a0a0a]/80 backdrop-blur-2xl border border-white/5 shadow-2xl"
+        className="fixed top-0 left-0 w-[400px] h-[300px] rounded-2xl overflow-hidden pointer-events-none z-[100] hidden lg:flex items-center justify-center bg-[#0a0a0a] shadow-2xl border border-white/10"
         style={{
           x: smoothX,
           y: smoothY,
@@ -139,17 +143,16 @@ export default function Projects() {
           scale: { duration: 0.4, ease: [0.76, 0, 0.24, 1] as const }
         }}
       >
-        <div className="flex flex-col items-center justify-center text-center gap-3 w-full h-full relative z-10">
-           <span className="font-mono text-[10px] tracking-[0.2em] text-[#FAFAFA]/40 uppercase">
-             {hoveredIdx !== null ? WORK_LIST[hoveredIdx].client : ''}
-           </span>
-           <span className="text-2xl font-light text-[#FAFAFA] tracking-tight">
-             {hoveredIdx !== null ? WORK_LIST[hoveredIdx].metric : ''}
-           </span>
-        </div>
+        {hoveredIdx !== null && (
+          <img 
+            src={WORK_LIST[hoveredIdx].image} 
+            alt={`${WORK_LIST[hoveredIdx].title} screenshot`}
+            className="w-full h-full object-cover object-top transition-transform duration-700 hover:scale-105"
+          />
+        )}
         
         {/* Glow Effects */}
-        <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/10 via-transparent to-purple-500/10 opacity-50" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/10 via-transparent to-purple-500/10 opacity-30 pointer-events-none" />
       </motion.div>
     </section>
   );
