@@ -35,15 +35,15 @@ export default function Hero() {
       className="relative flex min-h-[100svh] items-center overflow-hidden px-6 pb-16 pt-28 lg:px-8"
     >
       <div className="absolute inset-0 bg-black" />
-      <div className="absolute inset-0 opacity-90">
-        <WebGLShader className="pointer-events-none opacity-90" />
+      <div className="absolute inset-0">
+        <WebGLShader className="pointer-events-none" />
       </div>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_14%,rgba(0,0,0,0.38)_58%,rgba(0,0,0,0.86)_100%)]" />
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.26),rgba(0,0,0,0.56))]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_22%,rgba(0,0,0,0.12)_58%,rgba(0,0,0,0.42)_100%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.06),rgba(0,0,0,0.18))]" />
 
       <div className="relative mx-auto w-full max-w-6xl">
         <BlurFade>
-          <div className="border border-white/10 bg-black/35 p-2 shadow-[0_40px_140px_rgba(0,0,0,0.55)] backdrop-blur-md">
+          <div className="border border-white/10 bg-black/20 p-2 shadow-[0_40px_140px_rgba(0,0,0,0.38)] backdrop-blur-[6px]">
             <div className="border border-white/10 px-6 py-8 sm:px-8 sm:py-10 md:px-12 md:py-14">
               <div className="flex flex-col gap-4 border-b border-white/10 pb-6 sm:flex-row sm:items-center sm:justify-between">
                 <Badge

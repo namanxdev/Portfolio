@@ -1,245 +1,165 @@
 "use client";
 
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Award, Trophy, Star, Shield, ArrowUpRight } from "lucide-react";
+import { motion } from "framer-motion";
+import { BlurFade } from "@/components/magicui/blur-fade";
+import { Badge } from "@/components/ui/badge";
 
-// Types
-type Achievement = {
-  id: string;
-  year: string;
-  title: string;
-  subtitle: string;
-  role: string;
-  desc: string;
-  glowColor: string;
-  icon: React.ReactNode;
-};
-
-const ACHIEVEMENTS: Achievement[] = [
+const HONORS = [
   {
-    id: "01",
+    num: "01",
+    event: "NASA Space Apps Challenge",
+    placement: "Winner",
+    metric: "Top 1% global",
+    description:
+      "AI-driven orbital mechanics and tracking solution built for high-signal decision support under hackathon constraints.",
     year: "2025",
-    title: "NASA Space Apps",
-    subtitle: "Challenge",
-    role: "Global Winner",
-    desc: "Top 1% globally selected. Built an AI-driven orbital mechanics predictor for real-time tracking.",
-    glowColor: "rgba(59, 130, 246, 0.4)", // Blue
-    icon: <Star className="w-5 h-5 md:w-6 md:h-6 text-blue-400" strokeWidth={1.5} />,
   },
   {
-    id: "02",
+    num: "02",
+    event: "CodeSlayer, NIT Delhi",
+    placement: "Finalist",
+    metric: "Top 1% of 10,000+",
+    description:
+      "Systems-heavy build focused on architecture quality and execution speed in a competitive national setting.",
     year: "2025",
-    title: "CodeSlayer",
-    subtitle: "NIT Delhi",
-    role: "Finalist",
-    desc: "Ranked top 1% among 10,000+ competitors. Engineered a highly distributed system architecture.",
-    glowColor: "rgba(16, 185, 129, 0.4)", // Emerald
-    icon: <Trophy className="w-5 h-5 md:w-6 md:h-6 text-emerald-400" strokeWidth={1.5} />,
   },
   {
-    id: "03",
+    num: "03",
+    event: "MumbaiHacks",
+    placement: "Finalist",
+    metric: "Finance Tech track",
+    description:
+      "Finance-oriented hack built around fast reasoning loops and a practical product flow that reached the finals.",
     year: "2025",
-    title: "MumbaiHacks",
-    subtitle: "Finance Tech",
-    role: "Finalist",
-    desc: "Developed a sub-second autonomous trading agent protocol deployed on local clusters.",
-    glowColor: "rgba(249, 115, 22, 0.4)", // Orange
-    icon: <Shield className="w-5 h-5 md:w-6 md:h-6 text-orange-400" strokeWidth={1.5} />,
   },
   {
-    id: "04",
+    num: "04",
+    event: "Smart India Hackathon",
+    placement: "Finalist",
+    metric: "Top 5% nationwide",
+    description:
+      "Problem-first system selected nationally that balanced strict constraints, scalability, and practical usability.",
     year: "2024",
-    title: "Smart India",
-    subtitle: "Hackathon",
-    role: "Finalist",
-    desc: "Nationwide top 5% selection. Created predictive healthcare resource allocator using strict constraints.",
-    glowColor: "rgba(168, 85, 247, 0.4)", // Purple
-    icon: <Award className="w-5 h-5 md:w-6 md:h-6 text-purple-400" strokeWidth={1.5} />,
   },
 ];
 
 export default function Achievements() {
-  const [activeIndex, setActiveIndex] = useState<number>(0);
-
   return (
-    <section id="achievements" className="relative w-full bg-[#050505] py-24 md:py-40 overflow-hidden flex justify-center z-10 border-t border-white/[0.02]">
-      
-      {/* Background Micro-Grid */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_60%,transparent_100%)] pointer-events-none" />
+    <section id="achievements" className="relative overflow-hidden bg-[#040404]">
+      {/* Lamp beam — purely decorative, positioned at top of section */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-72 overflow-hidden">
+        {/* Left conic beam */}
+        <motion.div
+          initial={{ opacity: 0.5, width: "15rem" }}
+          whileInView={{ opacity: 1, width: "30rem" }}
+          transition={{ delay: 0.3, duration: 0.8, ease: "easeInOut" }}
+          style={{
+            backgroundImage: `conic-gradient(var(--conic-position), var(--tw-gradient-stops))`,
+          }}
+          className="absolute top-0 right-1/2 h-56 w-[30rem] overflow-visible bg-gradient-conic from-cyan-500 via-transparent to-transparent text-white [--conic-position:from_70deg_at_center_top]"
+        >
+          <div className="absolute bottom-0 left-0 z-20 h-40 w-full bg-[#040404] [mask-image:linear-gradient(to_top,white,transparent)]" />
+          <div className="absolute bottom-0 left-0 z-20 h-full w-40 bg-[#040404] [mask-image:linear-gradient(to_right,white,transparent)]" />
+        </motion.div>
 
-      <div className="w-full max-w-[1400px] px-4 md:px-8 lg:px-12 relative z-10 flex flex-col">
-        
-        {/* Section Header */}
-        <div className="flex flex-col mb-16 md:mb-24">
-          <div className="flex items-center gap-4 mb-4 md:mb-6">
-            <div className="h-[1px] w-8 md:w-12 bg-blue-500/50" />
-            <p className="font-mono text-[10px] md:text-xs uppercase tracking-[0.3em] text-blue-400">
-              Verified Honors
-            </p>
-          </div>
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 md:gap-0">
-             <h2 className="text-4xl md:text-7xl lg:text-[7rem] leading-[0.85] font-medium tracking-[-0.02em] text-[#FAFAFA] uppercase">
-                Global <br />
-                <span className="font-serif italic font-light lowercase text-white/50 tracking-normal">recognition.</span>
-             </h2>
-             <p className="text-white/40 text-sm md:text-base max-w-[280px] leading-relaxed font-light pb-2">
-                A selection of architectural deployments and hackathon outcomes pushed to the absolute limit.
-             </p>
-          </div>
-        </div>
+        {/* Right conic beam */}
+        <motion.div
+          initial={{ opacity: 0.5, width: "15rem" }}
+          whileInView={{ opacity: 1, width: "30rem" }}
+          transition={{ delay: 0.3, duration: 0.8, ease: "easeInOut" }}
+          style={{
+            backgroundImage: `conic-gradient(var(--conic-position), var(--tw-gradient-stops))`,
+          }}
+          className="absolute top-0 left-1/2 h-56 w-[30rem] bg-gradient-conic from-transparent via-transparent to-cyan-500 text-white [--conic-position:from_290deg_at_center_top]"
+        >
+          <div className="absolute bottom-0 right-0 z-20 h-full w-40 bg-[#040404] [mask-image:linear-gradient(to_left,white,transparent)]" />
+          <div className="absolute bottom-0 right-0 z-20 h-40 w-full bg-[#040404] [mask-image:linear-gradient(to_top,white,transparent)]" />
+        </motion.div>
 
-        {/* Dynamic Accordion List */}
-        <div className="flex flex-col w-full border-t border-white/10">
-          {ACHIEVEMENTS.map((item, i) => {
-            const isActive = activeIndex === i;
+        {/* Centre glow orb */}
+        <div className="absolute left-1/2 top-0 z-10 h-36 w-[28rem] -translate-x-1/2 rounded-full bg-cyan-500 opacity-40 blur-3xl" />
 
-            return (
-              <motion.div
-                key={item.id}
-                layout="position"
-                onClick={() => setActiveIndex(i)}
-                onMouseEnter={() => setActiveIndex(i)}
-                className={`group relative flex flex-col border-b border-white/10 cursor-pointer overflow-hidden transition-colors duration-700 ease-[0.16,1,0.3,1] ${
-                  isActive ? "bg-white/[0.02]" : "hover:bg-white/[0.01]"
-                }`}
-              >
-                
-                {/* ── ACCORDION HEADER (Always visible) ── */}
-                <motion.div layout="position" className="w-full flex items-center justify-between py-6 md:py-10 px-4 md:px-8">
-                  {/* Left: ID + Title */}
-                  <div className="flex items-center gap-6 md:gap-12 flex-1 min-w-0 pr-4">
-                    <span className={`font-mono text-xs md:text-sm shrink-0 transition-colors duration-500 hidden sm:block ${isActive ? "text-blue-400" : "text-white/20"}`}>
-                      {item.id}
-                    </span>
-                    
-                    {/* Replaced massive scaling text with stable, wrapping text sizes that don't overflow */}
-                    <motion.div layout="position" className="flex flex-wrap items-end gap-x-3 gap-y-1">
-                      <h3 className={`uppercase font-semibold tracking-[-0.03em] transition-colors duration-700 ease-[0.16,1,0.3,1] text-2xl md:text-5xl lg:text-6xl leading-[0.9] ${
-                        isActive ? "text-[#FAFAFA]" : "text-[#FAFAFA]/40 group-hover:text-[#FAFAFA]/70"
-                      }`}>
-                        {item.title}
-                      </h3>
-                      <span className={`font-serif italic lowercase tracking-tight transition-colors duration-700 ease-[0.16,1,0.3,1] text-2xl md:text-5xl lg:text-6xl leading-[0.9] ${
-                        isActive ? "text-blue-400" : "text-[#FAFAFA]/20 group-hover:text-[#FAFAFA]/40"
-                      }`}>
-                        {item.subtitle}
-                      </span>
-                    </motion.div>
-                  </div>
+        {/* Inner bright glow */}
+        <motion.div
+          initial={{ width: "8rem" }}
+          whileInView={{ width: "16rem" }}
+          transition={{ delay: 0.3, duration: 0.8, ease: "easeInOut" }}
+          className="absolute left-1/2 top-0 z-30 h-28 w-64 -translate-x-1/2 rounded-full bg-cyan-400 blur-2xl"
+        />
 
-                  {/* Right: Year / Role Swapper */}
-                  <div className="shrink-0 flex justify-end items-center">
-                    <div className="relative h-6 md:h-8 w-full flex justify-end items-center overflow-hidden">
-                      <AnimatePresence mode="popLayout">
-                        {isActive ? (
-                          <motion.span
-                            key="role"
-                            initial={{ y: 20, opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            exit={{ y: -20, opacity: 0 }}
-                            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                            className="font-mono text-xs md:text-sm uppercase tracking-widest text-[#FAFAFA]"
-                          >
-                            {item.role}
-                          </motion.span>
-                        ) : (
-                          <motion.span
-                            key="year"
-                            initial={{ y: 20, opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            exit={{ y: -20, opacity: 0 }}
-                            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                            className="font-mono text-xs md:text-sm uppercase tracking-widest text-white/20 group-hover:text-white/40"
-                          >
-                            {item.year}
-                          </motion.span>
-                        )}
-                      </AnimatePresence>
-                    </div>
-                  </div>
-                </motion.div>
+        {/* Horizontal line */}
+        <motion.div
+          initial={{ width: "15rem" }}
+          whileInView={{ width: "30rem" }}
+          transition={{ delay: 0.3, duration: 0.8, ease: "easeInOut" }}
+          className="absolute left-1/2 top-16 z-50 h-px -translate-x-1/2 bg-cyan-400"
+        />
 
-                {/* ── ACCORDION BODY (Cinematic Plaque Reveal) ── */}
-                <AnimatePresence initial={false}>
-                  {isActive && (
-                    <motion.div
-                      key={`body-${item.id}`}
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                      className="origin-top"
+        {/* Fade beam into section background */}
+        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent to-[#040404]" />
+      </div>
+
+      {/* Content — normal document flow, padded below the beam */}
+      <div className="relative z-10 mx-auto max-w-5xl px-6 pb-24 pt-48 lg:px-8">
+        {/* Heading */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.8, ease: "easeInOut" }}
+          viewport={{ once: true }}
+          className="mb-14 text-center"
+        >
+          <p className="mb-4 text-[11px] uppercase tracking-[0.24em] text-white/35">
+            Honors
+          </p>
+          <h2 className="text-4xl font-semibold tracking-[-0.05em] text-white sm:text-5xl">
+            Recognition with actual signal.
+          </h2>
+          <p className="mx-auto mt-4 max-w-xl text-base text-white/50">
+            Four competitive finishes — global, national, and track-level — with
+            real build pressure and limited execution time.
+          </p>
+        </motion.div>
+
+        {/* Leaderboard rows */}
+        <div className="w-full divide-y divide-white/8">
+          {HONORS.map((item, index) => (
+            <BlurFade key={item.event} delay={0.1 * (index + 1)}>
+              <div className="flex items-start gap-5 py-7 sm:gap-8">
+                {/* Row number */}
+                <span className="w-7 shrink-0 pt-1 text-[11px] uppercase tracking-[0.22em] text-white/20">
+                  {item.num}
+                </span>
+
+                {/* Main */}
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-wrap items-center gap-3">
+                    <h3 className="text-base font-semibold tracking-[-0.03em] text-white sm:text-lg">
+                      {item.event}
+                    </h3>
+                    <Badge
+                      variant="outline"
+                      className="rounded-full border-white/12 bg-white/[0.04] px-3 py-0.5 text-[10px] uppercase tracking-[0.16em] text-white/55"
                     >
-                      <div className="px-4 md:px-8 pb-8 md:pb-12 pt-2 md:pt-4">
-                        
-                        {/* Cinematic Inner Card */}
-                        <div className="group/card relative w-full h-[auto] min-h-[220px] md:min-h-[280px] rounded-2xl overflow-hidden border border-white/10 bg-[#0A0A0A]/50 backdrop-blur-md shadow-[0_0_50px_rgba(0,0,0,0.3)]">
-                          
-                          {/* Animated Ambient Glow */}
-                          <div className="absolute inset-0 z-0">
-                            <motion.div
-                              animate={{ 
-                                scale: [1, 1.5, 1], 
-                                x: ["-10%", "10%", "-10%"],
-                                y: ["-10%", "10%", "-10%"] 
-                              }}
-                              transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                              className="absolute top-[-50%] left-[-20%] w-[150%] h-[200%] mix-blend-screen blur-[120px]"
-                              style={{ 
-                                background: `radial-gradient(circle 350px at center, ${item.glowColor}, transparent 70%)`,
-                                opacity: 0.5 
-                              }}
-                            />
-                            {/* Scanning line indicator */}
-                            <div className="absolute left-0 top-0 h-full w-[1px] bg-gradient-to-b from-transparent via-white/50 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-1000" />
-                          </div>
+                      {item.placement}
+                    </Badge>
+                    <span className="text-[11px] text-white/22">{item.year}</span>
+                  </div>
+                  <p className="mt-2 max-w-2xl text-sm leading-7 text-white/45">
+                    {item.description}
+                  </p>
+                </div>
 
-                          {/* Data Overlay */}
-                          <div className="relative z-10 p-6 md:p-10 flex flex-col justify-between h-full min-h-inherit">
-                            
-                            {/* Top row of internal card */}
-                            <div className="flex justify-between items-start mb-8 md:mb-12">
-                              <div className="flex items-center gap-3 backdrop-blur-md bg-white/[0.03] border border-white/10 px-4 py-2 rounded-full">
-                                <span className="flex h-2 w-2 rounded-full bg-emerald-400 shrink-0 shadow-[0_0_10px_rgba(16,185,129,0.8)]" />
-                                <span className="text-[10px] md:text-xs uppercase font-mono tracking-[0.2em] text-[#FAFAFA]/80">
-                                  {item.year} // Verified Selection
-                                </span>
-                              </div>
-                              <div className="flex shrink-0 w-12 h-12 md:w-16 md:h-16 rounded-full border border-white/20 items-center justify-center bg-white/5 backdrop-blur-xl shadow-lg">
-                                {item.icon}
-                              </div>
-                            </div>
-
-                            {/* Bottom row of internal card */}
-                            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 md:gap-12 mt-auto">
-                              <p className="text-lg md:text-2xl font-light text-[#FAFAFA]/90 max-w-2xl leading-[1.6] tracking-wide relative">
-                                <span className="absolute -left-4 md:-left-6 top-1/2 -translate-y-1/2 w-1 h-0 bg-white/20 group-hover/card:h-full transition-all duration-500 ease-out" />
-                                {item.desc}
-                              </p>
-                              
-                              <motion.a 
-                                href="#contact"
-                                whileHover={{ scale: 1.05, rotate: -5 }}
-                                className="hidden md:flex shrink-0 w-14 h-14 rounded-full bg-white text-black items-center justify-center cursor-pointer transition-shadow shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_40px_rgba(255,255,255,0.4)]"
-                              >
-                                <ArrowUpRight className="w-6 h-6" strokeWidth={2} />
-                              </motion.a>
-                            </div>
-                              
-                          </div>
-                        </div>
-
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-
-              </motion.div>
-            );
-          })}
+                {/* Metric */}
+                <div className="hidden shrink-0 text-right sm:block">
+                  <p className="text-sm font-semibold tracking-[-0.02em] text-white/70">
+                    {item.metric}
+                  </p>
+                </div>
+              </div>
+            </BlurFade>
+          ))}
         </div>
-
       </div>
     </section>
   );
