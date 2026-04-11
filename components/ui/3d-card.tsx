@@ -130,14 +130,15 @@ export function CardItem({
     rotateZ,
   ]);
 
+  const ValidTag = Tag as any;
+  
   return (
-    // @ts-expect-error dynamic tag with forwarded ref
-    <Tag
+    <ValidTag
       ref={ref}
       className={cn("transition duration-200 ease-linear", className)}
       {...rest}
     >
       {children}
-    </Tag>
+    </ValidTag>
   );
 }

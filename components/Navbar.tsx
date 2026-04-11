@@ -1,23 +1,13 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { Dock, DockIcon } from "@/components/ui/dock";
+import { FloatingDock } from "@/components/ui/floating-dock";
 import { Home, FolderGit2, Briefcase, Code2, Award, Mail } from "lucide-react";
-
-const NAV_ITEMS = [
-  { name: "Home", link: "#hero", icon: Home },
-  { name: "Projects", link: "#projects", icon: FolderGit2 },
-  { name: "Experience", link: "#experience", icon: Briefcase },
-  { name: "Skills", link: "#skills", icon: Code2 },
-  { name: "Honors", link: "#achievements", icon: Award },
-  { name: "Contact", link: "#contact", icon: Mail },
-];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,6 +16,15 @@ export default function Navbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const dockItems = [
+    { title: "Home", href: "#hero", icon: <Home className="h-full w-full" /> },
+    { title: "Projects", href: "#projects", icon: <FolderGit2 className="h-full w-full" /> },
+    { title: "Experience", href: "#experience", icon: <Briefcase className="h-full w-full" /> },
+    { title: "Skills", href: "#skills", icon: <Code2 className="h-full w-full" /> },
+    { title: "Honors", href: "#achievements", icon: <Award className="h-full w-full" /> },
+    { title: "Contact", href: "#contact", icon: <Mail className="h-full w-full" /> },
+  ];
 
   return (
     <>
@@ -56,35 +55,8 @@ export default function Navbar() {
         </div>
       </motion.nav>
 
-      {/* Floating Bottom Dock */}
-      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[5000]">
-        <Dock direction="middle" className="bg-[#111111]/80 backdrop-blur-xl border-[#1e1e1e]">
-          {NAV_ITEMS.map((item, idx) => (
-            <DockIcon 
-              key={item.name} 
-              className="relative text-white/60 hover:text-white transition-colors"
-              onMouseEnter={() => setHoveredIndex(idx)}
-              onMouseLeave={() => setHoveredIndex(null)}
-            >
-              <a href={item.link} className="flex h-full w-full items-center justify-center">
-                <item.icon className="h-5 w-5" />
-              </a>
-              <AnimatePresence>
-                {hoveredIndex === idx && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10, scale: 0.9 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 10, scale: 0.9 }}
-                    transition={{ duration: 0.2 }}
-                    className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 bg-[#1e1e1e] border border-white/10 text-white text-xs rounded-md shadow-xl whitespace-nowrap pointer-events-none"
-                  >
-                    {item.name}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </DockIcon>
-          ))}
-        </Dock>
+      <div className="fixed bottom-6 right-6 z-[6000] md:right-auto md:left-1/2 md:-translate-x-1/2">
+        <FloatingDock items={dockItems} />
       </div>
     </>
   );

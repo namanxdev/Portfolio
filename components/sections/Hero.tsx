@@ -48,12 +48,12 @@ export default function Hero() {
               <div className="flex flex-col gap-4 border-b border-white/10 pb-6 sm:flex-row sm:items-center sm:justify-between">
                 <Badge
                   variant="outline"
-                  className="w-fit rounded-full border-white/15 bg-white/[0.04] px-4 py-2 text-[11px] uppercase tracking-[0.24em] text-white/70"
+                  className="w-fit max-w-full sm:max-w-none text-center sm:text-left flex-wrap break-words rounded-full border-white/15 bg-white/[0.04] px-4 py-2 text-[10px] sm:text-[11px] uppercase tracking-[0.2em] sm:tracking-[0.24em] text-white/70"
                 >
                   AI Engineer / Agent Builder / Open Source
                 </Badge>
-                <div className="inline-flex w-fit items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-4 py-2 text-[11px] uppercase tracking-[0.22em] text-emerald-200">
-                  <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_16px_rgba(74,222,128,0.8)]" />
+                <div className="inline-flex w-fit max-w-full sm:max-w-none text-center flex-wrap break-words items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-4 py-2 text-[10px] sm:text-[11px] uppercase tracking-[0.2em] sm:tracking-[0.22em] text-emerald-200">
+                  <span className="h-2 w-2 shrink-0 rounded-full bg-emerald-400 shadow-[0_0_16px_rgba(74,222,128,0.8)]" />
                   Available for select builds
                 </div>
               </div>
