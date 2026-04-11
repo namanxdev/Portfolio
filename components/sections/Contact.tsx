@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 import { motion, useScroll, useTransform, useSpring, useMotionValue } from "framer-motion";
-import { BackgroundBeams } from "@/components/aceternity/background-beams";
+// Background effects
+import { GLSLHills } from "@/components/ui/glsl-hills";
 import { ArrowUpRight, Github, Linkedin, Twitter, FileText } from "lucide-react";
 
 export default function Contact() {
@@ -19,12 +20,119 @@ export default function Contact() {
 
   // Magnetic button state for the email
   const buttonRef = useRef<HTMLAnchorElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
+  const mousePosRef = useRef({ x: null as number | null, y: null as number | null });
+  const animationFrameIdRef = useRef<number | null>(null);
+
   const x = useMotionValue(0);
   const hoverY = useMotionValue(0);
   const springX = useSpring(x, { stiffness: 150, damping: 15, mass: 0.1 });
   const springHoverY = useSpring(hoverY, { stiffness: 150, damping: 15, mass: 0.1 });
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  // Draw arrow from dynamic-hero
+  const drawArrow = useCallback(() => {
+    if (!canvasRef.current || !buttonRef.current || !ctxRef.current) return;
+
+    const targetEl = buttonRef.current;
+    const ctx = ctxRef.current;
+    const mouse = mousePosRef.current;
+
+    const x0 = mouse.x;
+    const y0 = mouse.y;
+
+    if (x0 === null || y0 === null) return;
+
+    // Get position relative to the section/canvas
+    const rect = targetEl.getBoundingClientRect();
+    const canvasRect = canvasRef.current.getBoundingClientRect();
+
+    const cx = rect.left - canvasRect.left + rect.width / 2;
+    const cy = rect.top - canvasRect.top + rect.height / 2;
+    const mx = x0 - canvasRect.left;
+    const my = y0 - canvasRect.top;
+
+    const a = Math.atan2(cy - my, cx - mx);
+    const x1 = cx - Math.cos(a) * (rect.width / 2 + 12);
+    const y1 = cy - Math.sin(a) * (rect.height / 2 + 12);
+
+    const midX = (mx + x1) / 2;
+    const midY = (my + y1) / 2;
+    const offset = Math.min(200, Math.hypot(x1 - mx, y1 - my) * 0.5);
+    const t = Math.max(-1, Math.min(1, (my - y1) / 200));
+    const controlX = midX;
+    const controlY = midY + offset * t;
+
+    const r = Math.sqrt((x1 - mx) ** 2 + (y1 - my) ** 2);
+    const opacity = Math.min(1.0, Math.max(0, (r - Math.max(rect.width, rect.height) / 2) / 500));
+
+    // Dynamic color arrow depending on how close you are to the button
+    const arrowColor = { r: 139, g: 92, b: 246 }; // Purple-ish
+    ctx.strokeStyle = `rgba(${arrowColor.r}, ${arrowColor.g}, ${arrowColor.b}, ${opacity})`;
+    ctx.lineWidth = 2;
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(mx, my);
+    ctx.quadraticCurveTo(controlX, controlY, x1, y1);
+    ctx.setLineDash([10, 5]);
+    ctx.stroke();
+    ctx.restore();
+
+    // Arrow head
+    const angle = Math.atan2(y1 - controlY, x1 - controlX);
+    const headLength = 10 * (ctx.lineWidth / 1.5);
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x1 - headLength * Math.cos(angle - Math.PI / 6), y1 - headLength * Math.sin(angle - Math.PI / 6));
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x1 - headLength * Math.cos(angle + Math.PI / 6), y1 - headLength * Math.sin(angle + Math.PI / 6));
+    ctx.stroke();
+  }, []);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas || !buttonRef.current) return;
+
+    ctxRef.current = canvas.getContext("2d");
+    const ctx = ctxRef.current;
+
+    const updateCanvasSize = () => {
+      if (containerRef.current) {
+        canvas.width = containerRef.current.clientWidth;
+        canvas.height = containerRef.current.clientHeight;
+      }
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      mousePosRef.current = { x: e.clientX, y: e.clientY };
+    };
+
+    window.addEventListener("resize", updateCanvasSize);
+    window.addEventListener("mousemove", handleMouseMove);
+    // Setting initial size slightly after mount to ensure layout is done
+    setTimeout(updateCanvasSize, 100);
+
+    const animateLoop = () => {
+      if (ctx && canvas) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawArrow();
+      }
+      animationFrameIdRef.current = requestAnimationFrame(animateLoop);
+    };
+
+    animateLoop();
+
+    return () => {
+      window.removeEventListener("resize", updateCanvasSize);
+      window.removeEventListener("mousemove", handleMouseMove);
+      if (animationFrameIdRef.current) {
+        cancelAnimationFrame(animationFrameIdRef.current);
+      }
+    };
+  }, [drawArrow]);
+
+  const handleMouseMoveButton = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (!buttonRef.current) return;
     const { left, top, width, height } = buttonRef.current.getBoundingClientRect();
     const center = { x: left + width / 2, y: top + height / 2 };
@@ -52,9 +160,14 @@ export default function Contact() {
       ref={containerRef}
       className="relative w-full min-h-[90vh] bg-[#050505] flex flex-col items-center justify-center overflow-hidden pt-32 pb-12"
     >
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <BackgroundBeams className="opacity-30 mix-blend-screen" />
+      <div className="absolute inset-0 z-0 opacity-80 md:opacity-100">
+        <GLSLHills />
       </div>
+      
+      <canvas 
+        ref={canvasRef} 
+        className="absolute inset-0 pointer-events-none z-10 hidden sm:block" 
+      />
 
       <motion.div
         style={{ y, opacity }}
@@ -76,7 +189,7 @@ export default function Contact() {
           <motion.a
             ref={buttonRef}
             href="mailto:namanguptabhopal@gmail.com"
-            onMouseMove={handleMouseMove}
+            onMouseMove={handleMouseMoveButton}
             onMouseLeave={handleMouseLeave}
             style={{ x: springX, y: springHoverY }}
             className="group relative flex items-center justify-center w-40 h-40 md:w-52 md:h-52 bg-white/5 rounded-full border border-white/10 backdrop-blur-xl hover:bg-white/10 transition-colors duration-300 overflow-hidden"
