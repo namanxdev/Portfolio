@@ -1,7 +1,19 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm run:*)"
+      "Bash(npm run:*)",
+      "WebFetch(domain:21st.dev)",
+      "mcp__plugin_playwright_playwright__browser_navigate",
+      "mcp__plugin_playwright_playwright__browser_take_screenshot",
+      "mcp__plugin_playwright_playwright__browser_evaluate",
+      "mcp__plugin_playwright_playwright__browser_tabs",
+      "WebFetch(domain:shaders.paper.design)",
+      "mcp__plugin_playwright_playwright__browser_run_code",
+      "WebFetch(domain:magicui.design)",
+      "WebFetch(domain:ui.aceternity.com)",
+      "WebSearch",
+      "WebFetch(domain:www.fancycomponents.dev)",
+      "WebFetch(domain:buildui.com)"
     ]
   }
 }

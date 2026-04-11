@@ -69,11 +69,11 @@ export default function Hero() {
                     morphTime={0.9}
                     cooldownTime={0.32}
                     className="h-full w-full"
-                    textClassName="text-[clamp(3rem,9vw,7rem)] font-semibold tracking-[-0.08em] text-white"
+                    textClassName="text-[clamp(2.2rem,8vw,7rem)] font-semibold tracking-[-0.08em] text-white"
                   />
                 </div>
 
-                <h1 className="max-w-4xl text-[clamp(2rem,4.2vw,3.7rem)] font-semibold tracking-[-0.06em] text-white">
+                <h1 className="max-w-4xl text-[clamp(1.8rem,4.2vw,3.7rem)] font-semibold tracking-[-0.06em] text-white">
                   that work in production.
                 </h1>
 

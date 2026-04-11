@@ -3,19 +3,21 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { Dock, DockIcon } from "@/components/ui/dock";
+import { Home, FolderGit2, Briefcase, Code2, Award, Mail } from "lucide-react";
 
 const NAV_ITEMS = [
-  { name: "Projects", link: "#projects" },
-  { name: "Experience", link: "#experience" },
-  { name: "Skills", link: "#skills" },
-  { name: "Honors", link: "#achievements" },
-  { name: "Contact", link: "#contact" },
+  { name: "Home", link: "#hero", icon: Home },
+  { name: "Projects", link: "#projects", icon: FolderGit2 },
+  { name: "Experience", link: "#experience", icon: Briefcase },
+  { name: "Skills", link: "#skills", icon: Code2 },
+  { name: "Honors", link: "#achievements", icon: Award },
+  { name: "Contact", link: "#contact", icon: Mail },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -44,92 +46,46 @@ export default function Navbar() {
           </div>
         </a>
 
-        {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-2">
-          {NAV_ITEMS.map((item, index) => (
-            <a
-              key={item.name}
-              href={item.link}
-              onMouseEnter={() => setHoveredIndex(index)}
-              onMouseLeave={() => setHoveredIndex(null)}
-              className="relative px-5 py-2 text-sm font-medium tracking-wide text-white/70 uppercase transition-colors hover:text-white"
-            >
-              {item.name}
-              <AnimatePresence>
-                {hoveredIndex === index && (
-                  <motion.span
-                    layoutId="navHover"
-                    className="absolute inset-0 bg-white/5 border border-white/10 rounded-full z-[-1]"
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.8 }}
-                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                  />
-                )}
-              </AnimatePresence>
-            </a>
-          ))}
-        </div>
-
         {/* Status indicator / CTA */}
-        <div className="hidden md:flex items-center gap-3 bg-white/5 border border-white/10 px-4 py-2 rounded-full z-50">
+        <div className="flex items-center gap-3 bg-white/5 border border-white/10 px-4 py-2 rounded-full z-50">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
           </span>
           <span className="text-xs font-mono uppercase text-white/80">Available</span>
         </div>
-
-        {/* Mobile Hamburger */}
-        <button
-          className="md:hidden flex flex-col gap-1.5 z-[5001] p-2"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-        >
-          <span className={cn("block h-[2px] w-6 bg-white transition-transform duration-300", isMenuOpen && "translate-y-[8px] rotate-45")} />
-          <span className={cn("block h-[2px] w-6 bg-white transition-opacity duration-300", isMenuOpen && "opacity-0")} />
-          <span className={cn("block h-[2px] w-6 bg-white transition-transform duration-300", isMenuOpen && "-translate-y-[8px] -rotate-45")} />
-        </button>
       </motion.nav>
 
-      {/* Mobile Fullscreen Menu */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, clipPath: "circle(0% at 100% 0)" }}
-            animate={{ opacity: 1, clipPath: "circle(150% at 100% 0)" }}
-            exit={{ opacity: 0, clipPath: "circle(0% at 100% 0)" }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed inset-0 z-[4999] bg-[#050505] flex items-center justify-center"
-          >
-            <div className="flex flex-col gap-8 text-center px-6 w-full">
-              {NAV_ITEMS.map((item, i) => (
-                <motion.a
-                  key={item.name}
-                  href={item.link}
-                  initial={{ opacity: 0, y: 40 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 40 }}
-                  transition={{ duration: 0.5, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                  onClick={() => setIsMenuOpen(false)}
-                  className="text-4xl sm:text-6xl font-black uppercase tracking-tighter text-white/50 hover:text-white transition-colors"
-                >
-                  {item.name}
-                </motion.a>
-              ))}
-            </div>
-            
-            <div className="absolute bottom-12 inset-x-0 flex justify-center">
-              <div className="flex items-center gap-3 bg-white/5 border border-white/10 px-6 py-3 rounded-full">
-                <span className="relative flex h-2.5 w-2.5">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-                </span>
-                <span className="text-sm font-mono uppercase text-white/80">Available for work</span>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Floating Bottom Dock */}
+      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[5000]">
+        <Dock direction="middle" className="bg-[#111111]/80 backdrop-blur-xl border-[#1e1e1e]">
+          {NAV_ITEMS.map((item, idx) => (
+            <DockIcon 
+              key={item.name} 
+              className="relative text-white/60 hover:text-white transition-colors"
+              onMouseEnter={() => setHoveredIndex(idx)}
+              onMouseLeave={() => setHoveredIndex(null)}
+            >
+              <a href={item.link} className="flex h-full w-full items-center justify-center">
+                <item.icon className="h-5 w-5" />
+              </a>
+              <AnimatePresence>
+                {hoveredIndex === idx && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10, scale: 0.9 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 10, scale: 0.9 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 bg-[#1e1e1e] border border-white/10 text-white text-xs rounded-md shadow-xl whitespace-nowrap pointer-events-none"
+                  >
+                    {item.name}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </DockIcon>
+          ))}
+        </Dock>
+      </div>
     </>
   );
 }

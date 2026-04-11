@@ -158,7 +158,7 @@ export default function Contact() {
     <section
       id="contact"
       ref={containerRef}
-      className="relative w-full min-h-[90vh] bg-[#050505] flex flex-col items-center justify-center overflow-hidden pt-32 pb-12"
+      className="relative w-full min-h-[90vh] bg-[#050505] flex flex-col items-center justify-center overflow-hidden pt-32 pb-28 md:pb-12"
     >
       <div className="absolute inset-0 z-0 opacity-80 md:opacity-100">
         <GLSLHills />
@@ -173,12 +173,12 @@ export default function Contact() {
         style={{ y, opacity }}
         className="relative z-10 w-full max-w-[1400px] mx-auto px-6 md:px-8 flex flex-col h-full justify-between"
       >
-        <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-12 mb-20 md:mb-32">
-          <div className="flex flex-col gap-4 max-w-2xl">
+        <div className="flex flex-col md:flex-row items-center md:items-end justify-between gap-12 mb-20 md:mb-32 text-center md:text-left">
+          <div className="flex flex-col items-center md:items-start gap-4 max-w-2xl">
             <h2 className="text-white/50 text-xl md:text-2xl font-medium tracking-wide uppercase">
               // What&apos;s next?
             </h2>
-            <h1 className="text-[clamp(3rem,8vw,6rem)] font-bold tracking-tighter text-white leading-[0.9]">
+            <h1 className="text-[clamp(2.5rem,8vw,6rem)] font-bold tracking-tighter text-white leading-tight md:leading-[0.9]">
               LET&apos;S BUILD <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-emerald-400">
                 THE FUTURE.
@@ -192,7 +192,7 @@ export default function Contact() {
             onMouseMove={handleMouseMoveButton}
             onMouseLeave={handleMouseLeave}
             style={{ x: springX, y: springHoverY }}
-            className="group relative flex items-center justify-center w-40 h-40 md:w-52 md:h-52 bg-white/5 rounded-full border border-white/10 backdrop-blur-xl hover:bg-white/10 transition-colors duration-300 overflow-hidden"
+            className="group relative flex shrink-0 items-center justify-center w-32 h-32 sm:w-40 sm:h-40 md:w-52 md:h-52 bg-white/5 rounded-full border border-white/10 backdrop-blur-xl hover:bg-white/10 transition-colors duration-300 overflow-hidden"
           >
             {/* Glow backing */}
             <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-blue-500/20 to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
@@ -212,9 +212,9 @@ export default function Contact() {
 
         {/* Bottom Social / Footer Row */}
         <div className="w-full flex flex-col mt-auto pt-10 border-t border-white/10">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-8">
             
-            <div className="flex flex-col">
+            <div className="flex flex-col items-center md:items-start">
               <p className="text-white/40 text-sm font-mono uppercase mb-2">Drop a line</p>
               <a href="mailto:namanguptabhopal@gmail.com" className="text-xl md:text-2xl text-white/80 hover:text-white transition-colors relative group">
                 namanguptabhopal@gmail.com
@@ -222,7 +222,7 @@ export default function Contact() {
               </a>
             </div>
 
-            <div className="flex flex-wrap items-center gap-6 md:gap-10">
+            <div className="flex flex-wrap items-center justify-center gap-6 md:gap-10">
               {SOCIAL_LINKS.map((link) => (
                 <a
                   key={link.name}

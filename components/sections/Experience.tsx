@@ -14,7 +14,7 @@ const EXPERIENCE_ITEMS: InteractiveAccordionItemData[] = [
     description:
       "Building multi-agent workflows and RAG pipelines for enterprise clients, with retrieval quality pushed through semantic chunking and cross-encoder reranking.",
     meta: "Jan 2026 - Present / 95%+ retrieval precision",
-    gradientClass: "from-[#0b1d3b] via-[#08111f] to-[#050505]",
+    gradientClass: "from-blue-500/10 via-[#111111] to-[#050505]",
   },
   {
     id: "oldowan",
@@ -23,7 +23,7 @@ const EXPERIENCE_ITEMS: InteractiveAccordionItemData[] = [
     description:
       "Engineered recommendation and notification systems processing 10,000+ daily events with sub-50ms latency in real production traffic.",
     meta: "Oct 2025 - Present / sub-50ms latency",
-    gradientClass: "from-[#05211b] via-[#071310] to-[#050505]",
+    gradientClass: "from-emerald-500/10 via-[#111111] to-[#050505]",
   },
   {
     id: "yantram",
@@ -32,7 +32,7 @@ const EXPERIENCE_ITEMS: InteractiveAccordionItemData[] = [
     description:
       "Built healthcare microservices with JWT-based RBAC and reduced database latency through targeted indexing and API performance work.",
     meta: "Jul 2025 - Oct 2025 / 25% latency reduction",
-    gradientClass: "from-[#111c39] via-[#0b1020] to-[#050505]",
+    gradientClass: "from-purple-500/10 via-[#111111] to-[#050505]",
   },
 ];
 

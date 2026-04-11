@@ -94,7 +94,7 @@ export function InteractiveAccordion({
           <p className="text-[11px] uppercase tracking-[0.24em] text-white/35">
             {eyebrow}
           </p>
-          <div className="mt-4 text-4xl font-semibold tracking-[-0.05em] text-white sm:text-5xl">
+          <div className="mt-4 text-3xl font-semibold tracking-[-0.05em] text-white sm:text-4xl md:text-5xl">
             {heading}
           </div>
           <p className="mt-6 text-base leading-8 text-white/58">{description}</p>
