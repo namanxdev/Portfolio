@@ -29,14 +29,14 @@ export const metadata: Metadata = {
     title: "Naman Gupta — AI Engineer",
     description:
       "AI Engineer building agent infrastructure, RAG pipelines, and multi-agent workflows. Currently at Infradock.ai.",
-    url: "https://namangupta.live",
+    url: "https://namangupta.dev",
     type: "website",
     locale: "en_US",
     images: [
       {
-        url: "/og-image.jpg",
-        width: 1200,
-        height: 630,
+        url: "/og-image.png",
+        width: 1280,
+        height: 720,
         alt: "Naman Gupta — AI Engineer",
       },
     ],
@@ -46,9 +46,9 @@ export const metadata: Metadata = {
     title: "Naman Gupta — AI Engineer",
     description:
       "AI Engineer building agent infrastructure, RAG pipelines, and multi-agent workflows. Currently at Infradock.ai.",
-    images: ["/og-image.jpg"],
+    images: ["/og-image.png"],
   },
-  metadataBase: new URL("https://namangupta.live"),
+  metadataBase: new URL("https://namangupta.dev"),
 };
 
 export default function RootLayout({
