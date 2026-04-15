@@ -20,19 +20,33 @@ export const metadata: Metadata = {
   title: "Naman Gupta — AI Engineer",
   description:
     "AI Engineer building agent infrastructure, RAG pipelines, and multi-agent workflows. Currently at Infradock.ai.",
+  icons: {
+    icon: "/images/Logo.jpg",
+    shortcut: "/images/Logo.jpg",
+    apple: "/images/Logo.jpg",
+  },
   openGraph: {
     title: "Naman Gupta — AI Engineer",
     description:
-      "AI Engineer building agent infrastructure, RAG pipelines, and multi-agent workflows.",
+      "AI Engineer building agent infrastructure, RAG pipelines, and multi-agent workflows. Currently at Infradock.ai.",
     url: "https://namangupta.live",
     type: "website",
     locale: "en_US",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Naman Gupta — AI Engineer",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Naman Gupta — AI Engineer",
     description:
-      "AI Engineer building agent infrastructure, RAG pipelines, and multi-agent workflows.",
+      "AI Engineer building agent infrastructure, RAG pipelines, and multi-agent workflows. Currently at Infradock.ai.",
+    images: ["/og-image.jpg"],
   },
   metadataBase: new URL("https://namangupta.live"),
 };
