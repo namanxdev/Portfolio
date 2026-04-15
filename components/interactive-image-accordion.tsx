@@ -37,7 +37,7 @@ function AccordionItem({
     <div
       className={cn(
         "group relative h-[420px] cursor-pointer overflow-hidden rounded-[24px] border border-white/10 transition-all duration-700 ease-in-out",
-        isActive ? "w-[360px] md:w-[420px]" : "w-[72px] md:w-[82px]",
+        isActive ? "w-[360px] md:w-[420px]" : "w-[82px] md:w-[96px]",
       )}
       onMouseEnter={onMouseEnter}
     >
@@ -65,8 +65,11 @@ function AccordionItem({
           </div>
         </div>
       ) : (
-        <div className="absolute inset-0 flex items-end justify-center p-5">
-          <span className="origin-center -rotate-90 whitespace-nowrap text-sm font-medium tracking-[0.16em] text-white/82 uppercase">
+        <div className="absolute inset-0 flex items-center justify-center">
+          <span
+            className="text-sm font-medium tracking-[0.16em] text-white/82 uppercase"
+            style={{ writingMode: "vertical-rl", textOrientation: "mixed" }}
+          >
             {item.label}
           </span>
         </div>

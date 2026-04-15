@@ -18,7 +18,7 @@ const EXPERIENCE_ITEMS: InteractiveAccordionItemData[] = [
   },
   {
     id: "oldowan",
-    label: "Oldowan",
+    label: "Oldowan Innovations",
     title: "Software Developer Intern",
     description:
       "Engineered recommendation and notification systems processing 10,000+ daily events with sub-50ms latency in real production traffic.",
@@ -27,7 +27,7 @@ const EXPERIENCE_ITEMS: InteractiveAccordionItemData[] = [
   },
   {
     id: "yantram",
-    label: "Yantram",
+    label: "Yantram Medtech",
     title: "Software Engineer Intern",
     description:
       "Built healthcare microservices with JWT-based RBAC and reduced database latency through targeted indexing and API performance work.",

@@ -151,7 +151,7 @@ export default function Contact() {
     { name: "GITHUB", href: "https://github.com/namanxdev", icon: Github },
     { name: "LINKEDIN", href: "https://www.linkedin.com/in/naman411/", icon: Linkedin },
     { name: "X (TWITTER)", href: "https://x.com/Naman_411", icon: Twitter },
-    { name: "RESUME", href: "https://drive.google.com/file/d/1g7Yrref0xSS-6vMBJTff0Kx4mxP1o_jp/view?usp=sharing", icon: FileText },
+    { name: "RESUME", href: "https://drive.google.com/file/d/16KR-Dku2dgBfz6Q6jVrUn4MkbH5tA_gs/view?usp=sharing", icon: FileText },
   ];
 
   return (
