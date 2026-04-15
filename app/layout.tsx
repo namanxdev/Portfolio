@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Naman Gupta — AI Engineer",
+  title: "Naman Gupta — AI Engineer & Agent Builder",
   description:
     "AI Engineer building agent infrastructure, RAG pipelines, and multi-agent workflows. Currently at Infradock.ai.",
   icons: {
@@ -26,27 +26,20 @@ export const metadata: Metadata = {
     apple: "/images/Logo.jpg",
   },
   openGraph: {
-    title: "Naman Gupta — AI Engineer",
+    title: "Naman Gupta — AI Engineer & Agent Builder",
     description:
       "AI Engineer building agent infrastructure, RAG pipelines, and multi-agent workflows. Currently at Infradock.ai.",
     url: "https://namangupta.dev",
     type: "website",
     locale: "en_US",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1280,
-        height: 720,
-        alt: "Naman Gupta — AI Engineer",
-      },
-    ],
+    // opengraph-image.tsx auto-injects the dynamic OG image — no manual images needed
   },
   twitter: {
     card: "summary_large_image",
-    title: "Naman Gupta — AI Engineer",
+    title: "Naman Gupta — AI Engineer & Agent Builder",
     description:
       "AI Engineer building agent infrastructure, RAG pipelines, and multi-agent workflows. Currently at Infradock.ai.",
-    images: ["/og-image.png"],
+    images: [{ url: "/og-image.png", alt: "Naman Gupta — AI Engineer & Agent Builder" }],
   },
   metadataBase: new URL("https://namangupta.dev"),
 };
